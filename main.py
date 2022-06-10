@@ -1,7 +1,8 @@
 class damage():
   def __init__(self, headDamage, bodyDamage, legDamage):
     self.headDamage = headDamage
-    self.lastname = lname
+    self.bodyDamage = bodyDamage
+    self.legDamage = legDamage
 
 class Items:
   def __init__(self, fname, lname):
