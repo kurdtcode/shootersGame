@@ -1,3 +1,7 @@
+class damage():
+  def __init__(self, headDamage, bodyDamage, legDamage):
+    self.headDamage = headDamage
+    self.lastname = lname
 
 class Items:
   def __init__(self, fname, lname):
@@ -23,6 +27,7 @@ class Consumables(Items):
   def welcome(self):
     print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
 
+
 class Weapon(Items):
   def __init__(self, fname, lname, year):
     super().__init__(fname, lname)
@@ -30,14 +35,17 @@ class Weapon(Items):
 
   def welcome(self):
     print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
-
-class damage():
-  pass
+  
+  def reload():
+    pass
 
 class Characters:
   def __init__(self, fname, lname):
     self.firstname = fname
     self.lastname = lname
+
+  def attack():
+    pass
 
   def printname(self):
     print(self.firstname, self.lastname)
@@ -46,9 +54,6 @@ class Player(Characters):
   def __init__(self, fname, lname, year):
     super().__init__(fname, lname)
     self.graduationyear = year
-
-  
-
 
 class Enemy(Characters):
   def __init__(self, fname, lname, year):
@@ -64,8 +69,8 @@ def Search():
 def Inventory():
     pass
 
-
-
+def fallback():
+  pass
 
 def main():
     print("Hello!!")
@@ -75,8 +80,5 @@ if __name__ == "__main__":
     main()
 
 
-#test
-if(main):
-  pass
 
-  #alan cobacocobacoabo
+
