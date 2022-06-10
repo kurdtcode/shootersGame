@@ -7,7 +7,6 @@ class Items:
   def printname(self):
     print(self.firstname, self.lastname)
 
-
 class Armor(Items):
   def __init__(self, fname, lname, year):
     super().__init__(fname, lname)
@@ -15,7 +14,6 @@ class Armor(Items):
 
   def welcome(self):
     print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
-
 
 class Consumables(Items):
   def __init__(self, fname, lname, year):
@@ -25,7 +23,6 @@ class Consumables(Items):
   def welcome(self):
     print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
 
-
 class Weapon(Items):
   def __init__(self, fname, lname, year):
     super().__init__(fname, lname)
@@ -34,10 +31,8 @@ class Weapon(Items):
   def welcome(self):
     print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
 
-
 class damage():
   pass
-
 
 class Characters:
   def __init__(self, fname, lname):
@@ -47,11 +42,12 @@ class Characters:
   def printname(self):
     print(self.firstname, self.lastname)
 
-
 class Player(Characters):
   def __init__(self, fname, lname, year):
     super().__init__(fname, lname)
     self.graduationyear = year
+
+  
 
 
 class Enemy(Characters):
@@ -62,10 +58,8 @@ class Enemy(Characters):
   def welcome(self):
     print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
 
-
 def Search():
     pass
-
 
 def Inventory():
     pass
