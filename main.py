@@ -9,20 +9,52 @@ class damage():
     self.legDamage = legDamage
 
 class Items:
+<<<<<<< HEAD
   def __init__(self, name):
     self.firstname = name
     
+=======
+  def __init__(self, name, durability: int):
+    self.name = name
+    self.durability = durability
 
-  def printname(self):
-    print(self.firstname, self.lastname)
+  def getDetails(self) -> list:
+    return [self.name, self.durability]
+
+  def reduceDurability(self, durabilityLost: int):
+    self.durability -= durabilityLost
+>>>>>>> 6aa0680c01805817618f881a122b087b5c689300
+
 
 class Armor(Items):
-  def __init__(self, fname, lname, year):
-    super().__init__(fname, lname)
-    self.graduationyear = year
+  def __init__(self, name, type):
+    super().__init__(name, 0)
+    self.damageReduction = 0
+    self.type = type
+    if type == "Light":
+      self.durability = 25
+      self.damageReduction = 5
+    elif type == "Basic":
+      self.durability = 50
+      self.damageReduction = 10
+    elif type == "Medium":
+      self.durability = 75
+      self.damageReduction = 15
+    elif type == "Heavy":
+      self.durability = 100
+      self.damageReduction = 20
+    else:
+      self.durability = 0
 
-  def welcome(self):
-    print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
+  def getDetails(self) -> list:
+    return [self.name, self.durability, self.damageReduction]
+
+
+y = Armor("Armor 1", "Medium")
+print(y.getDetails())
+y.reduceDurability(20)
+print(y.getDetails())
+
 
 class Consumables(Items):
   def __init__(self, name,types):
@@ -40,7 +72,7 @@ class Weapon(Items):
 
   def welcome(self):
     print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
-  
+
   def reload():
     pass
 
@@ -89,7 +121,7 @@ def title_screen_options():
   elif option.lower() == ("quit"):
     sys.exit()
   elif option.lower() == ("help"):
-    help_menu()		
+    help_menu()
   while option.lower() not in ['play', 'help', 'quit']:
     print("Invalid command, please try again.")
     option = input("> ")
