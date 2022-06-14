@@ -19,18 +19,36 @@ class Items:
   def reduceDurability(self, durabilityLost: int):
     self.durability -= durabilityLost
 
-x = Items("Nama", 50)
-print(x.getDetails())
-x.reduceDurability(20)
-print(x.getDetails())
 
 class Armor(Items):
-  def __init__(self, fname, lname, year):
-    super().__init__(fname, lname)
-    self.graduationyear = year
+  def __init__(self, name, type):
+    super().__init__(name, 0)
+    self.damageReduction = 0
+    self.type = type
+    if type == "Light":
+      self.durability = 25
+      self.damageReduction = 5
+    elif type == "Basic":
+      self.durability = 50
+      self.damageReduction = 10
+    elif type == "Medium":
+      self.durability = 75
+      self.damageReduction = 15
+    elif type == "Heavy":
+      self.durability = 100
+      self.damageReduction = 20
+    else:
+      self.durability = 0
 
-  def welcome(self):
-    print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
+  def getDetails(self) -> list:
+    return [self.name, self.durability, self.damageReduction]
+
+
+y = Armor("Armor 1", "Medium")
+print(y.getDetails())
+y.reduceDurability(20)
+print(y.getDetails())
+
 
 class Consumables(Items):
   def __init__(self, fname, lname, year):
