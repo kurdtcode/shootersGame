@@ -9,11 +9,6 @@ class damage():
     self.legDamage = legDamage
 
 class Items:
-<<<<<<< HEAD
-  def __init__(self, name):
-    self.firstname = name
-    
-=======
   def __init__(self, name, durability: int):
     self.name = name
     self.durability = durability
@@ -23,7 +18,6 @@ class Items:
 
   def reduceDurability(self, durabilityLost: int):
     self.durability -= durabilityLost
->>>>>>> 6aa0680c01805817618f881a122b087b5c689300
 
 
 class Armor(Items):
