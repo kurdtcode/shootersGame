@@ -9,9 +9,9 @@ class damage():
     self.legDamage = legDamage
 
 class Items:
-  def __init__(self, fname, lname):
-    self.firstname = fname
-    self.lastname = lname
+  def __init__(self, name):
+    self.firstname = name
+    
 
   def printname(self):
     print(self.firstname, self.lastname)
@@ -25,10 +25,10 @@ class Armor(Items):
     print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
 
 class Consumables(Items):
-  def __init__(self, fname, lname, year):
-    super().__init__(fname, lname)
-    self.graduationyear = year
-
+  def __init__(self, name,types):
+    super().__init__(name)
+    self.types = types
+ 
   def welcome(self):
     print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
 
