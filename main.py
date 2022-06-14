@@ -2,6 +2,7 @@ import sys
 import os
 import time
 
+print("as")
 class damage():
   def __init__(self, headDamage, bodyDamage, legDamage):
     self.headDamage = headDamage
