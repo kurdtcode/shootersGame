@@ -1,8 +1,9 @@
+from selectors import SelectorKey
 import sys
 import os
 import time
 
-print("as")
+
 class damage():
   def __init__(self, headDamage, bodyDamage, legDamage):
     self.headDamage = headDamage
@@ -24,7 +25,6 @@ class Items:
 class Armor(Items):
   def __init__(self, name, type):
     super().__init__(name, 0)
-    self.damageReduction = 0
     self.type = type
     if type == "Light":
       self.durability = 25
@@ -40,36 +40,65 @@ class Armor(Items):
       self.damageReduction = 20
     else:
       self.durability = 0
+      self.damageReduction = 0
 
   def getDetails(self) -> list:
     return [self.name, self.durability, self.damageReduction]
 
 
-y = Armor("Armor 1", "Medium")
-print(y.getDetails())
-y.reduceDurability(20)
-print(y.getDetails())
-
 
 class Consumables(Items):
-  def __init__(self, name,types):
-    super().__init__(name)
-    self.types = types
- 
-  def welcome(self):
-    print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
+  def __init__(self, name):
+    super().__init__(name, 0)
+    self.healamount = 0
+    if name == "Bandage":
+      self.healamount = 25
+    elif name == "Medkit":
+      self.healamount = 50
+
+  def getDetails(self) -> list:
+    return [self.name, self.healamount]
 
 
 class Weapon(Items):
-  def __init__(self, fname, lname, year):
-    super().__init__(fname, lname)
-    self.graduationyear = year
+  def __init__(self, name):
+    super().__init__(name, 0)
+    self.bullet = 0
+    self.maxBullet = 0
+    self.damage = 0
+    self.reloadTime = 0
+    if name == "P250 Pistol":
+      self.maxBullet = 12
+      self.damage = 15
+      self.reloadTime = 2
+      self.durability = 50
+    elif name == "Deagle Pistol":
+      self.maxBullet = 7
+      self.damage = 30
+      self.reloadTime = 2
+      self.durability = 50
+    elif name == "M4A1 Riffle":
+      self.maxBullet = 30
+      self.damage = 50
+      self.reloadTime = 3
+      self.durability = 75
+    elif name == "AWM Sniper Riffle":
+      self.maxBullet = 5
+      self.damage = 100
+      self.reloadTime = 5
+      self.durability = 100
+    self.reload()
+    
 
-  def welcome(self):
-    print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
+  def getDetails(self) -> list:
+    return [self.name, self.damage, self.bullet]
 
-  def reload():
-    pass
+  def reload(self):
+    self.bullet = self.maxBullet
+
+x = Weapon("P250 Pistol")
+print(x.getDetails())
+
 
 class damage():
   pass
@@ -128,7 +157,7 @@ def title_screen_options():
       help_menu()
 
 def title_screen():
-  os.system('cls||clear')
+  # os.system('cls||clear')
   print('#' * 45)
   print('# Welcome to this text-based shooting game. #')
   print("#      Brum Brum Final Project KB 2022!     #")
