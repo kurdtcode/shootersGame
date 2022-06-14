@@ -157,9 +157,6 @@ def title_screen_options():
       help_menu()
 
 def title_screen():
-<<<<<<< HEAD
-  # os.system('cls||clear')
-=======
   os.system('cls||clear')
   a= '''
   ⡿⣽⣳⡽⢮⣟⣿⣿⠃⠀⢬⣻⣽⢣⡄⡀⠀⠀⠀⠀⠀⠀⠀⠼⣯⢿⡽⣯⢿⡽⢯⡶⣥⢆⡦⣄⡀⠀⠀⢢⢑⢮⡹⢯⢿⡽⣯⢿⡽⣯⢿⢯⡿⢯⡿⣽⢯⡿⣽⢯⡿⣽⠿⣽⢿
@@ -225,7 +222,6 @@ def title_screen():
   ⣿⣿⣟⣻⣛⣻⣿⣿⣿⣿⣿⣿⣷⣾⣮⣴⣭⣙⣛⣿⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⢀⣈⠈⠀⠀⠀⠈⠃⣸⣿⣿
   '''
   print(a)
->>>>>>> 7c6daa9f98619be2984458c7b8741ee834b10b18
   print('#' * 45)
   print('# Welcome to this text-based shooting game. #')
   print("#      Brum Brum Final Project KB 2022!     #")
