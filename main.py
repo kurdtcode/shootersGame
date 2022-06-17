@@ -1,3 +1,8 @@
+from copyreg import constructor
+from email import header
+from mimetypes import init
+import random
+import re
 from selectors import SelectorKey
 import sys
 import os
@@ -65,33 +70,46 @@ class Weapon(Items):
     super().__init__(name, 0)
     self.bullet = 0
     self.maxBullet = 0
-    self.damage = 0
-    self.reloadTime = 0
+    self.damage = Damage()
+    #self.reloadTime = 0
+    self.bulletPerAttack = 0
     if name == "P250 Pistol":
       self.maxBullet = 12
-      self.damage = 15
-      self.reloadTime = 2
+      self.damage = Damage(20, 15, 10)
+      #self.reloadTime = 2
       self.durability = 50
+      self.bulletPerAttack = 3
+
     elif name == "Deagle Pistol":
-      self.maxBullet = 7
-      self.damage = 30
-      self.reloadTime = 2
+      self.maxBullet = 8
+      self.damage = Damage(40, 30, 20)
+      #self.reloadTime = 2
       self.durability = 50
+      self.bulletPerAttack = 2
+
     elif name == "M4A1 Riffle":
-      self.maxBullet = 30
-      self.damage = 50
-      self.reloadTime = 3
+      self.maxBullet = 50
+      self.damage = Damage(75, 50, 40)
+      #self.reloadTime = 3
       self.durability = 75
+      self.bulletPerAttack = 5
+
     elif name == "AWM Sniper Riffle":
       self.maxBullet = 5
-      self.damage = 100
-      self.reloadTime = 5
+      self.damage = Damage(150, 100, 80)
+      #self.reloadTime = 5
       self.durability = 100
+      self.bulletPerAttack = 1
+
     self.reload()
     
 
   def getDetails(self) -> list:
-    return [self.name, self.damage, self.bullet]
+    return [self.name, self.damage, self.maxBullet, self.bullet]
+
+  def shoot(self):
+    self.bullet = self.bullet - self.bulletPerAttack
+    self.durability = self.durability - 5
 
   def reload(self):
     self.bullet = self.maxBullet
@@ -100,38 +118,199 @@ x = Weapon("P250 Pistol")
 print(x.getDetails())
 
 
-class damage():
-  pass
+class Damage():
+  def __init__(self, head, body, leg) -> None:
+    self.headDamage = head
+    self.bodyDamage = body
+    self.legDamage = leg
+
+  def randomHit(self):
+    rand = random()
+
+    if rand < 0.2:
+      return self.headDamage
+    elif rand < 0.8:
+      return self.bodyDamage
+    else:
+       return self.legDamage
+
+class Inventory():
+  def __init__(self):
+      self.armor = list()
+      self.weapon = list()
+      self.consumable = list()
+      self.equippedArmor = -1
+      self.equippedWeapon = -1
+
+  
+  def addArmor(self, armor:Armor):
+    self.armor.append(armor)
+  def addWeapon(self, weapon:Weapon):
+    self.weapon.append(weapon)
+  def addConsumable(self, consumable:Consumables):
+    self.consumable.append(consumable)
+  def getAllArmor(self):
+    return self.armor
+  def getAllWeapon(self):
+    return self.weapon
+  def getAllConsumable(self):
+    return self.consumable
+
+  def equipArmor(self, index):
+    if index >= len(self.armor):
+      return
+    if index < 0:
+      return
+    self.equippedArmor = index
+
+  def seeArmorDetail(self, index) -> Armor:
+    if index >= len(self.armor):
+      return
+    if index < 0:
+      return
+    
+    return self.armor[index]
+
+  def equipWeapon(self, index):
+    if index >= len(self.weapon):
+      return
+    if index < 0:
+      return
+    self.equippedWeapon = index
+
+  def seeWeaponDetail(self, index) -> Weapon:
+    if index >= len(self.weapon):
+      return
+    if index < 0:
+      return
+    
+    return self.weapon[index]
+
+  def useConsumable(self, index):
+    if index >= len(self.consumable):
+      return
+    if index < 0:
+      return
+
+    return self.consumable.pop(index)
 
 class Characters:
-  def __init__(self):
-    self.name = ''
-    self.feeling = ''
+  def __init__(self, name, defaultHP):
+    self.name = name
+    self.maxHP = defaultHP
+    self.hp = defaultHP
+    self.inventory = Inventory()
 
-  def printname(self):
-    print(self.firstname, self.lastname)
+  def CharacterDetail(self):
+    return [self.name, self.feeling, self.hp, self.inventory]
+
+  def heal(self, index):
+    self.hp = self.hp + self.inventory.useConsumable(index)
+    if self.hp > self.maxHP:
+      self.hp = self.maxHP
+
+
+  def attack(self, enemy):
+    equippedWeapon = self.inventory.seeWeaponDetail(self.inventory.equippedWeapon)
+    damage = equippedWeapon.getDetails[1]
+
+    dmg = damage.randomHit()
+    equippedWeapon.shoot()
+
+    enemyArmor = enemy.inventory.seeWeaponDetail(enemy.inventory.equippedArmor)
+    dmgReduc = enemyArmor.getDetail[2]
+
+    finalDmg = dmg - dmg * dmgReduc/100
+
+    enemy.hp = enemy.hp - finalDmg
+
 
 class Player(Characters):
-  def __init__(self):
-    pass
-    # super().__init__(self)
-    # self.graduationyear = year
-
-player1 = Player()
+  def __init__(self, name, feeling, defaultHP):
+    super().__init__(self, name, defaultHP)
+    self.feeling = feeling
 
 class Enemy(Characters):
-  def __init__(self, fname, lname, year):
-    super().__init__(fname, lname)
-    self.graduationyear = year
+  def __init__(self, name, defaultHP, template):
+    super().__init__(self, name, defaultHP)
+    if template == 1:
+      armor = Armor("Light Armor", "Light")
+      self.inventory.addArmor(armor)
+      weapon = Weapon("P250 Pistol")
+      self.inventory.addWeapon(weapon)
+      self.inventory.equipArmor(0)
+      self.inventory.equipWeapon(0)
+      consumables = Consumables("Bandage")
+      consumables1 = Consumables("Bandage")
+      self.inventory.addConsumable(consumables)
+      self.inventory.addConsumable(consumables1)
+      
+    if template == 2:
+      armor = Armor("Basic Armor", "Basic")
+      self.inventory.addArmor(armor)
+      weapon = Weapon("Deagle Pistol")
+      self.inventory.addWeapon(weapon)
+      self.inventory.equipArmor(0)
+      self.inventory.equipWeapon(0)
+      consumables = Consumables("Bandage")
+      consumables1 = Consumables("Bandage")
+      consumables2 = Consumables("Bandage")
 
-  def welcome(self):
-    print("Welcome", self.firstname, self.lastname, "to the class of", self.graduationyear)
+      self.inventory.addConsumable(consumables)
+      self.inventory.addConsumable(consumables1)
+      self.inventory.addConsumable(consumables2)
+
+    if template == 3:
+      armor = Armor("Medium Armor", "Medium")
+      self.inventory.addArmor(armor)
+      weapon = Weapon("M4A1 Rifle")
+      self.inventory.addWeapon(weapon)
+      self.inventory.equipArmor(0)
+      self.inventory.equipWeapon(0)
+      consumables = Consumables("Bandage")
+      consumables1 = Consumables("Bandage")
+      consumables2 = Consumables("Bandage")
+
+      consumables3 = Consumables("Medkit")
+
+      self.inventory.addConsumable(consumables)
+      self.inventory.addConsumable(consumables1)
+      self.inventory.addConsumable(consumables2)
+      self.inventory.addConsumable(consumables3)
+
+    if template == 4:
+      armor = Armor("Heavy Armor", "Heavy")
+      self.inventory.addArmor(armor)
+      weapon = Weapon("AWM Sniper Rifle")
+      self.inventory.addWeapon(weapon)
+      self.inventory.equipArmor(0)
+      self.inventory.equipWeapon(0)
+      consumables = Consumables("Bandage")
+      consumables1 = Consumables("Bandage")
+      consumables2 = Consumables("Bandage")
+      consumables3 = Consumables("Bandage")
+      consumables4 = Consumables("Bandage")
+
+      consumables5 = Consumables("Medkit")
+      consumables6 = Consumables("Medkit")
+      consumables7 = Consumables("Medkit")
+
+      self.inventory.addConsumable(consumables)
+      self.inventory.addConsumable(consumables1)
+      self.inventory.addConsumable(consumables2)
+      self.inventory.addConsumable(consumables3)
+      self.inventory.addConsumable(consumables4)
+      self.inventory.addConsumable(consumables5)
+      self.inventory.addConsumable(consumables6)
+      self.inventory.addConsumable(consumables7)
+
+  
 
 def Search():
     pass
 
-def Inventory():
-    pass
+
+    
 
 ##################################### kd ##################################
 
