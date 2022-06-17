@@ -70,7 +70,7 @@ class Weapon(Items):
     super().__init__(name, 0)
     self.bullet = 0
     self.maxBullet = 0
-    self.damage = Damage()
+    self.damage = Damage(0, 0, 0)
     #self.reloadTime = 0
     self.bulletPerAttack = 0
     if name == "P250 Pistol":
@@ -114,8 +114,7 @@ class Weapon(Items):
   def reload(self):
     self.bullet = self.maxBullet
 
-x = Weapon("P250 Pistol")
-print(x.getDetails())
+
 
 
 class Damage():
@@ -125,7 +124,7 @@ class Damage():
     self.legDamage = leg
 
   def randomHit(self):
-    rand = random()
+    rand = random.random()
 
     if rand < 0.2:
       return self.headDamage
@@ -202,7 +201,7 @@ class Characters:
     self.inventory = Inventory()
 
   def CharacterDetail(self):
-    return [self.name, self.feeling, self.hp, self.inventory]
+    return [self.name, self.hp, self.inventory]
 
   def heal(self, index):
     self.hp = self.hp + self.inventory.useConsumable(index)
@@ -211,28 +210,32 @@ class Characters:
 
 
   def attack(self, enemy):
-    equippedWeapon = self.inventory.seeWeaponDetail(self.inventory.equippedWeapon)
-    damage = equippedWeapon.getDetails[1]
+    equippedWeapon = self.inventory.seeWeaponDetail(self.inventory.equippedWeapon) #Weapon
+    type(equippedWeapon)
+    damage = equippedWeapon.getDetails()[1] #Weapon Damage
 
     dmg = damage.randomHit()
     equippedWeapon.shoot()
 
-    enemyArmor = enemy.inventory.seeWeaponDetail(enemy.inventory.equippedArmor)
-    dmgReduc = enemyArmor.getDetail[2]
+    enemyArmor = enemy.inventory.seeArmorDetail(enemy.inventory.equippedArmor) #Enemy Armor
+    dmgReduc = enemyArmor.getDetails()[2] #Damage Reduction
 
-    finalDmg = dmg - dmg * dmgReduc/100
+    finalDmg = dmg - dmg * dmgReduc/100 #Calc Damage
 
     enemy.hp = enemy.hp - finalDmg
 
 
 class Player(Characters):
   def __init__(self, name, feeling, defaultHP):
-    super().__init__(self, name, defaultHP)
+    super().__init__(name, defaultHP)
     self.feeling = feeling
+    weapon = Weapon("P250 Pistol")
+    self.inventory.addWeapon(weapon)
+    self.inventory.equipWeapon(0)
 
 class Enemy(Characters):
   def __init__(self, name, defaultHP, template):
-    super().__init__(self, name, defaultHP)
+    super().__init__(name, defaultHP)
     if template == 1:
       armor = Armor("Light Armor", "Light")
       self.inventory.addArmor(armor)
@@ -304,7 +307,17 @@ class Enemy(Characters):
       self.inventory.addConsumable(consumables6)
       self.inventory.addConsumable(consumables7)
 
-  
+player = Player("John", "Good", 1000)
+enemy = Enemy("Idiot Thugs", 100, 1)
+
+print(player.CharacterDetail())
+print(enemy.CharacterDetail())
+player.attack(enemy)
+
+print(player.CharacterDetail())
+print(enemy.CharacterDetail())
+
+
 
 def Search():
     pass
