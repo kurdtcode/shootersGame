@@ -105,7 +105,6 @@ class Weapon(Items):
 
     self.reload()
     
-
   def getDetails(self) -> list:
     return [self.name, self.damage, self.maxBullet, self.bullet]
 
@@ -176,6 +175,12 @@ class Inventory():
       return
     if index < 0:
       return
+
+    weapons = [f"{weapon.value}-{weapon.name}" for weapon in Inventory]
+    weapons = ", ".join(weapons[:-1]) + " or " + weapons[-1]
+    choice = int(input(f"Choose your weapon {weapons}:  "))
+    # self.weapon = Weapon(choice)
+    
     self.equippedWeapon = index
 
   def seeWeaponDetail(self, index) -> Weapon:
@@ -183,7 +188,7 @@ class Inventory():
       return
     if index < 0:
       return
-    
+
     return self.weapon[index]
 
   def useConsumable(self, index):
@@ -194,15 +199,15 @@ class Inventory():
 
     return self.consumable.pop(index)
 
-###################
+############################################################################################################################
 # Character Setup  
 # Character can heal and attack
 
 class Characters:
-  def __init__(self, name, defaultHP):
-    self.name = name
-    self.maxHP = defaultHP
-    self.hp = defaultHP
+  def __init__(self, maxHp):
+    self.name = ""
+    self.maxHP = maxHp
+    self.hp = ""
     self.game_over = False
     self.inventory = Inventory()
 
@@ -213,7 +218,6 @@ class Characters:
     self.hp = self.hp + self.inventory.useConsumable(index)
     if self.hp > self.maxHP:
       self.hp = self.maxHP
-
 
   def attack(self, enemy):
     equippedWeapon = self.inventory.seeWeaponDetail(self.inventory.equippedWeapon) #Weapon
@@ -235,17 +239,20 @@ class Characters:
 # Player Setup #
 ################
 class Player(Characters):
-  def __init__(self, name, feeling, defaultHP):
-    super().__init__(name, defaultHP)
+  def __init__(self, feeling):
+    super().__init__("200")
     self.feeling = feeling
     weapon = Weapon("P250 Pistol")
     self.inventory.addWeapon(weapon)
     self.inventory.equipWeapon(0)
+#declare object player
+player1 = Player()
 
 class Enemy(Characters):
-  def __init__(self, name, defaultHP, template):
-    super().__init__(name, defaultHP)
+  def __init__(self, template):
+    super().__init__("100")
     if template == 1:
+      self.name = "Militia"
       armor = Armor("Light Armor", "Light")
       self.inventory.addArmor(armor)
       weapon = Weapon("P250 Pistol")
@@ -258,6 +265,7 @@ class Enemy(Characters):
       self.inventory.addConsumable(consumables1)
       
     if template == 2:
+      self.name = "Normal Soldier"
       armor = Armor("Basic Armor", "Basic")
       self.inventory.addArmor(armor)
       weapon = Weapon("Deagle Pistol")
@@ -273,6 +281,7 @@ class Enemy(Characters):
       self.inventory.addConsumable(consumables2)
 
     if template == 3:
+      self.name = "Veteran Soldier"
       armor = Armor("Medium Armor", "Medium")
       self.inventory.addArmor(armor)
       weapon = Weapon("M4A1 Rifle")
@@ -291,6 +300,7 @@ class Enemy(Characters):
       self.inventory.addConsumable(consumables3)
 
     if template == 4:
+      self.name = "Special Force Soldier"
       armor = Armor("Heavy Armor", "Heavy")
       self.inventory.addArmor(armor)
       weapon = Weapon("AWM Sniper Rifle")
@@ -316,15 +326,19 @@ class Enemy(Characters):
       self.inventory.addConsumable(consumables6)
       self.inventory.addConsumable(consumables7)
 
-player1 = Player("John", "Good", 1000)
-enemy = Enemy("Idiot Thugs", 100, 1)
+  def auto(self, player):
+    pass
+
+#declare object enemy
+enemy1 = Enemy()
+
 
 print(player1.CharacterDetail())
-print(enemy.CharacterDetail())
-player1.attack(enemy)
+print(enemy1.CharacterDetail())
+player1.attack(enemy1)
 
 print(player1.CharacterDetail())
-print(enemy.CharacterDetail())
+print(enemy1.CharacterDetail())
 
 def Search():
   turn=0
@@ -354,46 +368,96 @@ def Search():
   print("------------")
   print(angkaRandom)
 
-
   if angkaRandom <= realChanceBoss :
-      print("dapet boss")
+      return "dapet boss"
       ##get.boss
   elif angkaRandom <= realChanceBoss +  realChanceEnemy :
-      print("dapet musuh")
+      return "dapet musuh"
       lastEnemyTurn += 1
+      ## random dapat musuh sing mana level e (chance berdasar turn)
       ## get.enemy
   elif angkaRandom <= realChanceBoss +  realChanceEnemy + realChanceWeapon :
-      print("dapet weapon")
+      return "dapet weapon"
       ## get.weapon
   elif angkaRandom <= realChanceBoss +  realChanceEnemy + realChanceWeapon +realChanceArmor :
-      print("dapet armor")
+      return "dapet armor"
       ## get.armor
   else :
-      print("dapet heal")
+      return "dapet heal"
       ## get.heal
+
+
 
 
 ##################################### kd ##################################
 
 ################
+# Battle Phase #
+################
+def battleLoop(player, currentEnemy):
+  while currentEnemy.hp > 0:
+    print("Enemy HP:", currentEnemy.Enemy.hp)
+    print(player1.name, "HP: ", player1.hp)
+    print("")
+    # mau heal / attack
+    currentEnemy.Enemy.auto()
+
+# Check if either or both Players is below zero health
+def check_win():
+    if player1.hp < 1:
+        player1.game_over = True
+        print("You Dead")
+    elif enemy1.hp < 1 and player1.hp > 0:
+        player1.game_over = True
+        print("You Win")
+    elif player1.hp < 1 and enemy1.hp < 1:
+        player1.game_over = True
+        print("*** Draw ***")
+
+################
 # main looping #
 ################
 def main_game_loop():
-	while player1.game_over is False:
-		prompt()
+    while player1.game_over is False:
+      os.system('cls||clear')
+      print(f"{player1.name}'s health = {player1.hp}")
+      print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~")
+      print("What would you like to do?\n1. Search\n2. View Inventory\n3. Quit game")
+      action = input("> ")
+      acceptable_actions = ['search', 'look', 'view', 'inventory', 'view inventory', 'inspect', 'quit']
+      #Forces the player to write an acceptable sign, as this is essential to solving a puzzle later.
+      while action.lower() not in acceptable_actions:
+        print("Unknown action command, please try again.\n")
+        action = input("> ")
+      print("What do you want to do?\n1. Search\n2. View inventory\n3. Quit")
+      if action.lower() == quitgame:
+          sys.exit()
+      elif action.lower() in ['search', 'look', 'view', 'inspect']:
+          value = Search()
+          currentEnemy = ''
+          if value == "get enemy Militia":
+            militia = Enemy(1)
+            currentEnemy = militia
+          elif value == "get enemy Normal Soldier":
+            nSoldier = Enemy(2)
+            currentEnemy = nSoldier
+          elif value == "get enemy Veteran Soldier":
+            vSoldier = Enemy(3)
+            currentEnemy = vSoldier
+          elif value == "get boss":
+            boss = Enemy(4)
+            currentEnemy = boss
+          battleLoop(player1,currentEnemy)
+      
+      elif action.lower() in ['inventory', 'view inventory']:
+          player1.inventory.getAllArmor()
+          player1.inventory.getAllWeapon()
+          player1.inventory.getAllConsumable()
+          player1.inventory.equipArmor()
+          player1.inventory.equipWeapon()
+      check_win()
 
-def game():
-  # Check if either or both Players is below zero health
-  def check_win(self, player, enemy):
-      if player.health < 1 and enemy.health > 0:
-          self.game_over = True
-          print("You Lose")
-      elif enemy.health < 1 and player.health > 0:
-          self.game_over = True
-          print("You Win")
-      elif player.health < 1 and enemy.health < 1:
-          self.game_over = True
-          print("*** Draw ***")
+
 
 ################
 # Title Screen #
@@ -438,7 +502,7 @@ def title_screen():
 def help_menu():
   print("")
   print("~" * 45)
-  print("Type a command such as 'search' or 'check inventory'")
+  print("Type a command such as 'search' or 'view inventory'")
   print("to move on to the next stage.\n")
   print("After you do a search, you can inputs such as 'attack' or 'reload' or 'fallback' or 'heal'")
   print("the game will let you interact with the next move.\n")
@@ -503,7 +567,7 @@ def menu():
   speech2 = "Ok, It seems this is where we must part, " + player1.name + ".\n"
   speech3 = "How unfortunate.\n"  
   speech4 = "Oh, you don't know where you are?  Well...\n"
-  speech5 = "Luckily, I've left you in a little puzzle.  Hopefully you can escape this box.\n"
+  speech5 = "How unlucky you are. You are now in the middle of the forest and it seems you are lost.\n"
   speech6 = "Heh. Heh.. Heh...\n"
   for character in speech2:
     sys.stdout.write(character)
@@ -526,5 +590,13 @@ def menu():
     sys.stdout.flush()
     time.sleep(0.2)
   time.sleep(1)
+  
+  os.system('cls||clear')
+  print("################################")
+  print("# Here begins the adventure... #")
+  print("################################\n")
+  print("You find yourself in the center of a strange place.\nSeems like you are trapped in a forest.\n")
+  main_game_loop()
+
 
 title_screen()
