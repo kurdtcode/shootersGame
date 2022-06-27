@@ -320,7 +320,50 @@ print(enemy.CharacterDetail())
 
 
 def Search():
-    pass
+  turn=0
+  playerHealth=100 ## 100 diganti darah karakter
+  lastEnemyTurn=0
+  ##rumus masih agak ngaco soalnya semakin banyak turn nya chanche dapet enemy nya semakin turun, weapon sm armomr nya naik
+  chanceFindBoss  = max(((turn - 10) * 0.2) + (100 * 0.005),0)
+  chanceFindEnemy = (turn * 0.7) + (100 * 0.05) - ( lastEnemyTurn * 0.08)
+  chanceGetArmor = (turn * 0.3) + (100 * 0.01)
+  chanceGetWeapon = (turn * 0.5) + (100 * 0.01)
+  chanceGetHealing = (turn * 0.6) + (playerHealth * 0.01)
+
+  pembagi = (chanceFindBoss + chanceFindEnemy + chanceGetWeapon + chanceGetWeapon + chanceGetHealing)
+
+  realChanceBoss = round(chanceFindBoss / pembagi,2)
+  realChanceEnemy = round(chanceFindEnemy / pembagi,3)
+  realChanceArmor = round(chanceGetArmor / pembagi,3)
+  realChanceWeapon = round(chanceGetWeapon / pembagi,3)
+  realChanceHealing = round(chanceGetHealing / pembagi,3)
+
+  angkaRandom = random.randint(0,10)/10
+  print("boss", realChanceBoss)
+  print("enemy", realChanceEnemy)
+  print("armor", realChanceArmor)
+  print("weapon", realChanceWeapon)
+  print("Healing", realChanceHealing)
+  print("------------")
+  print(angkaRandom)
+
+
+  if angkaRandom <= realChanceBoss :
+      print("dapet boss")
+      ##get.boss
+  elif angkaRandom <= realChanceBoss +  realChanceEnemy :
+      print("dapet musuh")
+      lastEnemyTurn += 1
+      ## get.enemy
+  elif angkaRandom <= realChanceBoss +  realChanceEnemy + realChanceWeapon :
+      print("dapet weapon")
+      ## get.weapon
+  elif angkaRandom <= realChanceBoss +  realChanceEnemy + realChanceWeapon +realChanceArmor :
+      print("dapet armor")
+      ## get.armor
+  else :
+      print("dapet heal")
+      ## get.heal
 
 
     
