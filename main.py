@@ -7,7 +7,7 @@ from selectors import SelectorKey
 import sys
 import os
 import time
-
+screen_width = 100
 
 class damage():
   def __init__(self, headDamage, bodyDamage, legDamage):
@@ -51,7 +51,6 @@ class Armor(Items):
     return [self.name, self.durability, self.damageReduction]
 
 
-
 class Consumables(Items):
   def __init__(self, name):
     super().__init__(name, 0)
@@ -64,6 +63,9 @@ class Consumables(Items):
   def getDetails(self) -> list:
     return [self.name, self.healamount]
 
+################
+# Weapon Setup #
+################
 
 class Weapon(Items):
   def __init__(self, name):
@@ -114,9 +116,9 @@ class Weapon(Items):
   def reload(self):
     self.bullet = self.maxBullet
 
-
-
-
+################
+# Damage Setup #
+################
 class Damage():
   def __init__(self, head, body, leg) -> None:
     self.headDamage = head
@@ -141,7 +143,6 @@ class Inventory():
       self.equippedArmor = -1
       self.equippedWeapon = -1
 
-  
   def addArmor(self, armor:Armor):
     self.armor.append(armor)
   def addWeapon(self, weapon:Weapon):
@@ -193,11 +194,16 @@ class Inventory():
 
     return self.consumable.pop(index)
 
+###################
+# Character Setup  
+# Character can heal and attack
+
 class Characters:
   def __init__(self, name, defaultHP):
     self.name = name
     self.maxHP = defaultHP
     self.hp = defaultHP
+    self.game_over = False
     self.inventory = Inventory()
 
   def CharacterDetail(self):
@@ -225,6 +231,9 @@ class Characters:
     enemy.hp = enemy.hp - finalDmg
 
 
+################
+# Player Setup #
+################
 class Player(Characters):
   def __init__(self, name, feeling, defaultHP):
     super().__init__(name, defaultHP)
@@ -307,17 +316,15 @@ class Enemy(Characters):
       self.inventory.addConsumable(consumables6)
       self.inventory.addConsumable(consumables7)
 
-player = Player("John", "Good", 1000)
+player1 = Player("John", "Good", 1000)
 enemy = Enemy("Idiot Thugs", 100, 1)
 
-print(player.CharacterDetail())
+print(player1.CharacterDetail())
 print(enemy.CharacterDetail())
-player.attack(enemy)
+player1.attack(enemy)
 
-print(player.CharacterDetail())
+print(player1.CharacterDetail())
 print(enemy.CharacterDetail())
-
-
 
 def Search():
   turn=0
@@ -366,9 +373,27 @@ def Search():
       ## get.heal
 
 
-    
-
 ##################################### kd ##################################
+
+################
+# main looping #
+################
+def main_game_loop():
+	while player1.game_over is False:
+		prompt()
+
+def game():
+  # Check if either or both Players is below zero health
+  def check_win(self, player, enemy):
+      if player.health < 1 and enemy.health > 0:
+          self.game_over = True
+          print("You Lose")
+      elif enemy.health < 1 and player.health > 0:
+          self.game_over = True
+          print("You Win")
+      elif player.health < 1 and enemy.health < 1:
+          self.game_over = True
+          print("*** Draw ***")
 
 ################
 # Title Screen #
@@ -376,7 +401,7 @@ def Search():
 def title_screen_options():
   option = input("> ")
   if option.lower() == ("play"):
-    main()
+    menu()
   elif option.lower() == ("quit"):
     sys.exit()
   elif option.lower() == ("help"):
@@ -385,7 +410,7 @@ def title_screen_options():
     print("Invalid command, please try again.")
     option = input("> ")
     if option.lower() == ("play"):
-      main()
+      menu()
     elif option.lower() == ("quit"):
       sys.exit()
     elif option.lower() == ("help"):
@@ -394,67 +419,7 @@ def title_screen_options():
 def title_screen():
   os.system('cls||clear')
   a= '''
-  ⡿⣽⣳⡽⢮⣟⣿⣿⠃⠀⢬⣻⣽⢣⡄⡀⠀⠀⠀⠀⠀⠀⠀⠼⣯⢿⡽⣯⢿⡽⢯⡶⣥⢆⡦⣄⡀⠀⠀⢢⢑⢮⡹⢯⢿⡽⣯⢿⡽⣯⢿⢯⡿⢯⡿⣽⢯⡿⣽⢯⡿⣽⠿⣽⢿
-  ⣟⡷⣯⣟⡿⣽⣿⡃⠁⢈⢶⣻⣞⣯⢷⣹⣆⠤⡀⠄⠀⠀⠀⢻⣞⡿⣽⣻⢯⣿⣻⡽⣯⣻⢷⣛⣾⣏⣷⢢⣎⣳⣻⢯⣻⣻⡽⣯⣟⣯⣟⡿⣽⣟⡿⣽⣻⡽⣯⣟⣻⣽⣻⣯⢿
-  ⣽⣛⣷⢯⣟⣿⡷⠀⢠⣙⣾⣳⣟⡾⣯⢷⣾⣻⡵⣊⣶⣠⢆⡱⡏⣟⣷⣿⣻⢾⣷⣻⣷⣻⢯⣟⣾⣳⢯⣷⣻⣖⣯⣟⣷⣻⣽⣳⣟⣾⣽⣻⢷⣯⣟⡷⣏⣿⣳⣟⣻⣾⣳⣯⢿
-  ⢷⣯⣟⡿⣾⡿⠁⠀⢦⣻⣞⡷⣯⣻⣽⣻⣞⣷⣻⡟⣗⣫⢹⣾⠡⡠⠄⡤⢀⠎⣁⠙⠚⠫⠿⣾⣳⣟⡿⣞⣷⣻⢾⡽⣞⣷⣳⣟⣾⣳⣯⣟⡿⣞⣷⣻⣛⣾⣳⣟⡷⣯⣷⣻⢿
-  ⣟⣾⡽⣿⣿⠁⢀⡙⣾⣳⣯⣟⣷⣻⣞⡷⣟⡞⢙⣮⡯⡂⣿⡟⠑⠁⢊⠔⡌⢢⠡⠋⡜⠠⠄⡀⠙⢽⣻⣽⣾⣻⢯⣟⡿⣞⣷⣻⣞⣷⣻⣾⣻⣽⣞⣷⣻⣞⡷⣯⣟⣷⣯⣟⣿
-  ⣻⣞⣿⣿⠇⠈⢤⣻⣽⣳⣟⣾⣳⣟⡾⠟⡡⢔⠫⠤⣾⣇⣿⡇⠀⣵⠪⣴⠡⢆⡉⡔⠠⠃⡠⠐⢃⠂⠌⢻⣾⣽⡿⣽⣻⣽⣞⡷⣟⣾⣯⣷⢿⣳⢿⣞⡷⣯⢿⣳⣯⢿⡾⣽⣾
-  ⣷⣿⣿⡏⠀⢸⡜⣷⣯⣟⣾⣳⡿⣞⣣⠔⡐⢎⠡⢊⢹⡿⣿⠇⠘⣡⠞⠍⢔⣷⣨⠂⢬⡑⢤⢋⡄⢪⠄⠃⠹⣷⣿⢿⣽⢷⣯⡿⣿⡽⣷⢿⣻⣯⢿⣯⢿⣿⣻⣽⢿⣿⢿⣿⣽
-  ⣿⣿⠏⠀⢌⢶⡿⣽⡾⣽⣾⣿⣹⡙⠁⠐⡈⣂⠘⠤⢸⡇⣿⠀⠁⢀⠈⠌⠋⡐⠓⠐⡃⣧⠘⡛⠖⠊⠰⠠⢁⠸⣿⣿⣯⣿⣯⣿⢿⣿⢿⣿⣯⣿⣿⣽⣿⣽⣿⣽⣿⡿⣿⣯⣿
-  ⣿⠏⠀⠐⣮⣿⢿⣿⣽⣿⣿⢒⡏⢀⣱⣰⡾⣽⡮⠐⣸⢹⡓⠀⠀⠂⠀⡐⠠⠐⠠⢁⠂⠠⠈⠄⢃⠀⡁⠁⠂⠀⢹⣿⣿⣽⣿⣻⣿⣿⣿⣿⣽⣿⣾⣿⣟⣯⣿⣿⣻⣿⣿⣟⣿
-  ⠛⡀⠠⣝⣯⣿⣿⣿⣻⣽⡞⢌⠂⠸⣿⡜⣾⡫⢚⣽⠇⡿⠁⠀⠀⠀⠐⠀⠀⠐⠁⠀⠌⠀⠐⡈⠀⠄⠀⠀⠀⠀⠘⣿⣿⣿⢿⣿⣿⣽⣾⣿⣿⣟⣿⣽⣿⣿⣿⣿⣿⣿⣽⣿⣿
-  ⠀⢀⣳⣿⣿⣿⣯⣿⣿⣿⡇⢌⠀⠠⣪⡬⠊⣗⢾⡀⡾⡃⢀⠀⠀⡄⠀⠀⠀⣧⠀⠀⠀⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿
-  ⠀⣮⣿⣿⣿⣿⣿⣿⣿⣿⣧⠐⡐⢗⡗⠪⡹⠎⠃⠁⠻⠿⠟⠀⣸⠁⢰⡄⢸⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠄⠂⠱⠗⠨⠵⠀⠄⠀⠠⠀⠀⣸⡟⠀⣚⢃⢸⣛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⣸⡇⠀⢈⠌⡙⠀⠀⠀⡟⠃⠈⠋⠉⠈⠹⠃⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⡟⠇⠃⣹⣿⣿⣿⠇⡐⠀⠀⣿⡇⠀⢸⡞⠀⠀⢦⠀⣧⠀⠀⠀⢀⠀⠀⣄⡀⡿⣷⣾⣿⡏⠀⠀⡤⠀⠀⠀⠀⠀⠈⠛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣛⠟⡠⠘⢆⠣⡸⢿⡿⣿⠠⠐⠠⠀⣿⣷⠀⠘⡧⠂⠀⢼⣄⣻⢸⠘⣦⣤⣧⣼⣿⣿⣷⣿⣿⣿⣇⣔⣼⠳⠀⠀⠀⠀⠀⠀⠀⠀⠸⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⢬⡳⣔⠈⠠⠁⠄⠃⠜⠡⢀⠡⢀⢹⢹⡯⠀⠀⠈⠸⠼⠚⣿⣿⣞⡔⣿⣯⣿⣿⣿⣿⣿⣿⣿⣟⡯⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⠀⠡⡙⢦⡡⢉⠔⡈⣠⠀⠂⠀⠄⢸⢸⡇⠀⠀⠀⠀⠀⠀⢘⢿⣷⣽⣮⣛⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⡿⠀⠀⠘⠀⠀⠀⠀⠀⠠⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⠀⣁⠚⠣⠁⠌⢢⡵⡇⠀⢸⠀⠈⠸⢘⠆⠀⠀⠠⠀⠀⠀⢰⢷⡽⡿⣾⣿⣾⣿⣿⣿⣿⣿⣉⣽⣿⠟⠁⠀⡀⠀⠃⠀⠀⠀⠀⠀⢦⡀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⠀⠀⢄⠂⠄⠀⠱⡘⠇⠀⢸⠀⠀⠀⠘⠒⠀⠀⠀⠀⠀⠀⠸⣎⣿⣽⣷⣯⣛⡿⣿⣿⣿⣿⣿⡟⠅⠀⠀⠀⠰⡄⠀⠀⠀⠀⠀⠀⠘⠁⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⠀⣩⣾⡁⠂⠈⡐⠡⠈⠀⠈⠆⠠⠀⠀⠈⡄⠀⠀⠀⢄⠀⢨⢽⣿⣽⣞⣿⣿⣿⣟⠈⠉⠛⠋⠀⠈⠀⢀⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⢠⡾⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣰⣿⣿⢆⡁⠂⢀⢷⡀⠐⣀⠈⠱⣄⠀⠀⠘⠄⠀⠀⢈⣽⡌⣿⣿⣿⣼⣿⢿⣿⣯⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠓⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⡟⢣⡄⠁⣀⢻⡄⠠⣼⣷⣄⣀⠁⠀⠀⠀⢀⢴⣿⣿⣧⠘⣿⣿⣿⣿⣯⣿⣿⣸⠁⣀⢀⠠⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠿⢛⣉⣉⡙⠛⣿⣿⣿⣿⣿⣿
-  ⣿⠧⡑⠬⣙⠤⢸⣿⣿⣇⣾⣿⣿⣿⣿⣶⣢⣾⣿⣧⡩⠻⣿⠠⠹⣿⣿⣿⣿⢷⡻⡇⢧⣳⡿⣅⢠⠐⣆⡀⢀⣀⠀⠀⠀⠀⠀⠀⠠⣀⠰⡄⠀⠘⠉⠁⠠⡓⠈⠀⣻⣿⣿⣿⣿
-  ⠋⢅⡰⣧⣝⡆⡌⢙⡉⢘⠿⢻⣿⢟⣿⣿⣿⣿⣿⣿⣷⢢⣿⣶⡄⢿⣿⣿⣿⣷⣽⣮⣞⡿⣼⢝⡜⠀⢢⡙⠷⣖⡀⠀⠀⡀⣀⠀⢡⠂⠼⢣⢀⠃⠜⡆⠀⣀⣤⣾⣿⢿⣿⣿⣿
-  ⠀⠀⠀⠙⠎⢿⡘⠄⠐⠈⠂⠁⣴⣿⣿⣿⣿⣿⣿⣿⣷⣼⣿⣿⡗⡈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⢠⡠⠙⠦⡍⠢⡀⠱⠘⢦⣡⣀⢉⠲⢛⠀⡈⠠⠁⠾⠟⣛⣭⣾⢏⡿⣿⣿
-  ⠀⠀⠀⠀⠈⢠⢺⣴⣦⣧⣦⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣣⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣪⣌⡂⢌⠳⣄⠲⢄⠀⠈⠈⠃⠀⠫⠀⡅⢀⣴⣶⠿⡛⣫⣽⣿⣳⢿⢿
-  ⠀⠀⠠⢄⣻⣿⣿⣿⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⠄⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣽⣿⢸⣤⠈⢻⡀⠈⠳⢶⠆⠀⠀⠄⠀⣻⣽⡶⡿⣟⣋⡱⡯⢺⣟⣽
-  ⣤⣐⣐⢢⡈⢽⣿⣿⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣗⠈⣿⣿⣿⣿⣿⣿⣿⣞⣿⣿⣿⡿⣾⡯⡷⠀⡆⣇⠀⠀⠀⠂⠀⠀⠀⣀⣩⣷⣿⣿⡿⡟⢁⡾⣯⢽⢻
-  ⣿⣿⣿⣿⣿⣶⣿⣿⣿⣿⣷⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣿⡆⠘⠻⣿⣿⣿⣿⣿⣿⣮⡻⣿⣿⣿⣿⣷⣚⣵⣿⠀⠀⠀⠀⢡⣤⣶⣿⣿⣿⣷⣵⡿⡿⢸⣧⡙⣌⠣
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣞⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢻⣿⣿⣿⠁⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣏⢻⣿⣿⣿⣿⣿⣿⠀⠀⠀⢀⣾⣿⣿⣿⣿⣿⣿⣿⣵⢾⡷⢣⠵⣈⢧
-  ⣿⣿⣿⣿⣿⣿⣿⡿⣿⢿⠿⣛⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⢺⣿⣿⣿⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣧⢭⣻⣿⣿⣿⣿⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣯⣴⣿⣧⡿⣟⡾
-  ⠉⠡⠉⠌⢡⡐⣤⣲⣴⣧⣞⣴⣥⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡔⡽⣿⣿⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣇⢞⣝⢿⣿⡏⠀⣀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠋⠁⠗⣵⣪⣔
-  ⢠⡁⡌⡘⢳⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡹⣽⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⢘⣎⢯⠛⣠⣾⣿⣿⣿⣿⣿⣿⣿⠿⠟⠋⠀⠀⠀⢀⣽⣟⣷⣿
-  ⣾⣿⣿⣷⡅⠊⠍⠛⣿⣿⣿⣿⣿⣿⣞⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⢫⣎⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠘⣿⣿⠏⡼⢪⣤⣾⣿⣿⣿⣿⣿⢟⣽⣶⡇⠀⠀⠀⠀⠀⠀⠈⢹⣿⣾⣻
-  ⢿⡛⣏⣱⣌⣖⣌⣰⣠⢌⠛⡹⢻⢟⡋⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡻⢏⡴⣎⣏⣿⣿⣿⣿⣿⠟⣱⣿⣿⣿⣷⡤⠀⠈⠄⠀⡀⡄⠀⣻⣷⣿
-  ⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣷⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣞⣯⢷⡽⢿⣿⣿⣿⢟⢑⣿⣿⣿⣿⣿⡟⠀⠀⠄⠂⠰⠀⡇⠀⣽⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⡀⠀⠀⠀⠀⣀⣴⣾⢻⡾⣽⢞⡯⣞⣾⣿⣿⡱⣻⣿⣿⣿⣿⣿⣿⡇⠘⠀⢀⠠⠈⣰⠁⢠⣿⣟⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⡝⢇⣫⡶⣟⣯⢷⢯⡿⣹⠽⣎⢷⣹⡿⡫⣢⣾⣿⣿⣿⣿⣿⣿⣿⣇⠀⠋⡄⠀⡜⠀⢠⣿⣿⣿⣽
-  ⢋⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣴⣻⣿⣿⣿⣿⣿⣿⣿⡿⣹⣿⣿⣿⣷⣽⡿⣫⠷⣭⣛⡼⢯⢩⣼⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠂⠀⠁⠀⠀⠀⠄⢼⣿⣿⣿
-  ⠠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣷⡻⣿⣿⣿⣿⣿⣿⣽⣿⣿⣿⣿⣿⣿⣿⣿⡾⣧⠟⣡⢷⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⢀⠁⠀⠠⡈⠄⠂⢸⣿⣿⣿
-  ⠐⠈⡙⠛⠿⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣿⣿⣿⡽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢛⡱⣎⣵⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⢸⠀⠠⡱⠀⠀⠐⣼⣿⣿⣿
-  ⢀⢡⣰⣬⣤⣱⣤⡛⣿⣿⣿⣿⣿⣿⣯⣾⣿⣿⣿⣿⣿⣿⣟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⣏⣾⣟⡞⡶⣽⣏⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⡀⠘⡀⡜⠁⠀⠀⣾⣿⣿⣿⣿
-  ⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⠻⣿⣿⣿⣿⣿⢿⢫⢯⠓⢱⣿⣯⡟⡼⣿⡏⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠆⠀⠀⠀⢹⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣌⡟⢻⢹⢻⣦⣿⣾⠀⣿⣿⣿⡼⣱⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠐⠀⢸⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣡⣧⡟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣌⣿⣿⣿⣿⣿⣿⣏⣧⣿⣿⣏⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⡀⠀⠀⢠⠁⠀⣼⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⢿⣾⣿⣿⣿⣮⣾⢟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⢿⡽⣺⣿⡯⣺⡟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠡⢀⠃⠀⠸⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⡏⣛⣛⠛⠋⠛⠻⠿⣿⣾⣽⣻⢟⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⢫⣞⣿⣿⡾⠏⣠⢝⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⢈⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣾⡟⠡⠂⡄⠳⠘⣶⣦⣬⣉⠛⠿⣾⣧⣟⣽⣻⢿⣿⣿⣿⣿⣿⣿⣿⡿⢏⡳⣺⠿⠋⣡⣾⢿⣇⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠐⡀⠀⠀⠠⠀⢸⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣟⣾⣿⣿⣷⢸⡇⣷⣿⣿⣿⣿⣿⣿⠶⠤⠉⠙⠛⠢⠻⠿⠿⠿⠿⠿⠿⠿⠟⠑⠙⢁⡤⣚⣭⣶⣾⣿⡆⢹⣿⣿⣿⣿⣿⣿⣿⣿⣀⠀⡀⠀⠠⠁⢀⣾⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣽⣿⣿⣿⣿⠸⣧⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣶⣦⣤⣤⣀⣀⠀⠀⠀⠀⣀⡵⣞⡿⣿⣿⣿⣿⣿⡸⣿⣿⣿⣿⣿⣿⣿⣿⣷⠄⠀⠀⡁⠀⠈⢿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣧⣿⣿⣿⣿⡿⢠⣿⡄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣶⣥⣿⣜⣻⡽⢿⣷⣿⣿⡏⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⢸⣞⣿⡿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣅⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣾⣯⣟⣓⢯⢟⣿⢿⣿⢟⣿⣷⠀⠀⠀⠀⠀⠀⣿⢯⣾⢍⣿
-  ⣿⣿⣿⣻⡟⣿⣿⣿⣿⡇⢾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣞⢯⢎⡭⢞⣟⢂⠀⠀⢀⠀⠐⢿⣑⡿⣻⣯
-  ⣿⣿⢾⣽⣗⢿⣿⣿⣿⣇⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢚⣯⢌⣥⠀⠀⠀⠀⠀⢸⣾⣷⣾⣟
-  ⣿⣿⣿⣾⣯⣞⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣯⠶⢢⡶⣃⡀⠀⠀⠀⣸⡿⣻⣷⣿
-  ⣿⡯⣯⣾⡷⠦⠞⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡾⣟⡵⣟⣍⠀⠀⠀⠀⠰⣾⣿⣿⣿
-  ⣿⣿⣷⣿⣻⢷⣋⣛⡻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⢚⢫⢂⠀⠀⠀⠀⢰⣿⣿⣿⣿
-  ⣿⣿⣷⣯⣟⡿⣶⣯⣍⡭⣟⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣵⣾⣧⡀⠀⠀⣾⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣷⣿⣽⣛⡮⢌⢫⢛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠟⢍⡦⠈⠀⠁⢩⣻⣿⣿⣿
-  ⣿⣿⣟⣻⣛⣻⣿⣿⣿⣿⣿⣿⣷⣾⣮⣴⣭⣙⣛⣿⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⢀⣈⠈⠀⠀⠀⠈⠃⣸⣿⣿
+  aaaaaaaaaaaaaaaaaaaaaaa
   '''
   print(a)
   print('#' * 45)
@@ -492,10 +457,11 @@ def help_menu():
 quitgame = 'quit'
 
 
+
 ##################
 # main task menu #
 ##################
-def main():
+def menu():
   os.system('cls||clear')
 
   question1 = "Hello there, what is your name?\n"
@@ -514,7 +480,7 @@ def main():
   feeling = input("> ")
   player1.feeling = feeling.lower()
 
-  good_adj = ['good', 'great', 'rohit', 'happy', 'aight', 'understanding', 'great', 'alright', 'calm', 'confident', 'not bad', 'courageous', 'peaceful', 'reliable', 'joyous', 'energetic', 'at', 'ease', 'easy', 'lucky', 'k', 'comfortable', 'amazed', 'fortunate', 'optimistic', 'pleased', 'free', 'delighted', 'swag', 'encouraged', 'ok', 'overjoyed', 'impulsive', 'clever', 'interested', 'gleeful', 'free', 'surprised', 'satisfied', 'thankful', 'frisky', 'content', 'receptive', 'important', 'animated', 'quiet', 'okay', 'festive', 'spirited', 'certain', 'kind', 'ecstatic', 'thrilled', 'relaxed', 'satisfied', 'wonderful', 'serene', 'glad', 'free', 'and', 'easy', 'cheerful', 'bright', 'sunny', 'blessed', 'merry', 'reassured', 'elated', '1738', 'love', 'interested', 'positive', 'strong', 'loving']
+  good_adj = ['good', 'great', 'happy', 'aight', 'understanding', 'great', 'alright', 'calm', 'confident', 'not bad', 'courageous', 'peaceful', 'reliable', 'joyous', 'energetic', 'at', 'ease', 'easy', 'lucky', 'k', 'comfortable', 'amazed', 'fortunate', 'optimistic', 'pleased', 'free', 'delighted', 'swag', 'encouraged', 'ok', 'overjoyed', 'impulsive', 'clever', 'interested', 'gleeful', 'free', 'surprised', 'satisfied', 'thankful', 'frisky', 'content', 'receptive', 'important', 'animated', 'quiet', 'okay', 'festive', 'spirited', 'certain', 'kind', 'ecstatic', 'thrilled', 'relaxed', 'satisfied', 'wonderful', 'serene', 'glad', 'free', 'and', 'easy', 'cheerful', 'bright', 'sunny', 'blessed', 'merry', 'reassured', 'elated', '1738', 'love', 'interested', 'positive', 'strong', 'loving']
   hmm_adj = ['idk', 'concerned', 'lakshya', 'eager', 'impulsive', 'considerate', 'affected', 'keen', 'free', 'affectionate', 'fascinated', 'earnest', 'sure', 'sensitive', 'intrigued', 'intent', 'certain', 'tender', 'absorbed', 'anxious', 'rebellious', 'devoted', 'inquisitive', 'inspired', 'unique', 'attracted', 'nosy', 'determined', 'dynamic', 'passionate', 'snoopy', 'excited', 'tenacious', 'admiration', 'engrossed', 'enthusiastic', 'hardy', 'warm', 'curious', 'bold', 'secure', 'touched', 'brave', 'sympathy', 'daring', 'close', 'challenged', 'loved', 'optimistic', 'comforted', 're', 'enforced', 'drawn', 'toward', 'confident', 'hopeful', 'difficult']
   bad_adj = ['bad', 'meh', 'sad', 'hungry', 'unpleasant', 'qus', 'angry', 'depressed', 'confused', 'helpless', 'irritated', 'lousy', 'upset', 'incapable', 'enraged', 'disappointed', 'doubtful', 'alone', 'hostile', 'discouraged', 'uncertain', 'paralyzed', 'insulting', 'ashamed', 'indecisive', 'fatigued', 'sore', 'powerless', 'perplexed', 'useless', 'annoyed', 'diminished', 'embarrassed', 'inferior', 'upset', 'guilty', 'hesitant', 'vulnerable', 'hateful', 'dissatisfied', 'shy', 'empty', 'unpleasant', 'miserable', 'stupefied', 'forced', 'offensive', 'detestable', 'disillusioned', 'hesitant', 'bitter', 'repugnant', 'unbelieving', 'despair', 'aggressive', 'despicable', 'skeptical', 'frustrated', 'resentful', 'disgusting', 'distrustful', 'distressed', 'inflamed', 'abominable', 'misgiving', 'woeful', 'provoked', 'terrible', 'lost', 'pathetic', 'incensed', 'in', 'despair', 'unsure', 'tragic', 'infuriated', 'sulky', 'uneasy', 'cross', 'bad', 'pessimistic', 'dominated', 'worked', 'up', 'a', 'sense', 'of', 'loss', 'tense', 'boiling', 'fuming', 'indignant', 'indifferent', 'afraid', 'hurt', 'sad', 'insensitive', 'fearful', 'crushed', 'tearful', 'dull', 'terrified', 'tormented', 'sorrowful', 'nonchalant', 'suspicious', 'deprived', 'pained', 'neutral', 'anxious', 'pained', 'grief', 'reserved', 'alarmed', 'tortured', 'anguish', 'weary', 'panic', 'dejected', 'desolate', 'bored', 'nervous', 'rejected', 'desperate', 'preoccupied', 'scared', 'injured', 'pessimistic', 'cold', 'worried', 'offended', 'unhappy', 'disinterested', 'frightened', 'afflicted', 'lonely', 'lifeless', 'timid', 'aching', 'grieved', 'shaky', 'victimized', 'mournful', 'restless', 'heartbroken', 'dismayed', 'doubtful', 'agonized', 'threatened', 'appalled', 'cowardly', 'humiliated', 'quaking', 'wronged', 'menaced', 'alienated', 'wary']
 
@@ -532,5 +498,33 @@ def main():
     sys.stdout.write(character)
     sys.stdout.flush()
     time.sleep(0.05)
+
+  #Leads the player into the cube puzzle now!
+  speech2 = "Ok, It seems this is where we must part, " + player1.name + ".\n"
+  speech3 = "How unfortunate.\n"  
+  speech4 = "Oh, you don't know where you are?  Well...\n"
+  speech5 = "Luckily, I've left you in a little puzzle.  Hopefully you can escape this box.\n"
+  speech6 = "Heh. Heh.. Heh...\n"
+  for character in speech2:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+  for character in speech3:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.1)
+  for character in speech4:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+  for character in speech5:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+  for character in speech6:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.2)
+  time.sleep(1)
 
 title_screen()
