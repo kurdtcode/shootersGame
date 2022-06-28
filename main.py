@@ -360,6 +360,7 @@ def Search():
   realChanceHealing = round(chanceGetHealing / pembagi,3)
 
   angkaRandom = random.randint(0,10)/10
+  ## cuman buat ngelihat nilai chance (buat ngepasin udah bener sama if if an nya belom)
   print("boss", realChanceBoss)
   print("enemy", realChanceEnemy)
   print("armor", realChanceArmor)
@@ -369,21 +370,33 @@ def Search():
   print(angkaRandom)
 
   if angkaRandom <= realChanceBoss :
-      return "dapet boss"
+      print("dapet boss")
       ##get.boss
   elif angkaRandom <= realChanceBoss +  realChanceEnemy :
-      return "dapet musuh"
+      if turn >= 0 and turn <= 3:
+          randomGear = random.randint(1,2)
+          if randomGear == 1 :
+              print("dapet weapon")
+          else:
+              print("dapet armor")
+      elif turn > 3 and turn <= 6 :
+          print("Dapet enemy Lv 1")
+      elif turn > 6 and turn <= 9 :
+          print("Dapet enemy lv 2")
+      elif turn > 9 and turn <=12 :
+          print("Dapet enemy lv3")
+      else :
+          print("Dapet enemy lv4")
       lastEnemyTurn += 1
-      ## random dapat musuh sing mana level e (chance berdasar turn)
       ## get.enemy
   elif angkaRandom <= realChanceBoss +  realChanceEnemy + realChanceWeapon :
-      return "dapet weapon"
+      print("dapet weapon")
       ## get.weapon
   elif angkaRandom <= realChanceBoss +  realChanceEnemy + realChanceWeapon +realChanceArmor :
-      return "dapet armor"
+      print("dapet armor")
       ## get.armor
   else :
-      return "dapet heal"
+      print("dapet heal")
       ## get.heal
 
 
