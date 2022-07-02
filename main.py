@@ -10,12 +10,6 @@ from this import s
 import time
 screen_width = 100
 
-class Damage():
-  def __init__(self, headDamage, bodyDamage, legDamage):
-    self.headDamage = headDamage
-    self.bodyDamage = bodyDamage
-    self.legDamage = legDamage
-
 class Items():
   def __init__(self, name, durability: int):
     self.name = name
@@ -433,7 +427,7 @@ class Enemy(Characters):
     selfDmgReduc = self.inventory.seeEquippedArmor().getDetails()[2]
 
     playerHP = player.hp
-    self.inventory.seeEquippedWeapon(self.inventory.equippedWeapon)
+    self.inventory.seeEquippedWeapon()
     playerWeapon = player.inventory.seeEquippedWeapon()
     playerArmor = player.inventory.seeEquippedArmor()
 
