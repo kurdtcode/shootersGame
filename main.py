@@ -9,6 +9,7 @@ import os
 from this import s
 import time
 screen_width = 100
+turn = 0
 
 class Damage():
   def __init__(self, headDamage, bodyDamage, legDamage):
@@ -16,7 +17,7 @@ class Damage():
     self.bodyDamage = bodyDamage
     self.legDamage = legDamage
 
-class Items:
+class Items():
   def __init__(self, name, durability: int):
     self.name = name
     self.durability = durability
@@ -33,7 +34,7 @@ class Armor(Items):
     super().__init__(name, 0)
 
     #Select type
-    x = random.random(100)
+    x = random.randint(0,100)
     if name == '' and type == '':
       if x < 10:
         type = "Heavy"
@@ -49,6 +50,7 @@ class Armor(Items):
         name = "Light Armor"
 
     self.type = type
+    self.name = name
     if type == "Light":
       self.durability = 25
       self.damageReduction = 5
@@ -70,7 +72,15 @@ class Armor(Items):
 
 
 class Consumables(Items):
-  def __init__(self, name):
+  def __init__(self, name = ""):
+
+    x = random.randint(0,100)
+    if name == "":
+      if x < 75:
+        name = "Bandage"
+      else:
+        name = "Medkit"
+
     super().__init__(name, 0)
     self.healamount = 0
     if name == "Bandage":
@@ -84,9 +94,20 @@ class Consumables(Items):
 ################
 # Weapon Setup #
 ################
-
 class Weapon(Items):
-  def __init__(self, name):
+  def __init__(self, name = ""):
+
+    x = random.randint(0,100)
+    if name == "":
+      if x < 10:
+        name = "AWM Sniper Riffle"
+      elif x < 20:
+        name = "M4A1 Riffle"
+      elif x < 60:
+        name = "Deagle Pistol"
+      else:
+        name = "P250 Pistol"
+
     super().__init__(name, 0)
     self.bullet = 0
     self.maxBullet = 0
@@ -122,7 +143,7 @@ class Weapon(Items):
       self.bulletPerAttack = 1
 
     self.reload()
-    
+
   def getDetails(self) -> list:
     return [self.name, self.damage, self.maxBullet, self.bullet]
 
@@ -179,7 +200,7 @@ class Inventory():
       return
     self.equippedArmor = index
 
-  def seeEquippedArmor(self) -> Armor:
+  def seeEquippedArmor(self) -> Armor:  
     if self.equippedArmor >= len(self.armor):
       return
     if self.equippedArmor < 0:
@@ -209,7 +230,6 @@ class Inventory():
     
     return self.weapon[self.equippedWeapon]
 
-
   def seeWeaponDetail(self, index) -> Weapon:
     if index >= len(self.weapon):
       return
@@ -229,7 +249,6 @@ class Inventory():
 ############################################################################################################################
 # Character Setup  
 # Character can heal and attack
-
 class Characters:
   def __init__(self, maxHp):
     self.name = ""
@@ -260,7 +279,6 @@ class Characters:
     finalDmg = dmg - dmg * dmgReduc/100 #Calc Damage
 
     enemy.hp = enemy.hp - finalDmg
-
 
 ################
 # Player Setup #
@@ -528,20 +546,12 @@ class Enemy(Characters):
 #declare object enemy
 enemy1 = Enemy(1)
 
-print(player1.CharacterDetail())
-print(enemy1.CharacterDetail())
-player1.attack(enemy1)
-
-print(player1.CharacterDetail())
-print(enemy1.CharacterDetail())
-
 def Search():
-  turn=0
-  playerHealth=100 ## 100 diganti darah karakter
-  lastEnemyTurn=0
-  ##rumus masih agak ngaco soalnya semakin banyak turn nya chanche dapet enemy nya semakin turun, weapon sm armomr nya naik
+  
+  playerHealth=player1.hp
+  ##rumus masih agak ngaco soalnya semakin banyak turn nya chance dapet enemy nya semakin turun, weapon sm armor nya naik
   chanceFindBoss  = max(((turn - 10) * 0.2) + (100 * 0.005),0)
-  chanceFindEnemy = (turn * 0.7) + (100 * 0.05) - ( lastEnemyTurn * 0.08)
+  chanceFindEnemy = (turn * 0.7) + (100 * 0.05)
   chanceGetArmor = (turn * 0.3) + (100 * 0.01)
   chanceGetWeapon = (turn * 0.5) + (100 * 0.01)
   chanceGetHealing = (turn * 0.6) + (playerHealth * 0.01)
@@ -563,34 +573,30 @@ def Search():
   # print("Healing", realChanceHealing)
   # print("------------")
   # print(angkaRandom)
-
+  turn=+1
   if angkaRandom <= realChanceBoss :
-      print("get boss")
+      return "get enemy Special Force Soldier"
   elif angkaRandom <= realChanceBoss +  realChanceEnemy :
       if turn >= 0 and turn <= 3:
           randomGear = random.randint(1,2)
           if randomGear == 1 :
-              print("get weapon")
+              return "get weapon"
           else:
-              print("get armor")
+              return "get armor"
       elif turn > 3 and turn <= 6 :
-          print("get enemy Militia")
+          return "get enemy Militia"
       elif turn > 6 and turn <= 9 :
-          print("get enemy Normal Soldier")
+          return "get enemy Normal Soldier"
       elif turn > 9 and turn <=12 :
-          print("get enemy Veteran Soldier")
+          return "get enemy Veteran Soldier"
       else :
-          print("get boss")
-      lastEnemyTurn += 1
+          return "get enemy Special Force Soldier"
   elif angkaRandom <= realChanceBoss +  realChanceEnemy + realChanceWeapon :
-      print("get weapon")
+      return "get weapon"
   elif angkaRandom <= realChanceBoss +  realChanceEnemy + realChanceWeapon +realChanceArmor :
-      print("get armor")
+      return "get armor"
   else :
-      print("get heal")
-
-
-
+      return "get heal"
 
 ##################################### kd ##################################
 
@@ -622,10 +628,7 @@ def lookInventory():
 ################
 def battleLoop(currentEnemy):
   while currentEnemy.hp > 0:
-    print("Enemy HP:", currentEnemy.hp)
-    print(player1.name, "HP: ", player1.hp)
-    print("")
-    print("How unlucky you are!", currentEnemy.name, " with ", currentEnemy.hp, " is in front of you!\nWhat do you want to do?")
+    print("Oh no! There is ", currentEnemy.name,"(",currentEnemy.hp," HP) in front of you!")
     battleInput = input("> ")
     acceptable_actions = ['attack', 'shoot', 'inventory', 'view inventory']
     #Forces the player to write an acceptable sign, as this is essential to solving a puzzle later.
@@ -680,7 +683,7 @@ def main_game_loop():
           sys.exit()
       elif action.lower() in ['search', 'look', 'view', 'inspect']:
           value = Search()
-
+          print('value = ', value)
           #Make new enemy object based on return on function Search()
           currentEnemy = Enemy(1)
 
@@ -696,17 +699,37 @@ def main_game_loop():
             vSoldier = Enemy(3)
             currentEnemy = vSoldier
             battleLoop(currentEnemy)
-          elif value == "get boss":
+          elif value == "get enemy Special Force Soldier":
             boss = Enemy(4)
             currentEnemy = boss
             battleLoop(currentEnemy)
           elif value == "get armor":
-            # print("cerita")
-            player1.inventory.seeArmorDetail(1)
-            player1.inventory.getAllArmor()
+            print("Congratulation! You found an armor!")
+            armor = Armor()
+            player1.inventory.addArmor(armor)
+            print("Armor : ", armor.getDetails()[0])
+            print("Durability : ", armor.getDetails()[1])
+            print("Damage Reduction : ", armor.getDetails()[2])
+            tanya = input("Equip Armor? (yes/no)")
+            if tanya.lower() == 'yes':
+              player1.inventory.equipArmor(len(player1.inventory.armor)-1)
+            else:
+              continue
           elif value == "get weapon":
-            player1.inventory.seeWeaponDetail(1)
-            player1.inventory.getAllWeapon()
+            print("Congratulation! You found a weapon!")
+            weapon = Weapon()
+            player1.inventory.addWeapon(weapon)
+            print("Weapon : ", weapon.getDetails()[0])
+            print("Head Damage : ", weapon.getDetails()[1].headDamage)
+            print("Body Damage : ", weapon.getDetails()[1].bodyDamage)
+            print("Leg Damage : ", weapon.getDetails()[1].legDamage)
+            print("Bullet : ", weapon.getDetails()[2])
+          elif value == "get heal":
+            print("Congratulation! You found a consumable item!")
+            consumable = Consumables()
+            player1.inventory.addConsumable(consumable)
+            print("Item : ", consumable.getDetails()[0])
+            print("Heal Amount : ", consumable.getDetails()[1])
       elif action.lower() in ['inventory', 'view inventory']:
           lookInventory()
       input("Press enter to continue ....")
@@ -746,7 +769,6 @@ def opening():
   #   time.sleep(0.0001)
   # time.sleep(0.1)
   
-
 def title_screen_options():
   option = input("> ")
   if option.lower() == ("play"):
@@ -788,7 +810,6 @@ def title_screen():
   print("                       .: Help :.                 ")
   print("                       .: Quit :.                 ")
   title_screen_options()
-
 
 #############
 # Help Menu #
