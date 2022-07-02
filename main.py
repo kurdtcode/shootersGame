@@ -525,9 +525,6 @@ def lookInventory():
             elif battleInput3.lower() in ['use consumable', 'consumable', 'heal']:
               player1.inventory.useConsumable()
 
-def doHeal():
-    print
-
 ################
 # Battle Phase #
 ################
@@ -612,6 +609,38 @@ def main_game_loop():
 ################
 # Title Screen #
 ################
+def opening():
+  os.system('cls||clear')
+  a='''
+
+ ██▓███   ██▀███   ▒█████ ▓██   ██▓▓█████  ██ ▄█▀    ██ ▄█▀ ▄▄▄▄      
+▓██░  ██▒▓██ ▒ ██▒▒██▒  ██▒▒██  ██▒▓█   ▀  ██▄█▒     ██▄█▒ ▓█████▄    
+▓██░ ██▓▒▓██ ░▄█ ▒▒██░  ██▒ ▒██ ██░▒███   ▓███▄░    ▓███▄░ ▒██▒ ▄██   
+▒██▄█▓▒ ▒▒██▀▀█▄  ▒██   ██░ ░ ▐██▓░▒▓█  ▄ ▓██ █▄    ▓██ █▄ ▒██░█▀     
+▒██▒ ░  ░░██▓ ▒██▒░ ████▓▒░ ░ ██▒▓░░▒████▒▒██▒ █▄   ▒██▒ █▄░▓█  ▀█▓   
+▒▓▒░ ░  ░░ ▒▓ ░▒▓░░ ▒░▒░▒░   ██▒▒▒ ░░ ▒░ ░▒ ▒▒ ▓▒   ▒ ▒▒ ▓▒░▒▓███▀▒   
+░▒ ░       ░▒ ░ ▒░  ░ ▒ ▒░ ▓██ ░▒░  ░ ░  ░░ ░▒ ▒░   ░ ░▒ ▒░▒░▒   ░    
+░░         ░░   ░ ░ ░ ░ ▒  ▒ ▒ ░░     ░   ░ ░░ ░    ░ ░░ ░  ░    ░    
+            ░         ░ ░  ░ ░        ░  ░░  ░      ░  ░    ░         
+                           ░ ░                                   ░    
+
+  '''
+  b='''
+  KELOMPOK 14
+- Michael Christian - C14200013
+- Joshua Yordana - C14200020
+- Steven Kusuma - C14200079
+- Kevin Daniel - C14200140
+- Alan Satria - C14200196
+'''
+  print(a)
+  for character in b:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.0001)
+  time.sleep(0.0001)
+  
+
 def title_screen_options():
   option = input("> ")
   if option.lower() == ("play"):
@@ -631,22 +660,27 @@ def title_screen_options():
       help_menu()
 
 def title_screen():
+  opening() 
   os.system('cls||clear')
   a= '''
-        |\_______________ (_____\\______________
-HH======#H###############H#######################
-        ' ~""""""""""""""`##(_))#H\"""""Y########
-                          ))    \#H\       `"Y###
-                          "      }#H)
+
+██╗    ██╗ █████╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗███████╗
+██║    ██║██╔══██╗██╔══██╗╚══███╔╝██╔═══██╗████╗  ██║██╔════╝
+██║ █╗ ██║███████║██████╔╝  ███╔╝ ██║   ██║██╔██╗ ██║█████╗  
+██║███╗██║██╔══██║██╔══██╗ ███╔╝  ██║   ██║██║╚██╗██║██╔══╝  
+╚███╔███╔╝██║  ██║██║  ██║███████╗╚██████╔╝██║ ╚████║███████╗
+ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
+  
   '''
   print(a)
-  print('#' * 45)
-  print('# Welcome to this text-based shooting game  #')
-  print("#      Brum Brum Final Project KB 2022!     #")
-  print('#' * 45)
-  print("               .: Play :.               ")
-  print("               .: Help :.               ")
-  print("               .: Quit :.               ")
+  # print('#' * 45)
+  print("           Welcome to text-based shooting game       ")
+  print("                   Final Project KB 2022!             ")
+  print("                         WarZone                      ")
+  print()
+  print("                       .: Play :.                 ")
+  print("                       .: Help :.                 ")
+  print("                       .: Quit :.                 ")
   title_screen_options()
 
 
@@ -656,7 +690,8 @@ HH======#H###############H#######################
 def help_menu():
   print("")
   print("~" * 45)
-  print("Type a command such as 'search' or 'view inventory'")
+  print("WarZone is a shooting game with a text-based program.")
+  print("You can type a command such as 'search' or 'view inventory'")
   print("to move on to the next stage.\n")
   print("After you do a search, you can inputs such as 'attack' or 'reload' or 'fallback' or 'heal'")
   print("the game will let you interact with the next move.\n")
