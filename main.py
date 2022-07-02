@@ -10,7 +10,7 @@ from this import s
 import time
 screen_width = 100
 
-class damage():
+class Damage():
   def __init__(self, headDamage, bodyDamage, legDamage):
     self.headDamage = headDamage
     self.bodyDamage = bodyDamage
@@ -29,22 +29,24 @@ class Items:
 
 
 class Armor(Items):
-  def __init__(self):
+  def __init__(self, name = '', type = ''):
+    super().__init__(name, 0)
+
     #Select type
     x = random.random(100)
-    if x < 10:
-      type = "Heavy"
-      name = "Heavy Armor"
-    elif x < 30:
-      type = "Medium"
-      name = "Medium Armor"
-    elif x < 60:
-      type = "Basic"
-      name = "Basic Armor"
-    else:
-      type = "Light"
-      name = "Light Armor"
-    super().__init__(name, 0)
+    if name == '' and type == '':
+      if x < 10:
+        type = "Heavy"
+        name = "Heavy Armor"
+      elif x < 30:
+        type = "Medium"
+        name = "Medium Armor"
+      elif x < 60:
+        type = "Basic"
+        name = "Basic Armor"
+      else:
+        type = "Light"
+        name = "Light Armor"
 
     self.type = type
     if type == "Light":
