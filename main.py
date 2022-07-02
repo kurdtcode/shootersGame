@@ -126,13 +126,12 @@ class Damage():
 
   def randomHit(self):
     rand = random.random()
-
-    if rand < 0.2:
+    if rand < 0.1:
       return self.headDamage
     elif rand < 0.8:
       return self.bodyDamage
     else:
-       return self.legDamage
+      return self.legDamage
 
 class Inventory():
   def __init__(self):
@@ -162,6 +161,14 @@ class Inventory():
       return
     self.equippedArmor = index
 
+  def seeEquippedArmor(self) -> Armor:
+    if self.equippedArmor >= len(self.armor):
+      return
+    if self.equippedArmor < 0:
+      return
+    
+    return self.armor[self.equippedArmor]
+
   def seeArmorDetail(self, index) -> Armor:
     if index >= len(self.armor):
       return
@@ -175,6 +182,15 @@ class Inventory():
     if index < 0:
       return
     self.equippedWeapon = index
+
+  def seeEquippedWeapon(self) -> Weapon:
+    if self.equippedWeapon >= len(self.weapon):
+      return
+    if self.equippedWeapon < 0:
+      return
+    
+    return self.weapon[self.equippedWeapon]
+
 
   def seeWeaponDetail(self, index) -> Weapon:
     if index >= len(self.weapon):
@@ -214,13 +230,13 @@ class Characters:
 
   def attack(self, enemy):
     equippedWeapon = self.inventory.seeWeaponDetail(self.inventory.equippedWeapon) #Weapon
-    type(equippedWeapon)
+    # type(equippedWeapon)
     damage = equippedWeapon.getDetails()[1] #Weapon Damage
 
     dmg = damage.randomHit()
     equippedWeapon.shoot()
 
-    enemyArmor = enemy.inventory.seeArmorDetail(enemy.inventory.equippedArmor) #Enemy Armor
+    enemyArmor = enemy.inventory.seeEquippedArmor() #Enemy Armor
     dmgReduc = enemyArmor.getDetails()[2] #Damage Reduction
 
     finalDmg = dmg - dmg * dmgReduc/100 #Calc Damage
@@ -319,10 +335,113 @@ class Enemy(Characters):
       self.inventory.addConsumable(consumables7)
 
   def auto(self, player):
-    pass
-  
+    #Initial Value/Known Value
+    #self.hp
+    #self.inventory.seeEquippedWeapon()
+    #self.inventory.seeEquippedArmor()
+    selfDmg = self.inventory.seeEquippedWeapon().getDetails()[1].body
+    selfDmgReduc = self.inventory.seeEquippedArmor().getDetails()[2]
+
+    playerHP = player.hp
+    self.inventory.seeEquippedWeapon(self.inventory.equippedWeapon)
+    playerWeapon = player.inventory.seeEquippedWeapon()
+    playerArmor = player.inventory.seeEquippedArmor()
+
+    playerDmg = playerWeapon.getDetails()[1].body
+    playerDmgReduc = playerArmor.getDetails()[2]
+
+    #Condition Value Init 2
+    selfFinalDamage = selfDmg - selfDmg * playerDmgReduc/100
+    playerFinalDamage = playerDmg - playerDmg * selfDmgReduc/100
+
+
+    #Condition Value Init 3
+    selfOneHit = False
+    playerOneHit = False
+
+    #Condition Value Init 4
+    selfConsumableExist = False
+    playerConsumableExist = False
+
+    #Condition Value Init 5
+    medkitCount = 0
+    bandageCount = 0
+    medkitExist = False
+    bandageExist = False
+    medkitHealExceedMax = False
+    
+    #Condition Value Init 6
+    selfHighHealth = False
+    selfMediumHealth = False
+    selfLowHealth = False
+    playerHighHealth = False
+    playerMediumHealth = False
+    playerLowHealth = False
+
+    #Action
+    selfAttack = False
+    selfHeal = False
+    
+    #Condition 1
+    if self.hp - playerFinalDamage <= 0:
+      selfOneHit = True
+    if player.hp - selfFinalDamage <= 0:
+      playerOneHit = True
+
+    #Condition 2
+    if len(self.inventory.getAllConsumable()) != 0:
+      selfConsumableExist = True
+    if len(player.inventory.getAllConsumable()) != 0:
+      playerConsumableExist = True
+    
+    
+    #Condition 3
+    for consumable in self.inventory.getAllConsumable():
+      temp = consumable.getDetails()
+      if temp[1] == 50:
+        pass
+
+    if self.hp + 50 > self.maxHP:
+      medkitHealExceedMax = True
+
+
+    #Condition 4
+    if self.hp > 80:
+      selfHighHealth = True
+    elif self.hp > 40:
+      selfMediumHealth = True
+    else:
+      selfLowHealth = True
+    
+    if player.hp > 80:
+      playerHighHealth = True
+    elif player.hp > 40:
+      playerMediumHealth = True
+    else:
+      playerLowHealth = True
+    
+    #Condition 5
+    if playerOneHit:
+      selfAttack = True
+    else:
+      if selfOneHit:
+        if selfConsumableExist:
+          if medkitHealExceedMax:
+            pass
+
+
+
+
+
 #declare object enemy
 enemy1 = Enemy(1)
+
+print(player1.CharacterDetail())
+print(enemy1.CharacterDetail())
+player1.attack(enemy1)
+
+print(player1.CharacterDetail())
+print(enemy1.CharacterDetail())
 
 def Search():
   turn=0
