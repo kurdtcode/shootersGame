@@ -446,14 +446,12 @@ class Enemy(Characters):
             selfHeal = True
           else:
             selfAttack = True
-            
         elif selfMediumHealth and playerMediumHealth:
           rands = random.random()
           if rands > 0.5:
             selfHeal = True
           else:
             selfAttack = True
-
         elif selfMediumHealth and playerLowHealth:
           rands = random.random()
           if rands > 0.8:
