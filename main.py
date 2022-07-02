@@ -29,18 +29,22 @@ class Items:
 
 
 class Armor(Items):
-  def __init__(self, name):
-    super().__init__(name, 0)
+  def __init__(self):
     #Select type
     x = random.random(100)
     if x < 10:
       type = "Heavy"
+      name = "Heavy Armor"
     elif x < 30:
       type = "Medium"
+      name = "Medium Armor"
     elif x < 60:
       type = "Basic"
+      name = "Basic Armor"
     else:
       type = "Light"
+      name = "Light Armor"
+    super().__init__(name, 0)
 
     self.type = type
     if type == "Light":
