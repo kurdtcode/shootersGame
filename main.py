@@ -545,9 +545,10 @@ class Enemy(Characters):
 
 #declare object enemy
 enemy1 = Enemy(1)
-
+turn = 0
 def Search():
-  
+  global turn
+  print('turn, ', turn)
   playerHealth=player1.hp
   ##rumus masih agak ngaco soalnya semakin banyak turn nya chance dapet enemy nya semakin turun, weapon sm armor nya naik
   chanceFindBoss  = max(((turn - 10) * 0.2) + (100 * 0.005),0)
@@ -573,7 +574,7 @@ def Search():
   # print("Healing", realChanceHealing)
   # print("------------")
   # print(angkaRandom)
-  turn=+1
+  turn+=1
   if angkaRandom <= realChanceBoss :
       return "get enemy Special Force Soldier"
   elif angkaRandom <= realChanceBoss +  realChanceEnemy :
@@ -629,6 +630,7 @@ def lookInventory():
 def battleLoop(currentEnemy):
   while currentEnemy.hp > 0:
     print("Oh no! There is ", currentEnemy.name,"(",currentEnemy.hp," HP) in front of you!")
+    print("What do you want to do?\n(attack/heal/view inventory)")
     battleInput = input("> ")
     acceptable_actions = ['attack', 'shoot', 'inventory', 'view inventory']
     #Forces the player to write an acceptable sign, as this is essential to solving a puzzle later.
