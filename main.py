@@ -28,8 +28,19 @@ class Items:
 
 
 class Armor(Items):
-  def __init__(self, name, type):
+  def __init__(self, name):
     super().__init__(name, 0)
+    #Select type
+    x = random.random(100)
+    if x < 10:
+      type = "Heavy"
+    elif x < 30:
+      type = "Medium"
+    elif x < 60:
+      type = "Basic"
+    else:
+      type = "Light"
+
     self.type = type
     if type == "Light":
       self.durability = 25
