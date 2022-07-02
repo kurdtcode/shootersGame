@@ -320,16 +320,9 @@ class Enemy(Characters):
 
   def auto(self, player):
     pass
-
+  
 #declare object enemy
 enemy1 = Enemy(1)
-
-print(player1.CharacterDetail())
-print(enemy1.CharacterDetail())
-player1.attack(enemy1)
-
-print(player1.CharacterDetail())
-print(enemy1.CharacterDetail())
 
 def Search():
   turn=0
@@ -352,13 +345,13 @@ def Search():
 
   angkaRandom = random.randint(0,10)/10
   ## cuman buat ngelihat nilai chance (buat ngepasin udah bener sama if if an nya belom)
-  print("boss", realChanceBoss)
-  print("enemy", realChanceEnemy)
-  print("armor", realChanceArmor)
-  print("weapon", realChanceWeapon)
-  print("Healing", realChanceHealing)
-  print("------------")
-  print(angkaRandom)
+  # print("boss", realChanceBoss)
+  # print("enemy", realChanceEnemy)
+  # print("armor", realChanceArmor)
+  # print("weapon", realChanceWeapon)
+  # print("Healing", realChanceHealing)
+  # print("------------")
+  # print(angkaRandom)
 
   if angkaRandom <= realChanceBoss :
       print("get boss")
@@ -413,6 +406,9 @@ def lookInventory():
             elif battleInput3.lower() in ['use consumable', 'consumable', 'heal']:
               player1.inventory.useConsumable()
 
+def doHeal():
+    print
+
 ################
 # Battle Phase #
 ################
@@ -428,11 +424,13 @@ def battleLoop(currentEnemy):
     while battleInput.lower() not in acceptable_actions:
       print("Unknown action command, please try again.\n")
       battleInput = input("> ")
-    print("What do you want to do?\n(attack/shoot/inventory/view inventory)")
+    print("What do you want to do?\n(attack/heal/view inventory)")
     if battleInput.lower() == quitgame:
         sys.exit()
-    if battleInput.lower() in ['attack', 'shoot']:
+    elif battleInput.lower() in ['attack', 'shoot']:
         pass
+    elif battleInput.lower() in ['heal']:
+        doHeal()
     elif battleInput.lower() in ['inventory', 'view inventory']:
         lookInventory()
     # currentEnemy.Enemy.auto()
@@ -516,7 +514,11 @@ def title_screen_options():
 def title_screen():
   os.system('cls||clear')
   a= '''
-  aaaaaaaaaaaaaaaaaaaaaaa
+        |\_______________ (_____\\______________
+HH======#H###############H#######################
+        ' ~""""""""""""""`##(_))#H\"""""Y########
+                          ))    \#H\       `"Y###
+                          "      }#H)
   '''
   print(a)
   print('#' * 45)
