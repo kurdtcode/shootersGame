@@ -9,7 +9,6 @@ import os
 from this import s
 import time
 screen_width = 100
-turn = 0
 
 class Damage():
   def __init__(self, headDamage, bodyDamage, legDamage):
@@ -536,15 +535,19 @@ class Enemy(Characters):
     
     if selfHealBandage:
       self.heal(bandageIndex)
+      return "healBandage"
+      
     
     if selfHealMedkit:
       self.heal(medkitIndex)
+      return "healMedkit"
     
     if selfAttack:
       self.attack(player)
+      return "attack"
 
 #declare object enemy
-enemy1 = Enemy(1)
+enemy = Enemy(1)
 turn = 0
 def Search():
   global turn
@@ -606,30 +609,82 @@ def Search():
 # (use invetory) #
 ##################
 def lookInventory():
-    print("The following is a list from your inventory\n")
-    player1.inventory.getAllArmor()
-    player1.inventory.getAllWeapon()
-    player1.inventory.getAllConsumable()
-    print("What do you want to do? ")
-    battleInput2 = input("> ")
-    if battleInput2 in ['use consumable', 'equip weapon', 'equip armor']:
-        print("It will take your turn and the enemy can attack you!\nAre you sure you want to use this turn to replace inventory?")
-        sure = input(">")
-        if sure.lower() in ['ok', 'yes']:
-            battleInput3 = input("> ")
-            if battleInput3.lower() in ['equip weapon', 'weapon']:
-              player1.inventory.equipWeapon()
-            elif battleInput3.lower() in ['equip armor', 'armor']:
-              player1.inventory.equipArmor()
-            elif battleInput3.lower() in ['use consumable', 'consumable', 'heal']:
-              player1.inventory.useConsumable()
+  changeSomething = False
+  while(True):
+    print("The following is a list from your inventory\n(View Weapon/View Armor/View Consumables/Back)")
+    intp = input("> ").lower()
+    while intp not in ['view weapon', 'view armor', 'view consumables', 'back']:
+      print("Unknown action command, please try again.\n")
+      intp = input("> ").lower()
+
+    if intp == 'view weapon':
+      weapon = player1.inventory.getAllWeapon()
+      for i in range (len(weapon)):
+        print("Weapon ",i,":", weapon.getDetails()[0])
+        print("Head Damage : ", weapon.getDetails()[1].headDamage)
+        print("Body Damage : ", weapon.getDetails()[1].bodyDamage)
+        print("Leg Damage : ", weapon.getDetails()[1].legDamage)
+        print("Bullet : ", weapon.getDetails()[2])
+      
+      print("What do you want to do? ")
+      intp2 = input("> ")
+      if intp2 in ['equip weapon', 'back']:
+        if intp2 == 'equip weapon':
+          print("Which weapon do you want to equip? (numbers)")
+          intp2 = int(input("> "))
+          player1.inventory.equipWeapon(intp2)
+          changeSomething = True
+        elif intp2 == 'back':
+          continue
+        
+
+    elif intp == 'view armor':
+      armors = player1.inventory.getAllArmor()
+      for i in range (len(armors)):
+        print("Armor : ", armors[i].getDetails()[0])
+        print("Durability : ", armors[i].getDetails()[1])
+        print("Damage Reduction : ", armors[i].getDetails()[2])
+        print("What do you want to do? ")
+      intp2 = input("> ")
+      if intp2 in ['equip armor', 'back']:
+        if intp2 == 'equip armor':
+          print("Which armor do you want to equip? (numbers)")
+          intp2 = int(input("> "))
+          player1.inventory.equipArmor(intp2)
+          changeSomething = True
+        elif intp2 == 'back':
+          continue
+
+    elif intp == 'view consumables':
+      consumable = player1.inventory.getAllArmor()
+      for i in range (len(consumable)):
+        print("Item : ", consumable.getDetails()[0])
+        print("Heal Amount : ", consumable.getDetails()[1])
+      print("What do you want to do? ")
+      intp2 = input("> ")
+      if intp2 in ['use consumables', 'back']:
+        if intp2 == 'use consumables':
+          print("Which consumables do you want to use? (numbers)")
+          intp2 = int(input("> "))
+          player1.heal(intp2)
+          changeSomething = True
+        elif intp2 == 'back':
+          continue
+    
+    elif intp == 'back':
+      break
+  if changeSomething == True:
+    return True
+  else:
+     return False
+
 
 ################
 # Battle Phase #
 ################
-def battleLoop(currentEnemy):
+def battleLoop(currentEnemy:Enemy):
   while currentEnemy.hp > 0:
-    print("Oh no! There is ", currentEnemy.name,"(",currentEnemy.hp," HP) in front of you!")
+    print("Oh no! There is ", currentEnemy.name ,"(",currentEnemy.hp," HP) in front of you!")
     print("What do you want to do?\n(attack/heal/view inventory)")
     battleInput = input("> ")
     acceptable_actions = ['attack', 'shoot', 'inventory', 'view inventory']
@@ -638,6 +693,7 @@ def battleLoop(currentEnemy):
       print("Unknown action command, please try again.\n")
       battleInput = input("> ")
     print("What do you want to do?\n(attack/heal/view inventory)")
+    change = True
     if battleInput.lower() == quitgame:
         sys.exit()
     elif battleInput.lower() in ['attack', 'shoot']:
@@ -645,18 +701,21 @@ def battleLoop(currentEnemy):
     elif battleInput.lower() in ['heal']:
         player1.heal()
     elif battleInput.lower() in ['inventory', 'view inventory']:
-        lookInventory()
-    currentEnemy.currentEnemyAuto(player1)
+        change = lookInventory()
+
+    if change:
+      move = currentEnemy.currentEnemyAuto(player1)
+      print("Enemy", move)
 
 # Check if either or both Players is below zero health
 def check_win():
     if player1.hp < 1:
         player1.game_over = True
         print("You Dead")
-    elif enemy1.hp < 1 and player1.hp > 0:
+    elif enemy.hp < 1 and player1.hp > 0:
         player1.game_over = True
         print("You Win")
-    elif player1.hp < 1 and enemy1.hp < 1:
+    elif player1.hp < 1 and enemy.hp < 1:
         player1.game_over = True
         print("*** Draw ***")
 
@@ -664,6 +723,7 @@ def check_win():
 # main looping #
 ################
 def main_game_loop():
+    global enemy
     os.system('cls||clear')
     print("################################")
     print("# Here begins the adventure... #")
@@ -687,24 +747,24 @@ def main_game_loop():
           value = Search()
           print('value = ', value)
           #Make new enemy object based on return on function Search()
-          currentEnemy = Enemy(1)
+          # currentEnemy = Enemy(1)
 
           if value == "get enemy Militia":
             militia = Enemy(1)
-            currentEnemy = militia
-            battleLoop(currentEnemy)
+            enemy = militia
+            battleLoop(enemy)
           elif value == "get enemy Normal Soldier":
             nSoldier = Enemy(2)
-            currentEnemy = nSoldier
-            battleLoop(currentEnemy)
+            enemy = nSoldier
+            battleLoop(enemy)
           elif value == "get enemy Veteran Soldier":
             vSoldier = Enemy(3)
-            currentEnemy = vSoldier
-            battleLoop(currentEnemy)
+            enemy = vSoldier
+            battleLoop(enemy)
           elif value == "get enemy Special Force Soldier":
             boss = Enemy(4)
-            currentEnemy = boss
-            battleLoop(currentEnemy)
+            enemy = boss
+            battleLoop(enemy)
           elif value == "get armor":
             print("Congratulation! You found an armor!")
             armor = Armor()
