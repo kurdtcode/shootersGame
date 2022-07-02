@@ -6,6 +6,7 @@ import re
 from selectors import SelectorKey
 import sys
 import os
+from this import s
 import time
 screen_width = 100
 
@@ -261,6 +262,7 @@ class Characters:
 class Player(Characters):
   def __init__(self):
     super().__init__(200)
+    self.feeling = ""
     weapon = Weapon("P250 Pistol")
     self.inventory.addWeapon(weapon)
     self.inventory.equipWeapon(0)
@@ -345,12 +347,12 @@ class Enemy(Characters):
       self.inventory.addConsumable(consumables6)
       self.inventory.addConsumable(consumables7)
 
-  def auto(self, player):
+  def currentEnemyAuto(self, player):
     #Initial Value/Known Value
     #self.hp
     #self.inventory.seeEquippedWeapon()
     #self.inventory.seeEquippedArmor()
-    selfDmg = self.inventory.seeEquippedWeapon().getDetails()[1].body
+    selfDmg = self.inventory.seeEquippedWeapon().getDetails()[1].bodyDamage
     selfDmgReduc = self.inventory.seeEquippedArmor().getDetails()[2]
 
     playerHP = player.hp
@@ -358,7 +360,7 @@ class Enemy(Characters):
     playerWeapon = player.inventory.seeEquippedWeapon()
     playerArmor = player.inventory.seeEquippedArmor()
 
-    playerDmg = playerWeapon.getDetails()[1].body
+    playerDmg = playerWeapon.getDetails()[1].bodyDamage
     playerDmgReduc = playerArmor.getDetails()[2]
 
     #Condition Value Init 2
@@ -617,7 +619,7 @@ def battleLoop(currentEnemy):
     print("Enemy HP:", currentEnemy.hp)
     print(player1.name, "HP: ", player1.hp)
     print("")
-    print("how unlucky you are!", currentEnemy.name, " with ", currentEnemy.hp, " is in front of you!\nWhat do you want to do?")
+    print("How unlucky you are!", currentEnemy.name, " with ", currentEnemy.hp, " is in front of you!\nWhat do you want to do?")
     battleInput = input("> ")
     acceptable_actions = ['attack', 'shoot', 'inventory', 'view inventory']
     #Forces the player to write an acceptable sign, as this is essential to solving a puzzle later.
@@ -630,10 +632,10 @@ def battleLoop(currentEnemy):
     elif battleInput.lower() in ['attack', 'shoot']:
         pass
     elif battleInput.lower() in ['heal']:
-        doHeal()
+        player1.heal()
     elif battleInput.lower() in ['inventory', 'view inventory']:
         lookInventory()
-    # currentEnemy.Enemy.auto()
+    currentEnemy.currentEnemyAuto(player1)
 
 # Check if either or both Players is below zero health
 def check_win():
@@ -651,10 +653,16 @@ def check_win():
 # main looping #
 ################
 def main_game_loop():
+    os.system('cls||clear')
+    print("################################")
+    print("# Here begins the adventure... #")
+    print("################################\n")
+    print("You find yourself in the center of a strange place.\nSeems like you are trapped in a forest.\n")
+    time.sleep(1)
     while player1.game_over is False:
       os.system('cls||clear')
       print(f"{player1.name}'s health = {player1.hp}")
-      print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~")
+      print("\n=========================")
       print("What would you like to do?\n1. Search\n2. View Inventory\n3. Quit game")
       action = input("> ")
       acceptable_actions = ['search', 'look', 'view', 'inventory', 'view inventory', 'inspect', 'quit']
@@ -674,20 +682,25 @@ def main_game_loop():
           if value == "get enemy Militia":
             militia = Enemy(1)
             currentEnemy = militia
+            battleLoop(currentEnemy)
           elif value == "get enemy Normal Soldier":
             nSoldier = Enemy(2)
             currentEnemy = nSoldier
+            battleLoop(currentEnemy)
           elif value == "get enemy Veteran Soldier":
             vSoldier = Enemy(3)
             currentEnemy = vSoldier
+            battleLoop(currentEnemy)
           elif value == "get boss":
             boss = Enemy(4)
             currentEnemy = boss
-          print("test", currentEnemy.hp)
-          battleLoop(player1,currentEnemy)
-      
+            battleLoop(currentEnemy)
+          elif value == "get armor":
+            print()
+            player1.inventory.seeArmorDetail(1)
       elif action.lower() in ['inventory', 'view inventory']:
           lookInventory()
+      input("Press enter to continue ....")
       check_win()
 
 ################
@@ -722,7 +735,7 @@ def opening():
     sys.stdout.write(character)
     sys.stdout.flush()
     time.sleep(0.0001)
-  time.sleep(0.0001)
+  time.sleep(1)
   
 
 def title_screen_options():
@@ -799,21 +812,21 @@ quitgame = 'quit'
 def menu():
   os.system('cls||clear')
 
-  question1 = "Hello there, what is your name?\n"
-  for character in question1:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
-  player_name = input("> ")
-  player1.name = player_name
+  # question1 = "Hello there, what is your name?\n"
+  # for character in question1:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.05)
+  # player_name = input("> ")
+  # player1.name = player_name
 
-  question2 = "My dear friend " + player1.name + ", how are you feeling?\n"
-  for character in question2:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
-  feeling = input("> ")
-  player1.feeling = feeling.lower()
+  # question2 = "My dear friend " + player1.name + ", how are you feeling?\n"
+  # for character in question2:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.05)
+  # feeling = input("> ")
+  # player1.feeling = feeling.lower()
 
   good_adj = ['good', 'great', 'happy', 'aight', 'understanding', 'great', 'alright', 'calm', 'confident', 'not bad', 'courageous', 'peaceful', 'reliable', 'joyous', 'energetic', 'at', 'ease', 'easy', 'lucky', 'k', 'comfortable', 'amazed', 'fortunate', 'optimistic', 'pleased', 'free', 'delighted', 'swag', 'encouraged', 'ok', 'overjoyed', 'impulsive', 'clever', 'interested', 'gleeful', 'free', 'surprised', 'satisfied', 'thankful', 'frisky', 'content', 'receptive', 'important', 'animated', 'quiet', 'okay', 'festive', 'spirited', 'certain', 'kind', 'ecstatic', 'thrilled', 'relaxed', 'satisfied', 'wonderful', 'serene', 'glad', 'free', 'and', 'easy', 'cheerful', 'bright', 'sunny', 'blessed', 'merry', 'reassured', 'elated', '1738', 'love', 'interested', 'positive', 'strong', 'loving']
   hmm_adj = ['idk', 'concerned', 'lakshya', 'eager', 'impulsive', 'considerate', 'affected', 'keen', 'free', 'affectionate', 'fascinated', 'earnest', 'sure', 'sensitive', 'intrigued', 'intent', 'certain', 'tender', 'absorbed', 'anxious', 'rebellious', 'devoted', 'inquisitive', 'inspired', 'unique', 'attracted', 'nosy', 'determined', 'dynamic', 'passionate', 'snoopy', 'excited', 'tenacious', 'admiration', 'engrossed', 'enthusiastic', 'hardy', 'warm', 'curious', 'bold', 'secure', 'touched', 'brave', 'sympathy', 'daring', 'close', 'challenged', 'loved', 'optimistic', 'comforted', 're', 'enforced', 'drawn', 'toward', 'confident', 'hopeful', 'difficult']
@@ -829,44 +842,59 @@ def menu():
     feeling_string = "I do not know what it is like to feel"
 
   question3 = "Well then, " + player1.name + ", " + feeling_string + " " + player1.feeling + ".\n"
-  for character in question3:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
+  # for character in question3:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.05)
 
   #Leads the player into the warzone now!
-  speech2 = "Ok, It seems this is where we must part, " + player1.name + ".\n"
-  speech3 = "How unfortunate.\n"  
-  speech4 = "Oh, you don't know where you are?  Well...\n"
-  speech5 = "How unlucky you are. You are now in the middle of the forest and it seems you are lost.\n"
+  speech2 = "Too bad, i have bad news for you. It seems this is where we must part, " + player1.name + ".\n"
+  speech3 = "I bet you don't know where you are now.\n"  
+  speech4 = "Well... look around you!\n"
+  art = '''
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣛⣻⣿⣿⡟⠛⢿⡿⠟⢛⣿⣿⣿⡛⢻⣿⣿⣿⣿⠟⣿
+⣿⡿⠟⠉⠁⠀⣀⣀⣈⣉⣻⣿⣿⣿⣶⣤⣤⣶⣿⣿⣿⣿⣷⣄⠙⠿⠛⢁⣴⣿
+⣿⠀⠀⠀⠴⣿⣿⣯⣀⣹⣿⣿⣿⠟⠋⠉⠁⠈⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⠀⠀⢀⡀⠀⠀⠈⠉⠻⣿⣿⣿⣿⣿⣷⣶⣤⡀⠀⠀⠙⢿⠟⠉⠀⢀⣠⣤⣿
+⣿⠀⠀⠀⢹⣿⡿⠷⢶⣤⣈⣿⣿⣿⡿⠛⠛⠉⠉⠀⠀⠀⠀⠀⠀⠰⠿⢿⣿⣿
+⣿⣧⡀⠀⠀⣿⡇⠀⣸⣿⣿⣿⣿⡏⣀⣤⣤⣤⣤⡄⠀⠀⠀⢀⠀⠀⠀⠀⠈⣿
+⣿⣿⣷⣄⡀⣿⠇⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀⠀⢀⣾⠛⠶⣦⣤⣄⣿
+⣿⠿⠿⠿⣿⣿⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⢀⣤⣾⣿⣆⠀⠘⣿⣿⣿
+⣿⣶⣶⣦⣤⣿⠀⠀⣿⠻⠿⠛⠋⣠⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣆⠀⠘⣿⣿
+⣿⣿⣿⣿⣿⣿⠀⢀⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡛⠛⠛⠉⠉⢻⡄⠀⠸⣿
+⣿⣿⠿⠿⠟⠻⠿⠾⣿⣿⣿⠿⠛⠉⠛⠛⠿⣿⣿⣿⣿⣿⣿⣿⣶⣾⣧⠀⠀⣿
+⣿⣶⣶⣶⣤⣄⠀⠀⠀⠉⠁⠀⢀⣠⣤⣴⣶⣶⣿⣿⣿⣿⣿⡟⠉⠀⣿⡀⠀⣿
+⣿⣿⣿⡿⠛⠉⠉⠀⠀⠀⠀⠀⠙⠛⠛⠻⠿⣿⣿⣿⣿⣿⣟⣀⣴⣾⣿⡇⠀⣿
+⣿⣿⠋⠀⣀⣤⣶⣶⡄⠀⠀⠀⢰⣦⣤⣤⣀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⣿
+⣿⣿⣴⣿⣿⣿⣿⣿⣷⣤⣤⣤⣤⣿⣿⣿⣿⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣧⣤⣿
+  '''
+  speech5 = "Yes! You are now in the middle of the forest and it seems you are lost.\n"
   speech6 = "Heh. Heh.. Heh...\n"
-  for character in speech2:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
-  for character in speech3:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.1)
-  for character in speech4:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
-  for character in speech5:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
-  for character in speech6:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.2)
-  time.sleep(1)
-  
-  os.system('cls||clear')
-  print("################################")
-  print("# Here begins the adventure... #")
-  print("################################\n")
-  print("You find yourself in the center of a strange place.\nSeems like you are trapped in a forest.\n")
+  # for character in speech2:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.05)
+  # for character in speech3:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.1)
+  # for character in speech4:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.05)
+  # os.system('cls||clear')
+  # print(art)
+  # time.sleep(0.05)
+  # for character in speech5:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.05)
+  # for character in speech6:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.1)
+  # time.sleep(1)
+
   main_game_loop()
 
 title_screen()
