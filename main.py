@@ -361,11 +361,13 @@ class Enemy(Characters):
 
     #Condition Value Init 4
     selfConsumableExist = False
-    playerConsumableExist = False
+    # playerConsumableExist = False
 
     #Condition Value Init 5
     medkitCount = 0
+    medkitIndex = -1
     bandageCount = 0
+    bandageIndex = -1
     medkitExist = False
     bandageExist = False
     medkitHealExceedMax = False
@@ -381,6 +383,8 @@ class Enemy(Characters):
     #Action
     selfAttack = False
     selfHeal = False
+    selfHealMedkit = False
+    selfHealBandage = False
     
     #Condition 1
     if self.hp - playerFinalDamage <= 0:
@@ -391,24 +395,31 @@ class Enemy(Characters):
     #Condition 2
     if len(self.inventory.getAllConsumable()) != 0:
       selfConsumableExist = True
-    if len(player.inventory.getAllConsumable()) != 0:
-      playerConsumableExist = True
+    # if len(player.inventory.getAllConsumable()) != 0:
+    #   playerConsumableExist = Trueh
     
     
     #Condition 3
-    for consumable in self.inventory.getAllConsumable():
-      temp = consumable.getDetails()
+    temp = self.inventory.getAllConsumable().getDetails()
+    for i in range(len(self.inventory.getAllConsumable())):
       if temp[1] == 50:
-        pass
+        medkitCount += 1
+        medkitIndex = i
+      else:
+        bandageCount += 1
+        bandageIndex = i
 
+    if medkitCount > 0:
+      medkitExist = True
+    if bandageCount > 0:
+      bandageExist = True
     if self.hp + 50 > self.maxHP:
       medkitHealExceedMax = True
 
-
     #Condition 4
-    if self.hp > 80:
+    if self.hp > 70:
       selfHighHealth = True
-    elif self.hp > 40:
+    elif self.hp > 30:
       selfMediumHealth = True
     else:
       selfLowHealth = True
@@ -419,19 +430,83 @@ class Enemy(Characters):
       playerMediumHealth = True
     else:
       playerLowHealth = True
-    
+
     #Condition 5
-    if playerOneHit:
-      selfAttack = True
+    if selfConsumableExist:
+      if playerOneHit:
+        selfAttack = True
+      elif selfOneHit:
+        selfHeal = True
+      else:
+        if selfHighHealth:
+          selfAttack = True
+        elif selfMediumHealth and playerHighHealth:
+          rands = random.random()
+          if rands > 0.25:
+            selfHeal = True
+          else:
+            selfAttack = True
+            
+        elif selfMediumHealth and playerMediumHealth:
+          rands = random.random()
+          if rands > 0.5:
+            selfHeal = True
+          else:
+            selfAttack = True
+
+        elif selfMediumHealth and playerLowHealth:
+          rands = random.random()
+          if rands > 0.8:
+            selfHeal = True
+          else:
+            selfAttack = True
+        
+        elif selfLowHealth and playerHighHealth:
+          rands = random.random()
+          if rands > 0.2:
+            selfHeal = True
+          else:
+            selfAttack = True
+
+        elif selfLowHealth and playerMediumHealth:
+          rands = random.random()
+          if rands > 0.7:
+            selfHeal = True
+          else:
+            selfAttack = True
+
+        elif selfLowHealth and playerLowHealth:
+          rands = random.random()
+          if rands > 0.5:
+            selfHeal = True
+          else:
+            selfAttack = True
     else:
-      if selfOneHit:
-        if selfConsumableExist:
-          if medkitHealExceedMax:
-            pass
+      selfAttack = True
 
+    if selfAttack == True:
+      pass
 
-
-
+    if selfHeal == True:
+      if medkitHealExceedMax:
+        if bandageExist:
+          selfHealBandage = True
+        else:
+          selfHealMedkit = True
+      else:
+        if medkitExist:
+          selfHealMedkit = True
+        else:
+          selfHealBandage = True
+    
+    if selfHealBandage:
+      self.heal(bandageIndex)
+    
+    if selfHealMedkit:
+      self.heal(medkitIndex)
+    
+    if selfAttack:
+      self.attack(player)
 
 #declare object enemy
 enemy1 = Enemy(1)
