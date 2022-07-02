@@ -685,7 +685,7 @@ def main_game_loop():
             currentEnemy = boss
             battleLoop(currentEnemy)
           elif value == "get armor":
-            print()
+            # print("cerita")
             player1.inventory.seeArmorDetail(1)
       elif action.lower() in ['inventory', 'view inventory']:
           lookInventory()
@@ -720,11 +720,11 @@ def opening():
 - Alan Satria - C14200196
 '''
   print(a)
-  for character in b:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.0001)
-  time.sleep(1)
+  # for character in b:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.0001)
+  # time.sleep(0.1)
   
 
 def title_screen_options():
