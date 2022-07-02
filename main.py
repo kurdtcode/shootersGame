@@ -10,6 +10,12 @@ from this import s
 import time
 screen_width = 100
 
+class Damage():
+  def __init__(self, headDamage, bodyDamage, legDamage):
+    self.headDamage = headDamage
+    self.bodyDamage = bodyDamage
+    self.legDamage = legDamage
+
 class Items():
   def __init__(self, name, durability: int):
     self.name = name
@@ -44,9 +50,6 @@ class Armor(Items):
 
     self.type = type
     self.name = name
-    if type == "No Armor":
-      self.durability = 10000
-      self.damageReduction = 0
     if type == "Light":
       self.durability = 25
       self.damageReduction = 5
@@ -59,14 +62,12 @@ class Armor(Items):
     elif type == "Heavy":
       self.durability = 100
       self.damageReduction = 20
-    else:
+    elif type == "No Armor":
       self.durability = 0
       self.damageReduction = 0
 
   def getDetails(self) -> list:
     return [self.name, self.durability, self.damageReduction]
-
-  
 
 
 class Consumables(Items):
@@ -98,9 +99,9 @@ class Weapon(Items):
     x = random.randint(0,100)
     if name == "":
       if x < 10:
-        name = "AWM Sniper Rifle"
+        name = "AWM Sniper Riffle"
       elif x < 20:
-        name = "M4A1 Rifle"
+        name = "M4A1 Riffle"
       elif x < 60:
         name = "Deagle Pistol"
       else:
@@ -112,14 +113,23 @@ class Weapon(Items):
     self.damage = Damage(0, 0, 0)
     #self.reloadTime = 0
     self.bulletPerAttack = 0
-    if name == "Punch":
-      self.maxBullet = 1
-      self.damage = Damage(10, 8, 5)
-      #self.reloadTime = 2
-      self.durability = 10000
-      self.bulletPerAttack = 0
-    elif name == "P250 Pistol":
+    if name == "P250 Pistol":
       self.maxBullet = 12
+      self.image = '''
+      ⣿⣿⣿⣿⣿⢿⣿⣿⣿⢿⣿⣿⣿⢿⣿⣿⣿⢿⣿⣿⣿⢿⣿⣿⣿⢿⣿⣿⣿⣿
+      ⠟⠛⢛⠚⡛⢛⠛⡓⡛⡛⢛⢷⢿⢿⠻⡓⡛⡛⡛⡓⢛⡛⡛⢓⠛⡉⡙⣷⣿⣿
+      ⠨⢈⢐⠐⡈⡐⡈⠄⡂⡈⡂⡂⡂⠅⠪⡐⠡⢊⢐⠌⠔⡐⡐⡡⢈⠰⠠⢹⣿⣿
+      ⣦⠁⢂⠃⡒⢂⢊⠒⠢⢑⠐⠨⠠⡁⠅⠨⠈⡐⠠⠨⠠⠁⡀⢂⢐⢈⠨⠐⢿⣿
+      ⣿⡀⠄⢀⠄⠄⡀⠠⠈⠄⡈⠠⠑⠠⢐⠄⠅⡂⠅⡡⠡⠄⠄⠠⠐⡀⢂⠁⠈⣹
+      ⣿⣷⣶⣶⣶⣶⣷⣾⣶⣶⠄⣴⣾⣶⣶⠐⣠⣶⡄⢀⠠⠄⠂⡁⠌⡐⢀⣾⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⡔⢹⣿⣟⢋⣢⣿⡿⠃⠄⠄⠌⠠⡀⠢⢊⠸⣿⣿⣿
+      ⣿⣿⣿⣯⣿⣷⣿⣿⣿⣿⣧⣴⣤⣦⣦⣦⣤⣶⣶⡁⠈⡀⠡⠄⠌⢀⠂⢿⣿⣿
+      ⣿⣿⣯⣿⣿⣻⣿⣽⣿⣾⣿⣿⣿⣿⢿⣿⣿⣿⣿⣧⠄⠐⡀⠡⠐⢀⠊⠌⣿⣿
+      ⣿⣿⣿⣟⣿⣿⡿⣿⣟⣿⣯⣷⣿⣿⣿⣿⣯⣿⣟⣿⠄⠠⠐⠄⠌⠄⠄⠡⢹⣿
+      ⣿⣿⣟⣿⣿⣻⣿⣿⣿⣿⢿⣿⣿⣯⣷⣿⣿⢿⣿⣿⡇⠄⠂⢁⠠⠁⠄⠁⢜⣿
+      ⣿⣿⣿⡿⣿⣿⢿⣿⣾⣿⣿⣿⣷⣿⣿⣿⢿⣿⣿⣻⣧⠄⠨⠠⠠⠂⠨⠐⢀⣿
+      ⣿⣿⡿⣿⣿⣿⣿⣿⣻⣽⣿⣾⣿⣟⣿⣾⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      '''
       self.damage = Damage(20, 15, 10)
       #self.reloadTime = 2
       self.durability = 50
@@ -127,20 +137,59 @@ class Weapon(Items):
 
     elif name == "Deagle Pistol":
       self.maxBullet = 8
+      self.image = '''
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⠇⡍⡿⢻⠿⠿⠿⡿⠿⢿⠿⠿⡿⢿⠿⡿⢟⠿⣟⠿⡟⡿⢿⡻⡿⠿⡿⡿⣿⡩⢸⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⡝⡝⡄⡇⣫⡩⣕⡱⡩⡊⡎⠕⢅⠣⡑⠏⠎⠎⠦⠣⢕⢽⠸⡜⢼⢩⢎⡂⡅⢊⠨⢫⢏⠩⣸⣿⣿⣿
+      ⣿⣿⡮⣪⢪⢪⡣⡣⡣⡪⡪⡪⡪⢝⢜⢜⢬⢣⢫⢪⢪⢪⢪⢪⢪⢭⢣⢏⢮⢪⢎⢖⢆⢗⢵⢲⣿⣿⣿⣿
+      ⣿⣿⣿⣮⡮⡳⢵⢹⢜⠵⢝⢝⠮⡳⢝⠵⢝⢮⡺⡸⣘⢎⢮⢪⠪⠊⠎⢊⠊⢪⠪⡓⢭⢳⡹⣪⢯⢟⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣎⣼⣿⣿⣿⢨⡏⡏⢀⠉⡁⢔⢂⢫⢎⣾⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣻⣿⣿⣧⣾⠫⣢⠂⡁⡂⡂⠅⠘⢺⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡺⡀⠄⠐⠠⠈⠢⠈⣻⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⠣⢈⠄⡁⠌⢈⢂⠈⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⢯⠂⠔⡀⡊⡐⠄⡃⠸⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢕⠇⠁⠂⠐⠄⠅⠂⡈⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣍⣋⣋⣋⣋⣋⣋⣯⣾⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      '''
       self.damage = Damage(40, 30, 20)
       #self.reloadTime = 2
       self.durability = 50
       self.bulletPerAttack = 2
 
-    elif name == "M4A1 Rifle":
+    elif name == "M4A1 Riffle":
       self.maxBullet = 50
+      self.image = '''
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⡿⣿⣿⣿⣿⣿⣿⣿⢿⠿⢿⣿⣿
+      ⣿⣿⣿⡿⡿⢿⠿⣿⣿⢿⠿⠿⠿⣿⠿⡿⠿⠛⡛⠛⠋⡍⠍⡍⢍⢌⢔⢀⠑⠍⠩⢑⠨⢐⠐⢄⢑⡐⢼⣿
+      ⣿⣿⢿⠓⠐⢁⠒⡐⠄⢅⠡⡁⠔⠠⡨⠐⢐⢐⢈⠰⡉⠌⢌⢐⠔⡐⡐⡐⡡⣥⣄⢢⠡⠅⢍⠢⢁⠈⢼⣿
+      ⣿⣤⣤⣥⣈⣂⣅⣴⣤⣥⣴⣤⣤⣵⣶⣷⣶⣿⣿⣇⠢⢑⠡⢢⣵⢌⢂⢔⠸⣿⣿⣿⣾⣷⣥⣮⣔⠄⣹⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡗⡅⠕⢈⣾⣿⣶⣧⠂⢅⠻⣿⣿⣿⣿⣿⣿⣿⣶⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢗⠐⠅⡂⣿⣿⣿⣿⡌⢔⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣌⣊⠰⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      '''
       self.damage = Damage(75, 50, 40)
       #self.reloadTime = 3
       self.durability = 75
       self.bulletPerAttack = 5
 
-    elif name == "AWM Sniper Rifle":
+    elif name == "AWM Sniper Riffle":
       self.maxBullet = 5
+      self.image = '''
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⡿⠿⠛⠋⠙⣿⣿⣿⡿⠿⠿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠿⠛⠛⠉⠄⠄⠄⠠⠤⣶⣾⠏⠉⠄⠄⠄⠄⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠄⣀⠄⠐⠄⠄⠄⠄⠄⠄⠁⡀⠄⠄⠄⠄⠄⢠⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⢛⠩⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠘⠁⢀⣴⣿⣶⣾⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠛⠛⢋⠉⠐⠄⠁⠄⠄⣀⣤⣤⣤⢀⣀⣠⣼⣶⣤⣤⣶⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⡛⠫⣁⣠⣴⣶⣿⣿⣄⣀⣤⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⢟⠛⢍⣑⣤⣼⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⡿⠟⠛⠋⠩⣀⣢⣬⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣯⣰⣤⣦⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      '''
       self.damage = Damage(150, 100, 80)
       #self.reloadTime = 5
       self.durability = 100
@@ -149,7 +198,7 @@ class Weapon(Items):
     self.reload()
 
   def getDetails(self) -> list:
-    return [self.name, self.damage, self.maxBullet, self.bullet]
+    return [self.name, self.damage, self.maxBullet, self.bullet, self.image]
 
   def shoot(self):
     self.bullet = self.bullet - self.bulletPerAttack
@@ -265,7 +314,7 @@ class Characters:
     return [self.name, self.hp, self.inventory]
 
   def heal(self, index):
-    self.hp = self.hp + self.inventory.useConsumable(index).getDetails()[1]
+    self.hp = self.hp + self.inventory.useConsumable(index)
     if self.hp > self.maxHP:
       self.hp = self.maxHP
 
@@ -283,8 +332,6 @@ class Characters:
     finalDmg = dmg - dmg * dmgReduc/100 #Calc Damage
 
     enemy.hp = enemy.hp - finalDmg
-    enemyArmor.reduceDurability(dmg * dmgReduc/100)
-
 
 ################
 # Player Setup #
@@ -296,9 +343,6 @@ class Player(Characters):
     weapon = Weapon("P250 Pistol")
     self.inventory.addWeapon(weapon)
     self.inventory.equipWeapon(0)
-    armor = Armor("No Armor", "No Armor")
-    self.inventory.addArmor(armor)
-    self.inventory.equipArmor(0)
 #declare object player
 player1 = Player()
 
@@ -380,7 +424,7 @@ class Enemy(Characters):
       self.inventory.addConsumable(consumables6)
       self.inventory.addConsumable(consumables7)
 
-  def currentEnemyAuto(self, player):
+  def currentEnemyAuto(self, player:Player):
     #Initial Value/Known Value
     #self.hp
     #self.inventory.seeEquippedWeapon()
@@ -446,9 +490,9 @@ class Enemy(Characters):
     
     
     #Condition 3
-    temp = self.inventory.getAllConsumable()
+    temp = self.inventory.getAllConsumable().getDetails()
     for i in range(len(self.inventory.getAllConsumable())):
-      if temp[i].getDetails()[1] == 50:
+      if temp[1] == 50:
         medkitCount += 1
         medkitIndex = i
       else:
@@ -630,11 +674,11 @@ def lookInventory():
     if intp == 'view weapon':
       weapon = player1.inventory.getAllWeapon()
       for i in range (len(weapon)):
-        print("Weapon ",i,":", weapon[i].getDetails()[0])
-        print("Head Damage : ", weapon[i].getDetails()[1].headDamage)
-        print("Body Damage : ", weapon[i].getDetails()[1].bodyDamage)
-        print("Leg Damage : ", weapon[i].getDetails()[1].legDamage)
-        print("Bullet : ", weapon[i].getDetails()[2])
+        print("Weapon ",i,":", weapon.getDetails()[0])
+        print("Head Damage : ", weapon.getDetails()[1].headDamage)
+        print("Body Damage : ", weapon.getDetails()[1].bodyDamage)
+        print("Leg Damage : ", weapon.getDetails()[1].legDamage)
+        print("Bullet : ", weapon.getDetails()[2])
       
       print("What do you want to do? ")
       intp2 = input("> ")
@@ -666,10 +710,10 @@ def lookInventory():
           continue
 
     elif intp == 'view consumables':
-      consumable = player1.inventory.getAllConsumable()
+      consumable = player1.inventory.getAllArmor()
       for i in range (len(consumable)):
-        print("Item : ", consumable[i].getDetails()[0])
-        print("Heal Amount : ", consumable[i].getDetails()[1])
+        print("Item : ", consumable.getDetails()[0])
+        print("Heal Amount : ", consumable.getDetails()[1])
       print("What do you want to do? ")
       intp2 = input("> ")
       if intp2 in ['use consumables', 'back']:
@@ -686,18 +730,15 @@ def lookInventory():
   if changeSomething == True:
     return True
   else:
-    return False
+     return False
 
 
 ################
 # Battle Phase #
 ################
 def battleLoop(currentEnemy:Enemy):
-  print("Oh no! There is ", currentEnemy.name ,"(",currentEnemy.hp," HP) in front of you!")
   while currentEnemy.hp > 0:
-    print(player1.name, "'s Health: " , player1.hp)
-    print(currentEnemy.name, "'s Health: " , currentEnemy.hp)
-
+    print("Oh no! There is ", currentEnemy.name ,"(",currentEnemy.hp," HP) in front of you!")
     print("What do you want to do?\n(attack/heal/view inventory)")
     battleInput = input("> ")
     acceptable_actions = ['attack', 'shoot', 'inventory', 'view inventory']
@@ -710,36 +751,15 @@ def battleLoop(currentEnemy:Enemy):
     if battleInput.lower() == quitgame:
         sys.exit()
     elif battleInput.lower() in ['attack', 'shoot']:
-        player1.attack(currentEnemy)
+        pass
     elif battleInput.lower() in ['heal']:
-        consumable = player1.inventory.getAllConsumable()
-        for i in range (len(consumable)):
-          print("Item : ", consumable[i].getDetails()[0])
-          print("Heal Amount : ", consumable[i].getDetails()[1])
-        print("What do you want to do? ")
-        intp2 = input("> ")
-        if intp2 in ['use consumables', 'back']:
-          if intp2 == 'use consumables':
-            print("Which consumables do you want to use? (numbers)")
-            intp2 = int(input("> "))
-            player1.heal(intp2)
-            changeSomething = True
-          elif intp2 == 'back':
-            change = False
+        player1.heal()
     elif battleInput.lower() in ['inventory', 'view inventory']:
         change = lookInventory()
-    os.system('cls||clear')
 
     if change:
       move = currentEnemy.currentEnemyAuto(player1)
-      if move == "attack":
-        print("Enemy Is Attacking")
-      elif move == "healMedkit":
-        print("Enemy used a medkit")
-      elif move == "healBandage":
-        print("Enemy used a bandage")
-    
-
+      print("Enemy", move)
 
 # Check if either or both Players is below zero health
 def check_win():
@@ -803,6 +823,7 @@ def main_game_loop():
             print("Congratulation! You found an armor!")
             armor = Armor()
             player1.inventory.addArmor(armor)
+            # print(armor.getDetails()[3])
             print("Armor : ", armor.getDetails()[0])
             print("Durability : ", armor.getDetails()[1])
             print("Damage Reduction : ", armor.getDetails()[2])
@@ -815,6 +836,7 @@ def main_game_loop():
             print("Congratulation! You found a weapon!")
             weapon = Weapon()
             player1.inventory.addWeapon(weapon)
+            print(weapon.getDetails()[4])
             print("Weapon : ", weapon.getDetails()[0])
             print("Head Damage : ", weapon.getDetails()[1].headDamage)
             print("Body Damage : ", weapon.getDetails()[1].bodyDamage)
@@ -888,12 +910,27 @@ def title_screen():
   os.system('cls||clear')
   a= '''
 
-██╗    ██╗ █████╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗███████╗
-██║    ██║██╔══██╗██╔══██╗╚══███╔╝██╔═══██╗████╗  ██║██╔════╝
-██║ █╗ ██║███████║██████╔╝  ███╔╝ ██║   ██║██╔██╗ ██║█████╗  
-██║███╗██║██╔══██║██╔══██╗ ███╔╝  ██║   ██║██║╚██╗██║██╔══╝  
-╚███╔███╔╝██║  ██║██║  ██║███████╗╚██████╔╝██║ ╚████║███████╗
- ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠷⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡴⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣦⡀⠀⠀⣠⡄⠀⠀⠀⠀⠀⣠⡾⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣦⣞⠋⡇⠀⡿⢦⣠⡾⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢿⣿⣷⣷⣴⣧⣾⡿⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢽⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⡿⠋⠙⢿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠠⣤⣀⣼⣿⣿⡿⠋⠀⠀⠀⠀⠙⢿⣿⣿⣷⣴⣯⣙⢆⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⢢⣾⣿⣿⣿⡟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠈⣽⣿⣿⣿⣿⣇⡙⢷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡴⢋⣴⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⢠⣴⣿⣿⣿⣿⣿⣿⣿⣦⣙⣷⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣷⣿⣿⡇⣶⣶⠈⢃⣶⡆⣆⣶⡶⠀⢀⣴⣶⣶⣌⠻⢟⣡⣶⣶⣶⡖⢸⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⡇⣿⣿⢀⣾⣿⡇⣸⡿⠁⢰⣿⡏⡝⣹⣿⠁⣾⣿⠉⢩⣿⠃⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⣿⡇⣿⣿⣾⠏⣿⣧⣿⠁⠀⣿⣿⣷⣶⣿⡇⢰⣿⣿⣶⣾⡿⢸⣿⣿⣿⣿⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣼⡿⠋⠙⠁⠈⣿⡇⣿⣿⡟⠀⣿⣿⡇⠀⢰⣿⡟⠉⢹⣿⠁⣼⣿⠃⢿⣿⣰⠇⠀⠈⠀⠙⢿⣷⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⣀⣴⣿⠏⠀⠀⠀⠀⠀⣿⠇⠿⠿⠀⠀⠿⠿⠁⠀⠼⠿⠇⠀⠾⠟⠀⠿⠿⠀⠸⠿⠿⠀⠀⠀⠀⠀⠀⢻⣿⣿⣆⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⡁⠀⠀⠀⠀⠀⠀⠛⠸⠿⢿⣿⣿⠇⢸⣿⠿⢿⣿⡟⢀⣿⡇⠀⣼⣿⠃⣼⣿⠿⠿⠏⠀⠀⠀⠀⠀⣹⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⢀⣀⣤⣾⣿⣿⣿⠿⠁⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⡿⠋⠀⣿⡇⠀⣸⣿⠇⣸⣿⣿⢀⣿⡟⢀⣿⣿⣀⣀⠀⠀⠀⠀⠀⠀⠹⢿⣿⣿⣿⣿⣷⣶⡦⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⢹⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⠟⠁⠀⢸⣿⡇⢀⣿⣿⠀⣿⡿⢻⣾⣿⠇⢸⣿⡟⠛⠋⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠈⠉⢻⣿⠏⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⣭⣤⡄⠀⣾⣿⣥⣼⣿⠇⢸⣿⠇⢸⣿⡿⢀⣿⣿⣥⣤⠄⠀⠀⠀⠀⠀⠀⠀⠀⠁⠙⣿⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠁⠀⠉⠉⠉⠉⠉⠀⠉⠉⠀⠈⠉⠁⠈⠉⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
   
   '''
   print(a)
