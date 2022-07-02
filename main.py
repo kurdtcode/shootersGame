@@ -62,7 +62,7 @@ class Armor(Items):
     elif type == "Heavy":
       self.durability = 100
       self.damageReduction = 20
-    else:
+    elif type == "No Armor":
       self.durability = 0
       self.damageReduction = 0
 
