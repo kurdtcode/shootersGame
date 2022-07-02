@@ -670,7 +670,6 @@ def main_game_loop():
       while action.lower() not in acceptable_actions:
         print("Unknown action command, please try again.\n")
         action = input("> ")
-      print("What do you want to do?\n1. Search\n2. View inventory\n3. Quit")
       if action.lower() == quitgame:
           sys.exit()
       elif action.lower() in ['search', 'look', 'view', 'inspect']:
@@ -698,6 +697,10 @@ def main_game_loop():
           elif value == "get armor":
             # print("cerita")
             player1.inventory.seeArmorDetail(1)
+            player1.inventory.getAllArmor()
+          elif value == "get weapon":
+            player1.inventory.seeWeaponDetail(1)
+            player1.inventory.getAllWeapon()
       elif action.lower() in ['inventory', 'view inventory']:
           lookInventory()
       input("Press enter to continue ....")
