@@ -433,7 +433,7 @@ class Enemy(Characters):
     selfDmgReduc = self.inventory.seeEquippedArmor().getDetails()[2]
 
     playerHP = player.hp
-    self.inventory.seeEquippedWeapon()
+    self.inventory.seeEquippedWeapon(self.inventory.equippedWeapon)
     playerWeapon = player.inventory.seeEquippedWeapon()
     playerArmor = player.inventory.seeEquippedArmor()
 
