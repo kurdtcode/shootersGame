@@ -23,42 +23,43 @@ class Items():
 
 class Armor(Items):
   def __init__(self, name = '', type = ''):
-    super().__init__(name, 0)
-
     #Select type
     x = random.randint(0,100)
+    self.damageReduction = 0
     if name == '' and type == '':
       if x < 10:
-        self.type = "Heavy"
-        self.name = "Heavy Armor"
+        type = "Heavy"
+        name = "Heavy Armor"
       elif x < 30:
-        self.type = "Medium"
-        self.name = "Medium Armor"
+        type = "Medium"
+        name = "Medium Armor"
       elif x < 60:
-        self.type = "Basic"
-        self.name = "Basic Armor"
+        type = "Basic"
+        name = "Basic Armor"
       else:
-        self.type = "Light"
-        self.name = "Light Armor"
+        type = "Light"
+        name = "Light Armor"
 
     if type == "No Armor":
-      self.durability = 10000
-      self.damageReduction = 0
+      durability = 10000
+      damageReduction = 0
     if type == "Light":
-      self.durability = 50
-      self.damageReduction = 5
+      durability = 50
+      damageReduction = 5
     elif type == "Basic":
-      self.durability = 75
-      self.damageReduction = 10
+      durability = 75
+      damageReduction = 10
     elif type == "Medium":
-      self.durability = 100
-      self.damageReduction = 15
+      durability = 100
+      damageReduction = 15
     elif type == "Heavy":
-      self.durability = 150
-      self.damageReduction = 20
+      durability = 150
+      damageReduction = 20
     else:
-      self.durability = 0
-      self.damageReduction = 0
+      durability = 0
+      damageReduction = 0
+    super().__init__(name, durability)
+    self.damageReduction = damageReduction
 
   def getDetails(self) -> list:
     return [self.name, self.durability, self.damageReduction]
@@ -106,6 +107,9 @@ class Weapon(Items):
     self.damage = Damage(0, 0, 0)
     #self.reloadTime = 0
     self.bulletPerAttack = 0
+    self.image = '''
+    punchhhhhhhhhhhhhhhh
+    '''
     if name == "Punch":
       self.maxBullet = 1
       self.damage = Damage(10, 8, 5)
@@ -351,8 +355,9 @@ class Characters:
     enemyArmor.reduceDurability(dmg * dmgReduc/100)
     if enemyArmor.durability <= 0:
       enemy.inventory.getAllArmor().pop(enemy.inventory.equippedArmor)
-      enemy.inventory.equippedWeapon = 0
+      enemy.inventory.equippedArmor = 0
       print(enemy.name, "'s Armor is broken")
+      print(enemy.inventory.getAllArmor())
     return True
 
   def reload(self):
@@ -453,7 +458,7 @@ class Enemy(Characters):
       self.inventory.addConsumable(consumables6)
       self.inventory.addConsumable(consumables7)
 
-  def currentEnemyAuto(self, player):
+  def currentEnemyAuto(self, player:Player):
     #Initial Value/Known Value
     #self.hp
     #self.inventory.seeEquippedWeapon()
@@ -808,7 +813,7 @@ def battleLoop(currentEnemy:Enemy):
             change = False
     elif battleInput.lower() in ['inventory', 'view inventory']:
         change = lookInventory()
-    os.system('cls||clear')
+    # os.system('cls||clear')
 
     if change:
       move = currentEnemy.currentEnemyAuto(player1)
@@ -936,12 +941,12 @@ def opening():
 - Kevin Daniel - C14200140
 - Alan Satria - C14200196
 '''
-  print(a)
-  for character in b:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.005)
-  time.sleep(5)
+  # print(a)
+  # for character in b:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.005)
+  # time.sleep(5)
   
 def title_screen_options():
   option = input("> ")
@@ -1031,40 +1036,40 @@ quitgame = 'quit'
 def menu():
   os.system('cls||clear')
 
-  question1 = "Hello there, what is your name?\n"
-  for character in question1:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
-  player_name = input("> ")
-  player1.name = player_name
+  # question1 = "Hello there, what is your name?\n"
+  # for character in question1:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.05)
+  # player_name = input("> ")
+  # player1.name = player_name
 
-  question2 = "My dear friend " + player1.name + ", how are you feeling?\n"
-  for character in question2:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
-  feeling = input("> ")
-  player1.feeling = feeling.lower()
+  # question2 = "My dear friend " + player1.name + ", how are you feeling?\n"
+  # for character in question2:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.05)
+  # feeling = input("> ")
+  # player1.feeling = feeling.lower()
 
-  good_adj = ['good', 'great', 'happy', 'aight', 'understanding', 'great', 'alright', 'calm', 'confident', 'not bad', 'courageous', 'peaceful', 'reliable', 'joyous', 'energetic', 'at', 'ease', 'easy', 'lucky', 'k', 'comfortable', 'amazed', 'fortunate', 'optimistic', 'pleased', 'free', 'delighted', 'swag', 'encouraged', 'ok', 'overjoyed', 'impulsive', 'clever', 'interested', 'gleeful', 'free', 'surprised', 'satisfied', 'thankful', 'frisky', 'content', 'receptive', 'important', 'animated', 'quiet', 'okay', 'festive', 'spirited', 'certain', 'kind', 'ecstatic', 'thrilled', 'relaxed', 'satisfied', 'wonderful', 'serene', 'glad', 'free', 'and', 'easy', 'cheerful', 'bright', 'sunny', 'blessed', 'merry', 'reassured', 'elated', '1738', 'love', 'interested', 'positive', 'strong', 'loving']
-  hmm_adj = ['idk', 'concerned', 'lakshya', 'eager', 'impulsive', 'considerate', 'affected', 'keen', 'free', 'affectionate', 'fascinated', 'earnest', 'sure', 'sensitive', 'intrigued', 'intent', 'certain', 'tender', 'absorbed', 'anxious', 'rebellious', 'devoted', 'inquisitive', 'inspired', 'unique', 'attracted', 'nosy', 'determined', 'dynamic', 'passionate', 'snoopy', 'excited', 'tenacious', 'admiration', 'engrossed', 'enthusiastic', 'hardy', 'warm', 'curious', 'bold', 'secure', 'touched', 'brave', 'sympathy', 'daring', 'close', 'challenged', 'loved', 'optimistic', 'comforted', 're', 'enforced', 'drawn', 'toward', 'confident', 'hopeful', 'difficult']
-  bad_adj = ['bad', 'meh', 'sad', 'hungry', 'unpleasant', 'qus', 'angry', 'depressed', 'confused', 'helpless', 'irritated', 'lousy', 'upset', 'incapable', 'enraged', 'disappointed', 'doubtful', 'alone', 'hostile', 'discouraged', 'uncertain', 'paralyzed', 'insulting', 'ashamed', 'indecisive', 'fatigued', 'sore', 'powerless', 'perplexed', 'useless', 'annoyed', 'diminished', 'embarrassed', 'inferior', 'upset', 'guilty', 'hesitant', 'vulnerable', 'hateful', 'dissatisfied', 'shy', 'empty', 'unpleasant', 'miserable', 'stupefied', 'forced', 'offensive', 'detestable', 'disillusioned', 'hesitant', 'bitter', 'repugnant', 'unbelieving', 'despair', 'aggressive', 'despicable', 'skeptical', 'frustrated', 'resentful', 'disgusting', 'distrustful', 'distressed', 'inflamed', 'abominable', 'misgiving', 'woeful', 'provoked', 'terrible', 'lost', 'pathetic', 'incensed', 'in', 'despair', 'unsure', 'tragic', 'infuriated', 'sulky', 'uneasy', 'cross', 'bad', 'pessimistic', 'dominated', 'worked', 'up', 'a', 'sense', 'of', 'loss', 'tense', 'boiling', 'fuming', 'indignant', 'indifferent', 'afraid', 'hurt', 'sad', 'insensitive', 'fearful', 'crushed', 'tearful', 'dull', 'terrified', 'tormented', 'sorrowful', 'nonchalant', 'suspicious', 'deprived', 'pained', 'neutral', 'anxious', 'pained', 'grief', 'reserved', 'alarmed', 'tortured', 'anguish', 'weary', 'panic', 'dejected', 'desolate', 'bored', 'nervous', 'rejected', 'desperate', 'preoccupied', 'scared', 'injured', 'pessimistic', 'cold', 'worried', 'offended', 'unhappy', 'disinterested', 'frightened', 'afflicted', 'lonely', 'lifeless', 'timid', 'aching', 'grieved', 'shaky', 'victimized', 'mournful', 'restless', 'heartbroken', 'dismayed', 'doubtful', 'agonized', 'threatened', 'appalled', 'cowardly', 'humiliated', 'quaking', 'wronged', 'menaced', 'alienated', 'wary']
+  # good_adj = ['good', 'great', 'happy', 'aight', 'understanding', 'great', 'alright', 'calm', 'confident', 'not bad', 'courageous', 'peaceful', 'reliable', 'joyous', 'energetic', 'at', 'ease', 'easy', 'lucky', 'k', 'comfortable', 'amazed', 'fortunate', 'optimistic', 'pleased', 'free', 'delighted', 'swag', 'encouraged', 'ok', 'overjoyed', 'impulsive', 'clever', 'interested', 'gleeful', 'free', 'surprised', 'satisfied', 'thankful', 'frisky', 'content', 'receptive', 'important', 'animated', 'quiet', 'okay', 'festive', 'spirited', 'certain', 'kind', 'ecstatic', 'thrilled', 'relaxed', 'satisfied', 'wonderful', 'serene', 'glad', 'free', 'and', 'easy', 'cheerful', 'bright', 'sunny', 'blessed', 'merry', 'reassured', 'elated', '1738', 'love', 'interested', 'positive', 'strong', 'loving']
+  # hmm_adj = ['idk', 'concerned', 'lakshya', 'eager', 'impulsive', 'considerate', 'affected', 'keen', 'free', 'affectionate', 'fascinated', 'earnest', 'sure', 'sensitive', 'intrigued', 'intent', 'certain', 'tender', 'absorbed', 'anxious', 'rebellious', 'devoted', 'inquisitive', 'inspired', 'unique', 'attracted', 'nosy', 'determined', 'dynamic', 'passionate', 'snoopy', 'excited', 'tenacious', 'admiration', 'engrossed', 'enthusiastic', 'hardy', 'warm', 'curious', 'bold', 'secure', 'touched', 'brave', 'sympathy', 'daring', 'close', 'challenged', 'loved', 'optimistic', 'comforted', 're', 'enforced', 'drawn', 'toward', 'confident', 'hopeful', 'difficult']
+  # bad_adj = ['bad', 'meh', 'sad', 'hungry', 'unpleasant', 'qus', 'angry', 'depressed', 'confused', 'helpless', 'irritated', 'lousy', 'upset', 'incapable', 'enraged', 'disappointed', 'doubtful', 'alone', 'hostile', 'discouraged', 'uncertain', 'paralyzed', 'insulting', 'ashamed', 'indecisive', 'fatigued', 'sore', 'powerless', 'perplexed', 'useless', 'annoyed', 'diminished', 'embarrassed', 'inferior', 'upset', 'guilty', 'hesitant', 'vulnerable', 'hateful', 'dissatisfied', 'shy', 'empty', 'unpleasant', 'miserable', 'stupefied', 'forced', 'offensive', 'detestable', 'disillusioned', 'hesitant', 'bitter', 'repugnant', 'unbelieving', 'despair', 'aggressive', 'despicable', 'skeptical', 'frustrated', 'resentful', 'disgusting', 'distrustful', 'distressed', 'inflamed', 'abominable', 'misgiving', 'woeful', 'provoked', 'terrible', 'lost', 'pathetic', 'incensed', 'in', 'despair', 'unsure', 'tragic', 'infuriated', 'sulky', 'uneasy', 'cross', 'bad', 'pessimistic', 'dominated', 'worked', 'up', 'a', 'sense', 'of', 'loss', 'tense', 'boiling', 'fuming', 'indignant', 'indifferent', 'afraid', 'hurt', 'sad', 'insensitive', 'fearful', 'crushed', 'tearful', 'dull', 'terrified', 'tormented', 'sorrowful', 'nonchalant', 'suspicious', 'deprived', 'pained', 'neutral', 'anxious', 'pained', 'grief', 'reserved', 'alarmed', 'tortured', 'anguish', 'weary', 'panic', 'dejected', 'desolate', 'bored', 'nervous', 'rejected', 'desperate', 'preoccupied', 'scared', 'injured', 'pessimistic', 'cold', 'worried', 'offended', 'unhappy', 'disinterested', 'frightened', 'afflicted', 'lonely', 'lifeless', 'timid', 'aching', 'grieved', 'shaky', 'victimized', 'mournful', 'restless', 'heartbroken', 'dismayed', 'doubtful', 'agonized', 'threatened', 'appalled', 'cowardly', 'humiliated', 'quaking', 'wronged', 'menaced', 'alienated', 'wary']
 
-  if player1.feeling in good_adj:
-    feeling_string = "I am glad you feel"
-  elif player1.feeling in hmm_adj:
-    feeling_string = "that is interesting you feel"
-  elif player1.feeling in bad_adj:
-    feeling_string = "I am sorry to hear you feel"
-  else:
-    feeling_string = "I do not know what it is like to feel"
+  # if player1.feeling in good_adj:
+  #   feeling_string = "I am glad you feel"
+  # elif player1.feeling in hmm_adj:
+  #   feeling_string = "that is interesting you feel"
+  # elif player1.feeling in bad_adj:
+  #   feeling_string = "I am sorry to hear you feel"
+  # else:
+  #   feeling_string = "I do not know what it is like to feel"
 
-  question3 = "Well then, " + player1.name + ", " + feeling_string + " " + player1.feeling + ".\n"
-  for character in question3:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
+  # question3 = "Well then, " + player1.name + ", " + feeling_string + " " + player1.feeling + ".\n"
+  # for character in question3:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.05)
   question4 = ""
   #Leads the player into the warzone now!
   speech2 = "Too bad, i have bad news for you. It seems this is where we must part, " + player1.name + ".\n"
@@ -1089,30 +1094,30 @@ def menu():
   '''
   speech5 = "Yes! You are now in the middle of the forest and it seems you are lost.\n"
   speech6 = "Heh. Heh.. Heh...\n"
-  for character in speech2:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
-  for character in speech3:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.1)
-  for character in speech4:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
-  os.system('cls||clear')
-  print(art)
-  time.sleep(0.05)
-  for character in speech5:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
-  for character in speech6:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.1)
-  time.sleep(1)
+  # for character in speech2:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.05)
+  # for character in speech3:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.1)
+  # for character in speech4:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.05)
+  # os.system('cls||clear')
+  # print(art)
+  # time.sleep(0.05)
+  # for character in speech5:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.05)
+  # for character in speech6:
+  #   sys.stdout.write(character)
+  #   sys.stdout.flush()
+  #   time.sleep(0.1)
+  # time.sleep(1)
 
   main_game_loop()
 
