@@ -94,9 +94,9 @@ class Weapon(Items):
     x = random.randint(0,100)
     if name == "":
       if x < 10:
-        name = "AWM Sniper Riffle"
+        name = "AWM Sniper Rifle"
       elif x < 20:
-        name = "M4A1 Riffle"
+        name = "M4A1 Rifle"
       elif x < 60:
         name = "Deagle Pistol"
       else:
@@ -108,7 +108,13 @@ class Weapon(Items):
     self.damage = Damage(0, 0, 0)
     #self.reloadTime = 0
     self.bulletPerAttack = 0
-    if name == "P250 Pistol":
+    if name == "Punch":
+      self.maxBullet = 1
+      self.damage = Damage(10, 8, 5)
+      #self.reloadTime = 2
+      self.durability = 10000
+      self.bulletPerAttack = 0
+    elif name == "P250 Pistol":
       self.maxBullet = 12
       self.image = '''
       ⣿⣿⣿⣿⣿⢿⣿⣿⣿⢿⣿⣿⣿⢿⣿⣿⣿⢿⣿⣿⣿⢿⣿⣿⣿⢿⣿⣿⣿⣿
