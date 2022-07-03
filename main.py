@@ -29,34 +29,32 @@ class Armor(Items):
     x = random.randint(0,100)
     if name == '' and type == '':
       if x < 10:
-        type = "Heavy"
-        name = "Heavy Armor"
+        self.type = "Heavy"
+        self.name = "Heavy Armor"
       elif x < 30:
-        type = "Medium"
-        name = "Medium Armor"
+        self.type = "Medium"
+        self.name = "Medium Armor"
       elif x < 60:
-        type = "Basic"
-        name = "Basic Armor"
+        self.type = "Basic"
+        self.name = "Basic Armor"
       else:
-        type = "Light"
-        name = "Light Armor"
+        self.type = "Light"
+        self.name = "Light Armor"
 
-    self.type = type
-    self.name = name
     if type == "No Armor":
       self.durability = 10000
       self.damageReduction = 0
     if type == "Light":
-      self.durability = 25
+      self.durability = 50
       self.damageReduction = 5
     elif type == "Basic":
-      self.durability = 50
+      self.durability = 75
       self.damageReduction = 10
     elif type == "Medium":
-      self.durability = 75
+      self.durability = 100
       self.damageReduction = 15
     elif type == "Heavy":
-      self.durability = 100
+      self.durability = 150
       self.damageReduction = 20
     else:
       self.durability = 0
@@ -204,6 +202,11 @@ class Weapon(Items):
   def shoot(self):
     self.bullet = self.bullet - self.bulletPerAttack
     self.durability = self.durability - 5
+    if self.bullet < 0:
+      self.bullet += self.bulletPerAttack
+      return False
+    else:
+      return True
 
   def reload(self):
     self.bullet = self.maxBullet
@@ -310,6 +313,12 @@ class Characters:
     self.hp = maxHp
     self.game_over = False
     self.inventory = Inventory()
+    weapon = Weapon("Punch")
+    self.inventory.addWeapon(weapon)
+    self.inventory.equipWeapon(0)
+    armor = Armor("No Armor", "No Armor")
+    self.inventory.addArmor(armor)
+    self.inventory.equipArmor(0)
 
   def CharacterDetail(self):
     return [self.name, self.hp, self.inventory]
@@ -320,12 +329,18 @@ class Characters:
       self.hp = self.maxHP
 
   def attack(self, enemy):
-    equippedWeapon = self.inventory.seeWeaponDetail(self.inventory.equippedWeapon) #Weapon
+    equippedWeapon = self.inventory.seeEquippedWeapon() #Weapon
     # type(equippedWeapon)
     damage = equippedWeapon.getDetails()[1] #Weapon Damage
 
     dmg = damage.randomHit()
-    equippedWeapon.shoot()
+    shooting = equippedWeapon.shoot()
+    if not shooting:
+      return False 
+    if equippedWeapon.durability <= 0:
+      self.inventory.getAllWeapon().pop(self.inventory.equippedWeapon)
+      self.inventory.equippedWeapon = 0
+      print(self.name, "'s Weapon is broken")
 
     enemyArmor = enemy.inventory.seeEquippedArmor() #Enemy Armor
     dmgReduc = enemyArmor.getDetails()[2] #Damage Reduction
@@ -334,7 +349,15 @@ class Characters:
 
     enemy.hp = enemy.hp - finalDmg
     enemyArmor.reduceDurability(dmg * dmgReduc/100)
+    if enemyArmor.durability <= 0:
+      enemy.inventory.getAllArmor().pop(enemy.inventory.equippedArmor)
+      enemy.inventory.equippedWeapon = 0
+      print(enemy.name, "'s Armor is broken")
+    return True
 
+  def reload(self):
+    self.inventory.seeEquippedWeapon().reload()
+    print(self.name, "'s Weapon is reloaded")
 ################
 # Player Setup #
 ################
@@ -345,9 +368,7 @@ class Player(Characters):
     weapon = Weapon("P250 Pistol")
     self.inventory.addWeapon(weapon)
     self.inventory.equipWeapon(0)
-    armor = Armor("No Armor", "No Armor")
-    self.inventory.addArmor(armor)
-    self.inventory.equipArmor(0)
+   
 #declare object player
 player1 = Player()
 
@@ -602,7 +623,10 @@ class Enemy(Characters):
       return "healMedkit"
     
     if selfAttack:
-      self.attack(player)
+      shoot = self.attack(player)
+      if not shoot:
+        self.reload()
+        return "reload"
       return "attack"
 
 #declare object enemy
@@ -640,17 +664,17 @@ def Search():
   if angkaRandom <= realChanceBoss :
       return "get enemy Special Force Soldier"
   elif angkaRandom <= realChanceBoss +  realChanceEnemy :
-      if turn >= 0 and turn <= 3:
+      if turn >= 0 and turn <= 2:
           randomGear = random.randint(1,2)
           if randomGear == 1 :
               return "get weapon"
           else:
               return "get armor"
-      elif turn > 3 and turn <= 6 :
+      elif turn > 2 and turn <= 5 :
           return "get enemy Militia"
-      elif turn > 6 and turn <= 9 :
+      elif turn > 5 and turn <= 8 :
           return "get enemy Normal Soldier"
-      elif turn > 9 and turn <=12 :
+      elif turn > 8 and turn <=11 :
           return "get enemy Veteran Soldier"
       else :
           return "get enemy Special Force Soldier"
@@ -685,13 +709,16 @@ def lookInventory():
         print("Leg Damage : ", weapon[i].getDetails()[1].legDamage)
         print("Bullet : ", weapon[i].getDetails()[2])
       
-      print("What do you want to do? ")
+      print("What do you want to do? (equip weapon/reload/back)")
       intp2 = input("> ")
-      if intp2 in ['equip weapon', 'back']:
+      if intp2 in ['equip weapon', 'reload', 'back']:
         if intp2 == 'equip weapon':
           print("Which weapon do you want to equip? (numbers)")
           intp2 = int(input("> "))
           player1.inventory.equipWeapon(intp2)
+          changeSomething = True
+        elif intp2 == 'reload':
+          player1.reload()
           changeSomething = True
         elif intp2 == 'back':
           continue
@@ -703,7 +730,7 @@ def lookInventory():
         print("Armor : ", armors[i].getDetails()[0])
         print("Durability : ", armors[i].getDetails()[1])
         print("Damage Reduction : ", armors[i].getDetails()[2])
-        print("What do you want to do? ")
+        print("What do you want to do? (equip armor/back)")
       intp2 = input("> ")
       if intp2 in ['equip armor', 'back']:
         if intp2 == 'equip armor':
@@ -719,7 +746,7 @@ def lookInventory():
       for i in range (len(consumable)):
         print("Item : ", consumable[i].getDetails()[0])
         print("Heal Amount : ", consumable[i].getDetails()[1])
-      print("What do you want to do? ")
+      print("What do you want to do? (use consumables/back)")
       intp2 = input("> ")
       if intp2 in ['use consumables', 'back']:
         if intp2 == 'use consumables':
@@ -746,19 +773,21 @@ def battleLoop(currentEnemy:Enemy):
     print(player1.name, "'s Health: " , player1.hp)
     print(currentEnemy.name, "'s Health: " , currentEnemy.hp)
 
-    print("What do you want to do?\n(attack/heal/view inventory)")
+    print("What do you want to do?\n(attack/heal/reload/view inventory)")
     battleInput = input("> ")
-    acceptable_actions = ['attack', 'shoot', 'inventory', 'view inventory']
+    acceptable_actions = ['attack', 'shoot', 'reload', 'inventory', 'view inventory']
     #Forces the player to write an acceptable sign, as this is essential to solving a puzzle later.
     while battleInput.lower() not in acceptable_actions:
       print("Unknown action command, please try again.\n")
       battleInput = input("> ")
-    print("What do you want to do?\n(attack/heal/view inventory)")
+      print("What do you want to do?\n(attack/heal/reload/view inventory)")
     change = True
     if battleInput.lower() == quitgame:
         sys.exit()
     elif battleInput.lower() in ['attack', 'shoot']:
         player1.attack(currentEnemy)
+    elif battleInput.lower in ['reload']:
+        player1.reload()
     elif battleInput.lower() in ['heal']:
         consumable = player1.inventory.getAllConsumable()
         for i in range (len(consumable)):
