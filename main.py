@@ -639,7 +639,7 @@ class Enemy(Characters):
 
 #declare object enemy
 enemy = Enemy(1)
-turn = 0
+turn = 1
 def Search():
   global turn
   print('turn, ', turn)
@@ -731,7 +731,6 @@ def lookInventory():
         elif intp2 == 'back':
           continue
         
-
     elif intp == 'view armor':
       armors = player1.inventory.getAllArmor()
       for i in range (len(armors)):
@@ -898,6 +897,7 @@ def main_game_loop():
             print("Congratulation! You found a weapon!")
             weapon = Weapon()
             player1.inventory.addWeapon(weapon)
+            print(weapon.getDetails()[4])
             print("Weapon : ", weapon.getDetails()[0])
             print("Head Damage : ", weapon.getDetails()[1].headDamage)
             print("Body Damage : ", weapon.getDetails()[1].bodyDamage)
