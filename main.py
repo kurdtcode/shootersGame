@@ -390,6 +390,7 @@ class Enemy(Characters):
       
     if template == 2:
       self.name = "Normal Soldier"
+      self.hp = 125
       armor = Armor("Basic Armor", "Basic")
       self.inventory.addArmor(armor)
       weapon = Weapon("Deagle Pistol")
@@ -406,6 +407,7 @@ class Enemy(Characters):
 
     if template == 3:
       self.name = "Veteran Soldier"
+      self.hp = 200
       armor = Armor("Medium Armor", "Medium")
       self.inventory.addArmor(armor)
       weapon = Weapon("M4A1 Rifle")
@@ -425,6 +427,7 @@ class Enemy(Characters):
 
     if template == 4:
       self.name = "Special Force Soldier"
+      self.hp = 300
       armor = Armor("Heavy Armor", "Heavy")
       self.inventory.addArmor(armor)
       weapon = Weapon("AWM Sniper Rifle")
@@ -637,7 +640,7 @@ def Search():
   print('turn, ', turn)
   playerHealth=player1.hp
   ##rumus masih agak ngaco soalnya semakin banyak turn nya chance dapet enemy nya semakin turun, weapon sm armor nya naik
-  chanceFindBoss  = max(((turn - 10) * 0.2) + (100 * 0.005),0)
+  chanceFindBoss  = max(((turn - 20) * 0.2) + (100 * 0.005),0)
   chanceFindEnemy = (turn * 0.7) + (100 * 0.05)
   chanceGetArmor = (turn * 0.3) + (100 * 0.01)
   chanceGetWeapon = (turn * 0.5) + (100 * 0.01)
@@ -937,8 +940,8 @@ def opening():
   for character in b:
     sys.stdout.write(character)
     sys.stdout.flush()
-    time.sleep(0.0001)
-  time.sleep(0.1)
+    time.sleep(0.005)
+  time.sleep(5)
   
 def title_screen_options():
   option = input("> ")
@@ -1062,7 +1065,7 @@ def menu():
     sys.stdout.write(character)
     sys.stdout.flush()
     time.sleep(0.05)
-
+  question4 = ""
   #Leads the player into the warzone now!
   speech2 = "Too bad, i have bad news for you. It seems this is where we must part, " + player1.name + ".\n"
   speech3 = "I bet you don't know where you are now.\n"  
