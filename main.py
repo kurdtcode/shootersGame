@@ -648,7 +648,6 @@ def Search():
   global turn
   print('turn, ', turn)
   playerHealth=player1.hp
-  ##rumus masih agak ngaco soalnya semakin banyak turn nya chance dapet enemy nya semakin turun, weapon sm armor nya naik
   chanceFindBoss  = max(((turn - 20) * 0.2) + (100 * 0.005),0)
   chanceFindEnemy = (turn * 0.7) + (100 * 0.05)
   chanceGetArmor = (turn * 0.3) + (100 * 0.01)
@@ -873,16 +872,31 @@ def battleLoop(currentEnemy:Enemy):
         print("Enemy used a bandage")
 
 # Check if either or both Players is below zero health
-def check_win():
-    if player1.hp < 1:
-        player1.game_over = True
-        print("You Dead")
-    elif enemy.hp < 1 and player1.hp > 0:
-        player1.game_over = True
-        print("You Win")
+def check_win(enemy:Enemy):
+  print(enemy.name)
+  if enemy.name == "Special Force Soldier":
+    if player1.hp < 1 and enemy.hp >= 1 :
+      player1.game_over = True
+      killedByBossText()
+    elif player1.hp >= 1 and enemy.hp < 1:
+      player1.game_over = True
+      winText()
+    else:
+      player1.game_over = True
+      gameDrawText()
+  else:
+    if player1.hp < 1 and enemy.hp >= 1 :
+      player1.game_over = True
+      defeatText()
+    elif player1.hp >= 1 and enemy.hp < 1 :
+      player1.game_over = False
+      findBossText()
     elif player1.hp < 1 and enemy.hp < 1:
-        player1.game_over = True
-        print("*** Draw ***")
+      player1.game_over = True
+      gameDrawText()
+
+    else:
+      print("Something Wrong")
 
 ################
 # main looping #
@@ -918,18 +932,22 @@ def main_game_loop():
             militia = Enemy(1)
             enemy = militia
             battleLoop(enemy)
+            check_win(enemy)
           elif value == "get enemy Normal Soldier":
             nSoldier = Enemy(2)
             enemy = nSoldier
             battleLoop(enemy)
+            check_win(enemy)
           elif value == "get enemy Veteran Soldier":
             vSoldier = Enemy(3)
             enemy = vSoldier
             battleLoop(enemy)
+            check_win(enemy)
           elif value == "get enemy Special Force Soldier":
             boss = Enemy(4)
             enemy = boss
             battleLoop(enemy)
+            check_win(enemy)
           elif value == "get armor":
             print("Congratulation! You found an armor!")
             armor = Armor()
@@ -961,7 +979,7 @@ def main_game_loop():
       elif action.lower() in ['inventory', 'view inventory']:
           lookInventory()
       input("Press enter to continue ....")
-      check_win()
+      
 
 ################
 # Title Screen #
@@ -1169,5 +1187,55 @@ def menu():
   # time.sleep(1)
 
   main_game_loop()
+
+def killedByBossText():
+      print("⣛⠛⢻⡿⠛⠋⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠈⢉⣿⠋⠉⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡛⠉⣉⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠛⠉⠉⢸⡏⠁⢰⣿⣿⣿⣿⣿⡿⢿⣿⣿⣿⣿⣿")
+      print("⣿⡄⠈⠃⢠⣼⣿⣿⡿⠿⣿⣿⣿⣿⠿⠿⢿⣿⣿⣿⠄⢨⣿⠄⠄⣿⠟⠛⠛⢻⣿⠟⠋⠉⣹⣿⣿⣿⡅⠄⠁⢠⣿⡿⠛⠻⣿⣿⠟⠛⢻⣿⠛⠛⠿⠿⢿⣿⣿⣿⠄⠐⠷⣦⢸⡇⠄⢸⡿⠛⠛⠛⣿⣄⠼⡛⠛⡻⠿⠿")
+      print("⣿⣿⡇⠄⢸⣿⣿⠄⣤⢀⠄⣷⠄⢸⡀⠄⣿⣿⣿⣿⠄⢠⣄⠄⠄⡟⠄⣾⠆⠸⣇⡀⠉⠁⣿⣿⣿⣿⡇⠄⣶⠄⠉⠄⠼⣂⣘⡇⠠⢟⣀⢹⠄⠄⣤⠄⢸⣿⣿⣿⠷⣶⣄⠄⠙⡇⠄⢸⠃⢰⣿⠄⢿⠄⠐⡇⠄⣠⡀⠄")
+      print("⣿⣿⡇⠄⣼⣿⣿⠄⠿⠿⢀⣿⡀⠈⠄⠄⣸⣿⣿⣿⠄⣸⣿⡅⡄⣷⢋⣴⠦⠄⡇⠈⠙⠄⣸⣿⣿⣿⣇⢀⠄⣴⣦⡀⠛⠄⠄⣇⠘⠛⠄⢸⠄⠄⣿⠄⢸⣿⣿⣿⡇⠄⡀⠄⢠⡇⡄⢸⡞⢩⣶⠄⢸⠄⢰⡇⠄⢸⡇⠄")
+      print("⣿⣿⣷⣵⣿⣿⣿⣦⣰⣴⣾⣿⣿⣶⣸⣦⣿⣿⣿⣿⣷⣿⣿⣷⣿⣿⣶⣤⣶⣨⣿⣤⣶⣿⣿⣿⣿⣿⣿⣼⣷⣿⣿⣿⣶⣤⣼⣿⣷⣶⣴⣾⣶⢰⣿⣶⣼⣿⣿⣿⣧⣴⣧⣾⣾⣿⣷⣼⣷⣦⣴⣆⣼⣶⣼⣧⣦⣾⣷⣄")
+      print("                                                                                                              ")
+      print("                                                                                                              ")
+      print("           ⣿⡟⠁⠄⠉⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠉⠄⠉⠉⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿                      ")
+      print("           ⡿⠁⢠⣼⡄⠄⢹⣿⡿⠿⢿⣿⣿⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⡟⠄⢠⣤⠄⠄⢸⣿⣿⠿⣿⠿⠿⣻⣿⣿⢿⣿⣿⣿⣿⣿⢿⡿⣿                      ")
+      print("           ⡅⠄⡼⡿⠧⠾⢿⠏⠄⣠⡄⠸⣿⡆⠄⠉⠙⠋⠄⠄⠍⣿⠋⠄⣤⠄⠹⣿⣿⣿⣿⣧⠄⢸⣿⡞⠄⢸⣦⠄⠄⣿⠄⢰⡿⠉⠠⣤⠄⢹⣯⠄⠄⠈⠄⢸                      ")
+      print("           ⡇⠄⠻⣄⡄⠄⢸⢀⣤⠿⠛⠄⢹⡇⠄⣸⠄⠄⢿⡇⠄⡟⠄⢈⣡⠤⠤⢿⣿⣿⣿⣇⠄⠈⠛⠁⠄⣾⣿⣧⠄⠁⢀⣾⡇⠄⣈⣩⠤⠤⣿⣆⠄⢰⣿⣿                      ")
+      print("           ⣧⡀⠄⠄⠄⠄⣾⡋⠤⡾⠗⠄⢸⡇⡄⣿⡇⣠⣸⡇⡆⣷⣄⠈⠋⢀⡀⣼⣿⣿⣿⣿⣄⢀⢀⣠⣶⣿⣿⣿⡆⠄⢸⣿⣧⣀⠈⠋⠄⠄⣿⣏⠄⢀⣿⣿                      ")
+      print("           ⣿⣷⣷⣷⣾⣇⣿⣿⣦⣤⣾⣆⣼⣷⣷⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣼⣧⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣦⣿⣿⣿⣿⣿⣿⣴⣶⣿⣷⡇⣾⣿⣿                      ")
+
+def gameDrawText():
+  print("⣿⣿⣿⠿⣿⣿⣿⣿⣿⠛⠛⠛⣿⣿⠛⣿⣿⣿⣿⡿⠉⢹⡟⠛⠋⠉⠉⢹⣿⣿⣿⣿⠛⠻⢿⣿⣿⣿⣿⡛⠛⠛⠿⢿⣿⣿⡟⠛⠛⢹⣿⠿⢿⣿⣿⣿⣿⣿⠛⢻")
+  print("⡿⠛⠄⣀⡀⠘⣿⣿⣿⠄⠄⠄⢻⣿⠄⠘⢿⣿⣿⠃⠄⢸⡇⠄⢰⣶⣿⣾⣿⣿⣿⣿⠄⢠⣀⠄⠛⢿⣿⠄⠄⣤⣀⠄⢹⣿⠃⠄⡀⢸⣿⠄⠸⣿⡟⢻⣿⡿⠄⢸")
+  print("⡇⠄⣸⣿⣇⣀⣸⣿⡇⠄⡀⠄⢸⣿⠄⠄⠈⢿⠉⠄⠄⢸⡇⠄⢸⣿⣿⣿⣿⣿⣿⣿⠄⢸⣿⣶⠄⠈⣿⠄⠄⣿⡿⠄⢸⣿⠄⢰⡇⠈⣿⡀⠄⣿⠇⠈⣿⠃⠄⣾")
+  print("⡇⠄⣿⣿⣿⠿⢿⣿⠁⠄⣷⠄⠄⣿⠄⢠⡄⠄⠄⡆⠄⢸⡇⠄⠙⠛⠛⣿⣿⣿⣿⣿⠄⢸⣿⣿⠄⠄⣿⠄⠄⠟⠁⢀⣿⡟⠄⣾⡇⠄⢿⣧⠄⠚⠄⠄⠸⠄⢸⣿")
+  print("⡇⠄⣿⣀⡀⠄⢸⡿⠄⠈⠉⠄⠄⣿⠄⢸⣿⡀⣰⣇⠄⢸⡇⠄⢰⣶⣾⣿⣿⣿⣿⣿⠄⢸⡿⠉⢀⣼⣿⠄⠄⠄⠄⣿⣿⠁⠄⠉⠁⠄⢸⣿⠄⠄⢰⡆⠄⠄⣾⣿")
+  print("⣧⠄⠘⠟⠃⠄⢸⠇⠄⣶⣶⡆⠄⢻⠄⢸⣿⣿⣿⡏⠄⢸⡇⠄⠈⠉⠉⣿⣿⣿⣿⣿⠄⠈⠄⣤⣿⣿⡇⠄⠄⣦⠄⠘⡏⠄⢠⣶⣶⠄⠄⣿⡄⢀⣾⣧⡀⢠⣿⣿")
+  print("⣿⣿⣤⣤⣄⣀⣸⣿⣿⣿⣿⣷⣶⣿⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣾⣿⣿⣿⣿⣷⣶⣶⣿⣦⣴⣾⣿⣿⣿⣿⣶⣿⣿⣿⣾⣿⣿⣧⣾⣿⣿")
+
+def defeatText():
+  print("⣯⠉⠉⠉⠛⠿⣿⣿⣿⠿⠿⠛⠛⠿⠛⠉⣿⣏⠙⠋⠉⠉⠉⠉⠉⢹⡿⠿⠿⠛⠻⠟⠋⢹⣿⣿⡉⠙⠿⠿⠿⢿⣿⣿⣿⡿⠿⠿⠟⠛⠻⠿⠿⠟⠋⣽")
+  print("⣿⠄⠄⢀⠄⠄⠈⣿⣿⡆⠄⠄⣤⣤⣀⠄⢻⣿⠄⠄⠄⣤⡄⢠⠄⢸⣿⠄⠄⠠⣤⣤⡀⠸⣿⣯⠁⠄⠄⠄⠄⠸⣿⣿⣿⡇⠄⠄⠄⠄⠄⠄⠄⠄⠄⢹")
+  print("⡏⠄⠄⢸⣠⡄⠄⠸⣿⡇⡀⠄⣿⣿⣿⣧⣾⣿⠄⠄⠄⣿⣿⣿⣄⣼⣿⠄⡀⠄⣿⣿⣿⣧⣿⣿⡇⠄⠄⢸⡀⠄⠘⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⡀⢠⢸")
+  print("⣿⠄⠄⢸⣿⡇⠄⢠⣿⠇⠄⠄⠄⠈⠛⠛⣿⡟⠄⠄⠄⢀⡀⢠⣿⣿⣿⠄⠄⠄⠄⠈⠛⢻⣿⣿⡁⠄⠄⣾⣿⠄⠄⣿⣿⣿⢀⣧⣼⡀⠄⠄⠄⣿⣿⣸")
+  print("⣿⠄⠄⠄⣿⡇⠄⢸⣿⡄⠄⠄⢰⣶⣆⣸⣿⣇⠄⠄⠄⢸⣷⣼⣿⣿⣿⠄⠄⠄⢰⣶⣀⣸⣿⣿⡇⠄⠄⠙⠉⠄⠄⠈⢿⣿⣿⣿⣿⡇⠄⠄⠄⢸⣿⣿")
+  print("⡏⠄⠄⠄⠋⠁⠄⣸⣿⡇⠄⠄⠈⠉⠉⠛⢹⣿⠄⠄⠄⢸⣿⣿⣿⣿⣿⠄⠄⠄⠈⠉⠙⠋⣽⣿⡇⠄⠄⠄⣶⣴⠄⠄⢸⣿⣿⣿⣿⣇⠄⠄⠄⢸⣿⣿")
+  print("⡟⠄⠄⠄⡄⣠⣤⣿⣿⠇⠄⠄⠄⠄⠄⠄⣸⣿⡇⠄⠄⣼⣿⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⢠⣿⣿⡇⠄⠄⢸⣿⣿⣀⠄⣿⣿⣿⣿⣿⣿⠄⠄⠄⢸⣿⣿")
+  print("⣿⣠⣧⣦⣿⣿⣿⣿⣿⡅⣷⣀⣶⣶⣾⢀⣹⣿⡇⢸⣤⣿⣿⣿⣿⣿⣿⢠⣷⣤⣶⣶⣧⣸⣿⣿⣧⢰⡀⢻⣿⣿⣿⣦⣿⣿⣿⣿⣿⣿⣇⡆⢰⣼⣿⣿")
+  print("⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⣿⣿⣿⣿")
+  print("                                                                             ")
+  print("                                                                             ")
+  print("⣿⡟⠁⠄⠉⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠉⠄⠉⠉⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿")
+  print("⡿⠁⢠⣼⡄⠄⢹⣿⡿⠿⢿⣿⣿⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⡟⠄⢠⣤⠄⠄⢸⣿⣿⠿⣿⠿⠿⣻⣿⣿⢿⣿⣿⣿⣿⣿⢿⡿⣿")
+  print("⡅⠄⡼⡿⠧⠾⢿⠏⠄⣠⡄⠸⣿⡆⠄⠉⠙⠋⠄⠄⠍⣿⠋⠄⣤⠄⠹⣿⣿⣿⣿⣧⠄⢸⣿⡞⠄⢸⣦⠄⠄⣿⠄⢰⡿⠉⠠⣤⠄⢹⣯⠄⠄⠈⠄⢸")
+  print("⡇⠄⠻⣄⡄⠄⢸⢀⣤⠿⠛⠄⢹⡇⠄⣸⠄⠄⢿⡇⠄⡟⠄⢈⣡⠤⠤⢿⣿⣿⣿⣇⠄⠈⠛⠁⠄⣾⣿⣧⠄⠁⢀⣾⡇⠄⣈⣩⠤⠤⣿⣆⠄⢰⣿⣿")
+  print("⣧⡀⠄⠄⠄⠄⣾⡋⠤⡾⠗⠄⢸⡇⡄⣿⡇⣠⣸⡇⡆⣷⣄⠈⠋⢀⡀⣼⣿⣿⣿⣿⣄⢀⢀⣠⣶⣿⣿⣿⡆⠄⢸⣿⣧⣀⠈⠋⠄⠄⣿⣏⠄⢀⣿⣿")
+  print("⣿⣷⣷⣷⣾⣇⣿⣿⣦⣤⣾⣆⣼⣷⣷⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣼⣧⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣦⣿⣿⣿⣿⣿⣿⣴⣶⣿⣷⡇⣾⣿⣿")
+
+## nanti aku bikinin text nya masih binggung mau ditulisin apa
+def findBossText() :
+  print("Go Find The Boss")
+## nanti aku bikinin text nya masih binggung mau ditulisin apa
+def winText():
+  print("You Win")
 
 title_screen()
