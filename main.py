@@ -934,11 +934,11 @@ def opening():
 - Alan Satria - C14200196
 '''
   print(a)
-  # for character in b:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.0001)
-  # time.sleep(0.1)
+  for character in b:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.0001)
+  time.sleep(0.1)
   
 def title_screen_options():
   option = input("> ")
@@ -1028,21 +1028,21 @@ quitgame = 'quit'
 def menu():
   os.system('cls||clear')
 
-  # question1 = "Hello there, what is your name?\n"
-  # for character in question1:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.05)
-  # player_name = input("> ")
-  # player1.name = player_name
+  question1 = "Hello there, what is your name?\n"
+  for character in question1:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+  player_name = input("> ")
+  player1.name = player_name
 
-  # question2 = "My dear friend " + player1.name + ", how are you feeling?\n"
-  # for character in question2:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.05)
-  # feeling = input("> ")
-  # player1.feeling = feeling.lower()
+  question2 = "My dear friend " + player1.name + ", how are you feeling?\n"
+  for character in question2:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+  feeling = input("> ")
+  player1.feeling = feeling.lower()
 
   good_adj = ['good', 'great', 'happy', 'aight', 'understanding', 'great', 'alright', 'calm', 'confident', 'not bad', 'courageous', 'peaceful', 'reliable', 'joyous', 'energetic', 'at', 'ease', 'easy', 'lucky', 'k', 'comfortable', 'amazed', 'fortunate', 'optimistic', 'pleased', 'free', 'delighted', 'swag', 'encouraged', 'ok', 'overjoyed', 'impulsive', 'clever', 'interested', 'gleeful', 'free', 'surprised', 'satisfied', 'thankful', 'frisky', 'content', 'receptive', 'important', 'animated', 'quiet', 'okay', 'festive', 'spirited', 'certain', 'kind', 'ecstatic', 'thrilled', 'relaxed', 'satisfied', 'wonderful', 'serene', 'glad', 'free', 'and', 'easy', 'cheerful', 'bright', 'sunny', 'blessed', 'merry', 'reassured', 'elated', '1738', 'love', 'interested', 'positive', 'strong', 'loving']
   hmm_adj = ['idk', 'concerned', 'lakshya', 'eager', 'impulsive', 'considerate', 'affected', 'keen', 'free', 'affectionate', 'fascinated', 'earnest', 'sure', 'sensitive', 'intrigued', 'intent', 'certain', 'tender', 'absorbed', 'anxious', 'rebellious', 'devoted', 'inquisitive', 'inspired', 'unique', 'attracted', 'nosy', 'determined', 'dynamic', 'passionate', 'snoopy', 'excited', 'tenacious', 'admiration', 'engrossed', 'enthusiastic', 'hardy', 'warm', 'curious', 'bold', 'secure', 'touched', 'brave', 'sympathy', 'daring', 'close', 'challenged', 'loved', 'optimistic', 'comforted', 're', 'enforced', 'drawn', 'toward', 'confident', 'hopeful', 'difficult']
@@ -1058,10 +1058,10 @@ def menu():
     feeling_string = "I do not know what it is like to feel"
 
   question3 = "Well then, " + player1.name + ", " + feeling_string + " " + player1.feeling + ".\n"
-  # for character in question3:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.05)
+  for character in question3:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
 
   #Leads the player into the warzone now!
   speech2 = "Too bad, i have bad news for you. It seems this is where we must part, " + player1.name + ".\n"
@@ -1086,30 +1086,30 @@ def menu():
   '''
   speech5 = "Yes! You are now in the middle of the forest and it seems you are lost.\n"
   speech6 = "Heh. Heh.. Heh...\n"
-  # for character in speech2:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.05)
-  # for character in speech3:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.1)
-  # for character in speech4:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.05)
-  # os.system('cls||clear')
-  # print(art)
-  # time.sleep(0.05)
-  # for character in speech5:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.05)
-  # for character in speech6:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.1)
-  # time.sleep(1)
+  for character in speech2:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+  for character in speech3:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.1)
+  for character in speech4:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+  os.system('cls||clear')
+  print(art)
+  time.sleep(0.05)
+  for character in speech5:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+  for character in speech6:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.1)
+  time.sleep(1)
 
   main_game_loop()
 
