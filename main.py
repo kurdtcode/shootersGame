@@ -45,16 +45,16 @@ class Armor(Items):
       damageReduction = 0
     elif type == "Light":
       durability = 50
-      damageReduction = 5
+      damageReduction = 15
     elif type == "Basic":
       durability = 75
-      damageReduction = 10
+      damageReduction = 25
     elif type == "Medium":
       durability = 100
-      damageReduction = 15
+      damageReduction = 35
     elif type == "Heavy":
       durability = 150
-      damageReduction = 20
+      damageReduction = 50
     else:
       durability = 0
       damageReduction = 0
@@ -366,6 +366,7 @@ class Characters:
   def reload(self):
     self.inventory.seeEquippedWeapon().reload()
     print(self.name, "'s Weapon is reloaded")
+    
 ################
 # Player Setup #
 ################
@@ -389,8 +390,8 @@ class Enemy(Characters):
       self.inventory.addArmor(armor)
       weapon = Weapon("P250 Pistol")
       self.inventory.addWeapon(weapon)
-      self.inventory.equipArmor(0)
-      self.inventory.equipWeapon(0)
+      self.inventory.equipArmor(1)
+      self.inventory.equipWeapon(1)
       consumables = Consumables("Bandage")
       consumables1 = Consumables("Bandage")
       self.inventory.addConsumable(consumables)
@@ -403,8 +404,8 @@ class Enemy(Characters):
       self.inventory.addArmor(armor)
       weapon = Weapon("Deagle Pistol")
       self.inventory.addWeapon(weapon)
-      self.inventory.equipArmor(0)
-      self.inventory.equipWeapon(0)
+      self.inventory.equipArmor(1)
+      self.inventory.equipWeapon(1)
       consumables = Consumables("Bandage")
       consumables1 = Consumables("Bandage")
       consumables2 = Consumables("Bandage")
@@ -420,8 +421,8 @@ class Enemy(Characters):
       self.inventory.addArmor(armor)
       weapon = Weapon("M4A1 Rifle")
       self.inventory.addWeapon(weapon)
-      self.inventory.equipArmor(0)
-      self.inventory.equipWeapon(0)
+      self.inventory.equipArmor(1)
+      self.inventory.equipWeapon(1)
       consumables = Consumables("Bandage")
       consumables1 = Consumables("Bandage")
       consumables2 = Consumables("Bandage")
@@ -435,13 +436,13 @@ class Enemy(Characters):
 
     if template == 4:
       self.name = "Special Force Soldier"
-      self.hp = 300
+      self.hp = 250
       armor = Armor("Heavy Armor", "Heavy")
       self.inventory.addArmor(armor)
       weapon = Weapon("AWM Sniper Rifle")
       self.inventory.addWeapon(weapon)
-      self.inventory.equipArmor(0)
-      self.inventory.equipWeapon(0)
+      self.inventory.equipArmor(1)
+      self.inventory.equipWeapon(1)
       consumables = Consumables("Bandage")
       consumables1 = Consumables("Bandage")
       consumables2 = Consumables("Bandage")
@@ -713,13 +714,24 @@ def lookInventory():
 
     if intp == 'view weapon':
       weapon = player1.inventory.getAllWeapon()
+      equip = player1.inventory.seeEquippedWeapon()
+      print("Equipped Weapon")
+      print("Weapon :", equip.getDetails()[0])
+      print("Head Damage : ", equip.getDetails()[1].headDamage)
+      print("Body Damage : ", equip.getDetails()[1].bodyDamage)
+      print("Leg Damage : ", equip.getDetails()[1].legDamage)
+      print("Max Bullet : ", equip.getDetails()[2])
+      print("Current Bullet : ", equip.getDetails()[3])
+      print("################################")
+
       for i in range (len(weapon)):
         print("Weapon ",i,":", weapon[i].getDetails()[0])
         print("Head Damage : ", weapon[i].getDetails()[1].headDamage)
         print("Body Damage : ", weapon[i].getDetails()[1].bodyDamage)
         print("Leg Damage : ", weapon[i].getDetails()[1].legDamage)
-        print("Bullet : ", weapon[i].getDetails()[2])
-      
+        print("Max Bullet : ", weapon[i].getDetails()[2])
+        print("Current Bullet : ", weapon[i].getDetails()[3])
+        print("################################")
       print("What do you want to do? (equip weapon/reload/back)")
       intp2 = input("> ")
       if intp2 in ['equip weapon', 'reload', 'back']:
@@ -736,11 +748,20 @@ def lookInventory():
         
     elif intp == 'view armor':
       armors = player1.inventory.getAllArmor()
+      equip = player1.inventory.seeEquippedArmor()
+      print("Equipped Armor:")
+      print("Armor : ", equip.getDetails()[0])
+      print("Durability : ", equip.getDetails()[1])
+      print("Damage Reduction : ", equip.getDetails()[2])
+      print("################################")
+
       for i in range (len(armors)):
-        print("Armor : ", armors[i].getDetails()[0])
+        print("Armor",i,":", armors[i].getDetails()[0])
         print("Durability : ", armors[i].getDetails()[1])
         print("Damage Reduction : ", armors[i].getDetails()[2])
-        print("What do you want to do? (equip armor/back)")
+        print("################################")
+
+      print("What do you want to do? (equip armor/back)")
       intp2 = input("> ")
       if intp2 in ['equip armor', 'back']:
         if intp2 == 'equip armor':
@@ -754,8 +775,10 @@ def lookInventory():
     elif intp == 'view consumables':
       consumable = player1.inventory.getAllConsumable()
       for i in range (len(consumable)):
-        print("Item : ", consumable[i].getDetails()[0])
+        print("Item ",i,": ", consumable[i].getDetails()[0])
         print("Heal Amount : ", consumable[i].getDetails()[1])
+        print("################################")
+
       print("What do you want to do? (use consumables/back)")
       intp2 = input("> ")
       if intp2 in ['use consumables', 'back']:
@@ -779,24 +802,47 @@ def lookInventory():
 ################
 def battleLoop(currentEnemy:Enemy):
   print("Oh no! There is ", currentEnemy.name ,"(",currentEnemy.hp," HP) in front of you!")
-  while currentEnemy.hp > 0:
+  while currentEnemy.hp > 0 and player1.hp > 0:
     print(player1.name, "'s Health: " , player1.hp)
+    equippedweapon = player1.inventory.seeEquippedWeapon()
+    print("Weapon :", equippedweapon.getDetails()[0])
+    print("Current Bullet : ", equippedweapon.getDetails()[3])
+    equippedarmor = player1.inventory.seeEquippedArmor()
+    print("Armor : ", equippedarmor.getDetails()[0])
+    print("Durability : ", equippedarmor.getDetails()[1])
+    print("Damage Reduction : ", equippedarmor.getDetails()[2])
+    print()
     print(currentEnemy.name, "'s Health: " , currentEnemy.hp)
+    equippedweapon2 = currentEnemy.inventory.seeEquippedWeapon()
+    print("Weapon :", equippedweapon2.getDetails()[0])
+    print("Current Bullet : ", equippedweapon2.getDetails()[3])
+    equippedarmor2 = currentEnemy.inventory.seeEquippedArmor()
+    print("Armor : ", equippedarmor2.getDetails()[0])
+    print("Durability : ", equippedarmor2.getDetails()[1])
+    print("Damage Reduction : ", equippedarmor2.getDetails()[2])
 
     print("What do you want to do?\n(attack/heal/reload/view inventory)")
     battleInput = input("> ")
-    acceptable_actions = ['attack', 'shoot', 'reload', 'inventory', 'view inventory']
+    acceptable_actions = ['attack', 'shoot', 'heal', 'reload', 'inventory', 'view inventory']
     #Forces the player to write an acceptable sign, as this is essential to solving a puzzle later.
     while battleInput.lower() not in acceptable_actions:
       print("Unknown action command, please try again.\n")
       battleInput = input("> ")
       print("What do you want to do?\n(attack/heal/reload/view inventory)")
+    
+    os.system('cls||clear')
+
     change = True
     if battleInput.lower() == quitgame:
         sys.exit()
     elif battleInput.lower() in ['attack', 'shoot']:
-        player1.attack(currentEnemy)
-    elif battleInput.lower in ['reload']:
+        shooting = player1.attack(currentEnemy)
+        if shooting == False:
+          print("Not Enough Bullet To Shoot!!")
+          continue
+
+    elif battleInput.lower() in ['reload']:
+        print("Im HERE")
         player1.reload()
     elif battleInput.lower() in ['heal']:
         consumable = player1.inventory.getAllConsumable()
@@ -815,12 +861,12 @@ def battleLoop(currentEnemy:Enemy):
             change = False
     elif battleInput.lower() in ['inventory', 'view inventory']:
         change = lookInventory()
-    # os.system('cls||clear')
 
     if change:
       move = currentEnemy.currentEnemyAuto(player1)
       if move == "attack":
-        print("Enemy Is Attacking")
+        weap = currentEnemy.inventory.seeEquippedWeapon()
+        print("Enemy is attacking with" , weap)
       elif move == "healMedkit":
         print("Enemy used a medkit")
       elif move == "healBandage":
