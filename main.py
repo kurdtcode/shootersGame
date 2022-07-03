@@ -41,9 +41,9 @@ class Armor(Items):
         name = "Light Armor"
 
     if type == "No Armor":
-      durability = 10000
+      durability = 10000000000000
       damageReduction = 0
-    if type == "Light":
+    elif type == "Light":
       durability = 50
       damageReduction = 5
     elif type == "Basic":
@@ -114,7 +114,7 @@ class Weapon(Items):
       self.maxBullet = 1
       self.damage = Damage(10, 8, 5)
       #self.reloadTime = 2
-      self.durability = 10000
+      self.durability = 100000000000
       self.bulletPerAttack = 0
     elif name == "P250 Pistol":
       self.maxBullet = 12
@@ -243,6 +243,7 @@ class Inventory():
 
   def addArmor(self, armor:Armor):
     self.armor.append(armor)
+    print(self.armor)
   def addWeapon(self, weapon:Weapon):
     self.weapon.append(weapon)
   def addConsumable(self, consumable:Consumables):
@@ -352,8 +353,10 @@ class Characters:
     finalDmg = dmg - dmg * dmgReduc/100 #Calc Damage
 
     enemy.hp = enemy.hp - finalDmg
-    enemyArmor.reduceDurability(dmg * dmgReduc/100)
+    enemyArmor.reduceDurability(dmg)
     if enemyArmor.durability <= 0:
+      print(enemy.inventory.getAllArmor())
+      print(enemy.inventory.equippedArmor)
       enemy.inventory.getAllArmor().pop(enemy.inventory.equippedArmor)
       enemy.inventory.equippedArmor = 0
       print(enemy.name, "'s Armor is broken")
