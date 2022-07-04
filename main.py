@@ -750,7 +750,7 @@ def lookInventory():
         print("################################")
 
         for i in range (len(weapon)):
-          print("Weapon ",i,":", weapon[i].getDetails()[0])
+          print("Weapon ",i+1,":", weapon[i].getDetails()[0])
           # print(weapon[i].getDetails()[4])
           # print("Head Damage : ", weapon[i].getDetails()[1].headDamage)
           # print("Body Damage : ", weapon[i].getDetails()[1].bodyDamage)
@@ -766,12 +766,12 @@ def lookInventory():
         if intp2 == 'equip weapon':
           print("Which weapon do you want to equip? (numbers)")
           intp2 = int(input("> "))
-          player1.inventory.equipWeapon(intp2)
+          player1.inventory.equipWeapon(intp2-1)
           changeSomething = True
         elif intp2 in ['view weapon detail', 'view weapon', 'view detail']:
           print("Which weapon do you want to view? (numbers)")
           intp2 = int(input("> "))
-          view = player1.inventory.seeWeaponDetail(intp2)
+          view = player1.inventory.seeWeaponDetail(intp2-1)
           print("Weapon :", view.getDetails()[0])
           print("Head Damage : ", view.getDetails()[1].headDamage)
           print("Body Damage : ", view.getDetails()[1].bodyDamage)
@@ -801,7 +801,7 @@ def lookInventory():
         print("################################")
 
         for i in range (len(armors)):
-          print("Armor",i,":", armors[i].getDetails()[0])
+          print("Armor",i+1,":", armors[i].getDetails()[0])
           # print("Durability : ", armors[i].getDetails()[1])
           # print("Damage Reduction : ", armors[i].getDetails()[2])
         print("################################")
@@ -814,12 +814,12 @@ def lookInventory():
         if intp2 == 'equip armor':
           print("Which armor do you want to equip? (numbers)")
           intp2 = int(input("> "))
-          player1.inventory.equipArmor(intp2)
+          player1.inventory.equipArmor(intp2-1)
           changeSomething = True
         elif intp2 in ['view armor detail', 'view armor', 'view detail']:
           print("Which weapon do you want to view? (numbers)")
           intp2 = int(input("> "))
-          view = player1.inventory.seeArmorDetail(intp2)
+          view = player1.inventory.seeArmorDetail(intp2-1)
           print("################################")
           print("Armor :", view.getDetails()[0])
           print("Durability : ", view.getDetails()[1])
@@ -836,7 +836,7 @@ def lookInventory():
         consumable = player1.inventory.getAllConsumable()
         print("################################")
         for i in range (len(consumable)):
-          print("Item ",i,": ", consumable[i].getDetails()[0])
+          print("Item ",i+1,": ", consumable[i].getDetails()[0])
           print("Heal Amount : ", consumable[i].getDetails()[1])
         if (len(consumable) == 0):
           print("Empty")
@@ -851,7 +851,7 @@ def lookInventory():
           if intp2 == 'use consumables':
             print("Which consumables do you want to use? (numbers)")
             intp2 = int(input("> "))
-            player1.heal(intp2)
+            player1.heal(intp2-1)
             changeSomething = True
           elif intp2 == 'back':
             os.system('cls||clear')
@@ -914,18 +914,21 @@ def battleLoop(currentEnemy:Enemy):
         consumable = player1.inventory.getAllConsumable()
         print("################################")
         for i in range (len(consumable)):
-          print("Item : ", consumable[i].getDetails()[0])
+          print("Item ",i+1,": ", consumable[i].getDetails()[0])
           print("Heal Amount : ", consumable[i].getDetails()[1])
         if (len(consumable) == 0):
           print("Empty")
         print("################################")
-        print("What do you want to do? ")
+        print("What do you want to do? (use consumables/back)")
         intp2 = input("> ")
-        if intp2 in ['use consumables', 'heal', 'back']:
+        while intp2 not in ['use consumables', 'back']:
+          print("Unknown action command, please try again.\n")
+          intp2 = input("> ").lower()
+        if intp2 in ['use consumables', 'back']:
           if intp2 in ['use consumables', 'heal']:
             print("Which consumables do you want to use? (numbers)")
             intp2 = int(input("> "))
-            player1.heal(intp2)
+            player1.heal(intp2-1)
             changeSomething = True
           elif intp2 == 'back':
             change = False
