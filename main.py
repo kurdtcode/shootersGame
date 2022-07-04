@@ -43,26 +43,122 @@ class Armor(Items):
     if type == "No Armor":
       durability = 99999
       damageReduction = 0
+      image = '''
+      ⣿⣿⡿⠫⣝⢽⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣧⢚⣿⡇⠄⠄⡀⠄⡐⡐⢌⢘⠋⠄⠈⡙⢍⠩⡉⠉⠛⠛⠻⣛⢿⣿⣿⣿
+      ⣿⣿⣿⣷⣿⣆⣀⠐⠄⠄⠄⡈⠄⠄⢀⢂⢁⠄⡀⠁⡀⢀⠢⡠⢀⣿⡪⣹⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⡆⠄⠄⠂⢌⠢⠡⢢⣶⣶⣶⣶⣷⣮⣴⣧⣵⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢌⠪⡀⢀⠠⠐⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⢠⣕⣈⣀⣀⣀⡆⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⡹⡽⣯⢿⡽⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣪⣿⣳⣿⢽⣗⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣻⣾⢸⡜⡽⣽⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣻⡾⣼⣧⢹⣻⡼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣻⢸⢺⢂⣿⣿⡆⣟⡆⡫⣽⡻⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣘⣛⣚⣒⣾⣿⣿⣿⣔⣒⣙⣓⣣⣿⣿⣿⣿⣿⣿⣿⣿
+      ⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿
+      '''
     elif type == "Light":
       durability = 50
       damageReduction = 15
+      image = '''
+      ⣿⣿⣿⣿⣿⣿⢿⣛⣯⣽⣽⠿⡿⢿⢿⠿⡿⢯⣿⣯⣽⣟⣻⢿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣟⣾⣿⡿⣟⢏⣲⣿⡿⣫⡳⡣⣱⢹⣿⣿⣽⣿⣻⣷⣧⣻⣿⣿⣿⣿
+      ⣿⣿⣿⣏⣾⣿⣟⢿⠫⣾⣧⡣⡹⡸⡨⣦⣿⡜⣿⣷⣿⣻⣿⣽⣿⢢⢻⣿⣿⣿
+      ⣿⣿⣿⢹⠿⡍⣦⣿⣾⣿⣟⣿⡿⣿⢿⣻⣿⣿⡸⢿⣽⣿⣯⣷⣿⢝⢜⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣼⣿⣿⣟⣷⣿⣟⣿⡿⣿⣿⣻⣾⣿⣷⣬⣛⡫⢿⢫⢫⢢⣿⣿⣿
+      ⣿⣿⣿⣿⡇⣿⣿⣯⣿⢿⣽⡿⣯⣿⣿⣽⣿⣻⣾⣯⣿⢿⡪⡇⢽⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⡇⣯⣟⣛⠿⢿⣿⣻⣿⣿⠾⠿⠽⠿⢯⣿⣟⢿⢕⣏⢪⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣇⣿⣿⢿⣿⣾⣭⣽⣶⣶⡿⣿⣿⣿⣷⣷⣗⢽⣱⡣⣻⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣞⣿⡿⣿⣾⡏⣿⣾⣿⣻⣿⢷⣿⢷⣿⢿⡳⡵⣙⣾⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣯⢻⣿⣷⣯⣿⢿⣾⣿⣻⣿⢿⡿⣫⡳⡝⣼⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⡎⣿⣾⣿⣻⣿⢿⣾⣿⣻⡿⣝⢮⡺⣸⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣷⢺⣯⣿⢟⣿⣿⣻⣾⣿⡫⡮⡣⣣⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣷⣮⣽⣙⣻⣙⣛⣫⣳⣽⣼⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      '''
     elif type == "Basic":
       durability = 75
       damageReduction = 25
+      image = '''
+      ⣿⣿⣿⣿⣿⣿⠿⠿⠿⠿⠿⠟⡛⣛⣛⣛⡛⡻⠿⠿⠿⠿⠿⠿⢿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⠋⣠⡴⣶⣖⣶⡲⣌⣞⣾⣬⠨⢊⠑⠅⡤⢔⢶⡶⣔⠤⡈⢻⣿⣿⣿
+      ⣿⣿⣿⠃⣺⣺⣟⣿⣿⣯⢿⣕⢮⢪⢳⢵⣲⢜⣖⡕⡭⡣⣏⢮⢪⢪⠂⢻⣿⣿
+      ⣿⣿⠇⣘⢞⢮⢿⢽⣻⣞⡯⡞⡎⡇⡗⡕⣎⣟⣮⡺⣕⡕⡎⡎⡇⡇⢕⠈⣿⣿
+      ⣿⣿⠄⡪⡪⡫⡫⡫⡞⠮⠪⢃⢣⣧⣧⣷⡿⣽⣞⢞⢮⢺⢜⢜⢔⠈⢂⣀⣿⣿
+      ⣿⣿⣤⣁⣙⡈⠨⡃⡊⠨⠐⡐⣾⣿⣿⣟⣿⣳⢯⡫⣎⢏⡧⡣⡱⡑⢸⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣇⠈⡎⠔⡁⠅⣸⡿⣽⣾⣻⢾⣝⢷⡹⡪⡪⣣⠣⡒⢌⢸⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⠄⢪⢪⢔⢯⢗⡿⡽⣺⣺⢳⡳⡳⡹⡸⡱⣱⠱⡘⢔⢸⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⡆⠨⢪⢣⢫⡣⡏⣞⢵⢱⢳⢱⢹⢸⢪⢪⢪⠨⡊⡂⢸⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣷⠈⢜⢜⢜⢜⢜⢜⢜⢜⢜⢎⢇⢇⢗⢕⠕⡅⢕⠄⣾⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⡀⠂⠕⠕⢇⢗⢕⢝⢜⢕⢕⢕⢵⢱⢕⡱⠨⠂⢸⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣯⣿⣷⣄⠁⠅⡑⠌⡊⡪⢑⠱⢑⠅⡹⢉⢡⢰⠁⠂⣸⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣤⣤⣤⣤⣤⣤⣤⣤⣶⣶⣿⣿⣿⣿⣿⣿⣿
+      '''
     elif type == "Medium":
       durability = 100
       damageReduction = 35
+      image = '''
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⢿⢿⢿⢿⢿⢿⢿⢿⣿⡿⠛⠛⡿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⡿⡿⣛⣛⠛⡉⡍⣉⡐⢔⡔⡄⢄⠄⡄⢄⠊⡉⠁⡐⠠⡀⢀⠉⠻⣿⣿
+      ⣿⣿⡷⡫⡅⢓⠑⢀⢕⢕⡕⡺⡢⡍⡙⢕⢋⢨⢲⢌⠜⠄⣈⠌⢔⢐⠐⡀⢹⣿
+      ⣿⡟⣸⢪⡚⢦⡑⢔⠠⠁⠕⡁⢇⢏⢎⢐⡰⡕⡕⡢⡱⢁⠄⠂⡁⠢⠡⠠⠄⣿
+      ⣿⡇⣳⣑⢩⢢⢝⠰⡡⠡⠑⠄⡂⠁⢁⠑⢘⠘⠊⡈⠐⢀⢤⠲⠸⡐⢅⠅⠄⣿
+      ⣿⡇⡮⠊⠪⡪⡢⠐⡕⡥⡡⡑⡄⠑⢠⢚⠢⡁⠅⠠⠈⠔⠈⡈⠸⡸⡂⠕⠄⣿
+      ⣿⣷⣬⣘⠔⢅⣊⠄⠧⢃⠓⠡⡁⠅⢂⢑⠡⠂⡂⠅⡡⠨⢀⠄⢀⠥⠔⠅⣡⣿
+      ⣿⣿⣿⣿⣿⣿⣿⠄⡐⡀⡡⢡⢐⢬⢸⢔⢪⣐⡐⠔⢄⠅⠤⡐⣼⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣽⣿⣯⣿⠄⡇⣇⢇⠳⡱⡱⡑⡜⡎⡆⡏⢝⢜⢕⠭⡀⣿⣿⣿⡿⣿⣿
+      ⣿⣿⣯⣿⣿⣻⣿⡄⢓⢅⠕⡱⡸⣒⡪⡪⣜⢐⢪⢪⢪⠪⡡⢠⣿⣿⣟⣿⣿⣿
+      ⣿⣿⣟⣿⣟⣿⣿⡇⠸⠜⠬⠲⡸⢰⠱⡑⡕⡑⢕⢑⢐⠡⠂⢸⣿⣿⡿⣿⣯⣿
+      ⣿⣿⣿⢿⣿⢿⣻⡇⠄⠌⠨⡈⠂⢢⠃⡅⢌⠌⡀⠂⠄⠠⠄⢸⣿⣿⣿⣿⢿⣿
+      ⣿⣿⡿⣿⣿⣿⣿⠃⢄⢌⣀⣀⡁⡊⡒⡒⣂⢁⣀⣁⡐⡤⠠⠘⣿⣿⣾⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣽⡛⢠⡣⡳⡸⡠⡢⡑⡩⡜⡌⡧⢕⠢⢣⢊⠌⡄⢹⣿⣿⣽⣿⣽
+      ⣿⣿⣷⣿⣟⡟⢁⢎⠎⡮⡪⣒⢕⢕⢕⢕⡣⡥⡣⡱⡑⢔⠡⢂⠈⣿⣽⣿⡿⣿
+      ⣿⣿⣿⣽⣿⣏⡠⠃⢎⠘⠘⠨⠬⢑⢕⢢⠰⠨⠄⠂⠐⠄⢈⣀⣢⣿⣻⣽⣿⣿
+      ⣿⣿⣯⣿⣿⢿⣿⣿⣷⣿⣿⣿⣿⣶⣶⣶⣶⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      '''
     elif type == "Heavy":
       durability = 150
       damageReduction = 50
+      image = '''
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣻⠉⠉⠉⠋⡋⠍⠉⠉⠉⠛⢻⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣟⠟⢭⠉⣉⣁⡀⢈⡉⡋⠒⠆⠆⣢⠂⢁⡁⡐⠠⣀⣡⠩⠩⠻⣿⣟⣿
+      ⣿⣿⡞⠁⠬⠝⣼⡳⣯⣻⢽⣖⣮⢭⡋⢊⡧⣝⣶⣺⢽⢯⢯⡯⡗⠧⢇⠘⣿⣿
+      ⣿⠏⠄⠘⡲⢷⣳⢯⣗⡯⣗⣞⡾⡽⡑⠎⣏⣗⣗⣗⡯⡿⣽⡺⣇⠈⢽⠄⠘⣿
+      ⡏⠄⠄⢈⠨⢸⣺⣳⡳⣝⣗⣗⢯⢯⠏⢸⡳⣳⣳⣳⡫⣟⢮⡻⠂⠈⢝⠄⠄⣼
+      ⣿⣦⣄⠨⡒⣬⣊⠮⠚⡕⡗⢗⣝⢭⠕⢇⡏⣗⢧⡳⣝⡚⠍⣐⢠⠙⡈⣴⣾⣿
+      ⣿⣿⣿⣇⠁⠃⣗⢯⣫⡳⡝⢵⡳⣹⢜⢕⣝⣪⡳⣝⢮⡺⣝⠮⠔⠈⣠⣿⣿⣿
+      ⣿⣿⡿⣿⣿⣷⣶⣁⢇⢆⠎⢗⡝⣎⢏⢸⡸⡲⡕⢎⠥⠉⣨⣴⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⡿⣟⣿⣿⢿⡠⡣⡃⡇⡯⡺⣜⠰⡝⣎⢗⡡⡣⢹⣿⣿⣿⣿⢿⣻⣷⣿
+      ⣿⣿⣷⣿⣿⣿⡿⣿⡗⡕⡕⢌⢪⢺⢄⢸⢸⢊⢔⢎⢪⢸⣿⣿⣟⣿⣿⣿⣿⣿
+      ⣿⣿⣟⣿⡿⣯⡿⠉⢌⢎⢎⠜⡜⡜⡜⡜⡜⣜⢰⠱⡁⠂⣿⣷⣿⣿⣯⣷⣿⣿
+      ⣿⣿⡿⣿⣿⣿⣧⠁⠄⢉⡆⡕⣱⠱⠑⡱⡑⣅⡆⡃⠐⢠⣿⣿⣿⣽⣿⣿⣟⣿
+      ⣿⣿⣿⡿⣿⣽⣿⣿⣶⣄⡃⢝⡨⣳⢨⢜⣏⡢⢃⣪⣾⣿⣿⣽⣾⣿⣿⣾⣿⣿
+      ⣿⣿⣷⣿⣿⣿⣿⣽⣿⣿⣿⣷⣦⣍⣒⣁⣥⣶⣿⣿⣿⢿⣟⣿⣿⣟⣷⣿⣿⢿
+      '''
     else:
       durability = 0
       damageReduction = 0
-    super().__init__(name, durability)
+      image = '''
+      ⣿⣿⡿⠫⣝⢽⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣧⢚⣿⡇⠄⠄⡀⠄⡐⡐⢌⢘⠋⠄⠈⡙⢍⠩⡉⠉⠛⠛⠻⣛⢿⣿⣿⣿
+      ⣿⣿⣿⣷⣿⣆⣀⠐⠄⠄⠄⡈⠄⠄⢀⢂⢁⠄⡀⠁⡀⢀⠢⡠⢀⣿⡪⣹⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⡆⠄⠄⠂⢌⠢⠡⢢⣶⣶⣶⣶⣷⣮⣴⣧⣵⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢌⠪⡀⢀⠠⠐⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⢠⣕⣈⣀⣀⣀⡆⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⡹⡽⣯⢿⡽⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣪⣿⣳⣿⢽⣗⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣻⣾⢸⡜⡽⣽⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣻⡾⣼⣧⢹⣻⡼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣻⢸⢺⢂⣿⣿⡆⣟⡆⡫⣽⡻⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣘⣛⣚⣒⣾⣿⣿⣿⣔⣒⣙⣓⣣⣿⣿⣿⣿⣿⣿⣿⣿
+      ⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿
+      '''
+    super().__init__(name, durability, image)
     self.damageReduction = damageReduction
+    self.image = image
 
   def getDetails(self) -> list:
-    return [self.name, self.durability, self.damageReduction]
+    return [self.name, self.durability, self.damageReduction, self.image]
 
 class Consumables(Items):
   def __init__(self, name = ""):
@@ -734,6 +830,31 @@ def Search():
   else :
       return "get heal"
 
+# Check if either or both Players is below zero health
+def check_win(enemy:Enemy):
+  if enemy.name == "Special Force Soldier":
+    if player1.hp < 1 and enemy.hp >= 1 :
+      player1.game_over = True
+      killedByBossText()
+    elif player1.hp >= 1 and enemy.hp < 1:
+      player1.game_over = True
+      winText()
+    else:
+      player1.game_over = True
+      gameDrawText()
+  else:
+    if player1.hp < 1 and enemy.hp >= 1 :
+      player1.game_over = True
+      defeatText()
+    elif player1.hp >= 1 and enemy.hp < 1 :
+      player1.game_over = False
+      findBossText()
+    elif player1.hp < 1 and enemy.hp < 1:
+      player1.game_over = True
+      gameDrawText()
+    else:
+      print("Something Wrong")
+
 ##################################### kd ##################################
 
 ##################
@@ -810,6 +931,7 @@ def lookInventory():
         armors = player1.inventory.getAllArmor()
         equip = player1.inventory.seeEquippedArmor()
         print("░"*45)
+        print(equip.getDetails()[3])
         print("Equipped Armor : ", equip.getDetails()[0])
         print("Durability : ", equip.getDetails()[1])
         print("Damage Reduction : ", equip.getDetails()[2])
@@ -836,6 +958,7 @@ def lookInventory():
           intp2 = int(input("> "))
           view = player1.inventory.seeArmorDetail(intp2-1)
           print("░"*45)
+          print(view.getDetails()[3])
           print("Armor :", view.getDetails()[0])
           print("Durability : ", view.getDetails()[1])
           print("Damage Reduction : ", view.getDetails()[2])
@@ -962,31 +1085,6 @@ def battleLoop(currentEnemy:Enemy):
       elif move == "healBandage":
         print("Enemy used a bandage")
 
-# Check if either or both Players is below zero health
-def check_win(enemy:Enemy):
-  if enemy.name == "Special Force Soldier":
-    if player1.hp < 1 and enemy.hp >= 1 :
-      player1.game_over = True
-      killedByBossText()
-    elif player1.hp >= 1 and enemy.hp < 1:
-      player1.game_over = True
-      winText()
-    else:
-      player1.game_over = True
-      gameDrawText()
-  else:
-    if player1.hp < 1 and enemy.hp >= 1 :
-      player1.game_over = True
-      defeatText()
-    elif player1.hp >= 1 and enemy.hp < 1 :
-      player1.game_over = False
-      findBossText()
-    elif player1.hp < 1 and enemy.hp < 1:
-      player1.game_over = True
-      gameDrawText()
-    else:
-      print("Something Wrong")
-
 ################
 # main looping #
 ################
@@ -997,13 +1095,14 @@ def main_game_loop():
     print("░ Here begins the adventure...              ░")
     print("░"*45)
     print("\nYou find yourself in the center of a strange place.\nSeems like you are trapped in a forest.\n")
-    time.sleep(5)
+    time.sleep(0.5) #note
     while player1.game_over is False:
       os.system('cls||clear')
       print(f"{player1.name}'s health = {player1.hp}")
       print()
-      print("░"*45)
-      print("What would you like to do?\nSearch\nView Inventory\nQuit game")
+      print(" "*10,"░"*45)
+      print()
+      print(" "*10,"What would you like to do?\n⠄Search\n⠄View Inventory\n⠄Quit game")
       action = input("> ")
       acceptable_actions = ['search', 'look', 'view', 'inventory', 'view inventory', 'inspect', 'quit']
       #Forces the player to write an acceptable sign, as this is essential to solving a puzzle later.
@@ -1043,11 +1142,12 @@ def main_game_loop():
             armor = Armor()
             player1.inventory.addArmor(armor)
             print("░"*45)
+            print(armor.getDetails()[3])
             print("Armor : ", armor.getDetails()[0])
             print("Durability : ", armor.getDetails()[1])
             print("Damage Reduction : ", armor.getDetails()[2])
             print("░"*45)
-            print("Equip Armor?(yes/no)\n")
+            print("Equip Armor?\n⠄Yes\n⠄No)\n")
             tanya = input("> ")
             if tanya.lower() == 'yes':
               player1.inventory.equipArmor(len(player1.inventory.armor)-1)
@@ -1065,7 +1165,7 @@ def main_game_loop():
             print("Leg Damage : ", weapon.getDetails()[1].legDamage)
             print("Bullet : ", weapon.getDetails()[2])
             print("░"*45)
-            print("Equip Weapon?(yes/no)\n")
+            print("Equip Weapon?\n⠄Yes\n⠄No\n")
             tanya = input("> ")
             if tanya.lower() == 'yes':
               player1.inventory.equipWeapon(len(player1.inventory.weapon)-1)
@@ -1168,13 +1268,15 @@ def title_screen():
   '''
   print(a)
   # print('#' * 45)
-  print("           Welcome to text-based shooting game       ")
-  print("                   Final Project KB 2022!             ")
-  print("                         WarZone                      ")
-  print()
-  print("                       .: Play :.                 ")
-  print("                       .: Help :.                 ")
-  print("                       .: Quit :.                 ")
+  print("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░")
+  print("░          Welcome to text-based shooting game         ░")
+  print("░                  Final Project KB 2022!              ░")
+  print("░                        WarZone                       ░")
+  print("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░")
+  print("░░░░░░░░░░░░░░░░░░░░░░░░░ Play ░░░░░░░░░░░░░░░░░░░░░░░░░")
+  print("░░░░░░░░░░░░░░░░░░░░░░░░░ Help ░░░░░░░░░░░░░░░░░░░░░░░░░")
+  print("░░░░░░░░░░░░░░░░░░░░░░░░░ Quit ░░░░░░░░░░░░░░░░░░░░░░░░░")
+  print("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░")
   title_screen_options()
 
 #############
@@ -1189,12 +1291,13 @@ def help_menu():
   print("After you do a search, you can inputs such as 'attack' or 'reload' or 'fallback' or 'heal'")
   print("the game will let you interact with the next move.\n")
   print("Please ensure to type in lowercase for ease.\n")
-  print('#' * 45)
-  print("    Please select an option to continue.     ")
-  print('#' * 45)
-  print("               .: Play :.               ")
-  print("               .: Help :.               ")
-  print("               .: Quit :.               ")
+  print("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░")
+  print("           Please select an option to continue.     ")
+  print("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░")
+  print("░░░░░░░░░░░░░░░░░░░░░░░░░ Play ░░░░░░░░░░░░░░░░░░░░░░░░░")
+  print("░░░░░░░░░░░░░░░░░░░░░░░░░ Help ░░░░░░░░░░░░░░░░░░░░░░░░░")
+  print("░░░░░░░░░░░░░░░░░░░░░░░░░ Quit ░░░░░░░░░░░░░░░░░░░░░░░░░")
+  print("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░")
   title_screen_options()
 
 #################
