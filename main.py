@@ -116,6 +116,28 @@ class Weapon(Items):
       #self.reloadTime = 2
       self.durability = 99999
       self.bulletPerAttack = 0
+      self.image ='''
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⣉⣭⣭⡭⠭⢭⡭⢶⣾⣿⣿⣿⣶⣉⡛⠿⢟⣋⣉⡻⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⢋⡥⠎⣿⣿⣷⡟⣶⣿⣷⣌⠙⢟⢿⣿⡇⣿⡿⠹⢯⣿⣿⣷⠈⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⠛⣤⣶⣶⣶⣿⣿⣶⣄⠫⣿⣿⣧⣿⣿⣿⣿⣾⣼⣿⣿⣿⣿⣿⣧⡌⠟⣿⣿⡇⣌⢻⣿⣿⣿
+      ⣿⣿⣿⣿⠋⡞⡿⣿⣿⣿⣿⠿⣿⣿⣾⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⢻⢹⣿⣿⣿⣿⣇⣿⠄⣿⣿⣿
+      ⣿⣿⣿⢉⣾⡆⢰⣽⣿⣿⣿⠄⣿⣿⣿⣿⣿⣿⣿⣿⠇⣿⣿⣿⣿⣿⣿⣿⣆⣿⣿⣿⣿⣿⣿⣿⠄⣿⣿⣿
+      ⣿⣿⣧⠹⢳⠄⣾⣿⣿⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⢻⣿⣿⣿⣿⣿⣿⡀⣿⣿⣿
+      ⣿⣿⣿⡆⣿⡀⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⠘⣿⣿⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⡇⣿⣿⣿
+      ⣿⣿⣿⣷⠙⡇⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⠄⣿⣿⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⡟⣸⣿⣿
+      ⣿⣿⣿⣿⣧⢹⢻⣿⣿⣿⣿⣿⠄⣿⣿⣿⣿⣿⣿⣿⠄⠁⣿⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⠁⣿⣿⣿
+      ⣿⣿⣿⣿⣿⡈⣾⣿⣿⣿⣿⣿⠇⠏⠿⠿⢿⣿⣿⠿⠄⠄⠋⠻⠿⣿⣿⠿⡟⠾⣿⣯⣽⣿⣿⠏⣾⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣤⣜⠓⢚⣿⡥⠄⠈⠄⠐⠂⠠⠭⠄⠄⠄⠄⠚⠓⠂⠄⡀⠠⣤⡒⠒⣒⡿⣡⣾⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣤⣴⣶⣿⣦⣤⣄⣠⣤⣴⠟⠁⡤⠤⢀⣀⣠⣤⣤⣤⡠⣠⣤⡌⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠄⠎⠼⠿⣷⣶⢹⣿⣿⣿⣿⣿⣿⡀⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣀⠄⠉⠉⣁⡀⠞⠛⠛⠉⠙⠻⠏⢀⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣿⣿⣶⣶⣤⣤⣤⣾⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      '''
     elif name == "P250 Pistol":
       self.maxBullet = 12
       self.image = '''
@@ -135,7 +157,7 @@ class Weapon(Items):
       '''
       self.damage = Damage(20, 15, 10)
       #self.reloadTime = 2
-      self.durability = 50
+      self.durability = 100
       self.bulletPerAttack = 3
 
     elif name == "Deagle Pistol":
@@ -157,11 +179,11 @@ class Weapon(Items):
       '''
       self.damage = Damage(40, 30, 20)
       #self.reloadTime = 2
-      self.durability = 1
+      self.durability = 100
       self.bulletPerAttack = 2
 
     elif name == "M4A1 Rifle":
-      self.maxBullet = 50
+      self.maxBullet = 100
       self.image = '''
       ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
       ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⡿⣿⣿⣿⣿⣿⣿⣿⢿⠿⢿⣿⣿
@@ -175,7 +197,7 @@ class Weapon(Items):
       '''
       self.damage = Damage(75, 50, 40)
       #self.reloadTime = 3
-      self.durability = 75
+      self.durability = 100
       self.bulletPerAttack = 5
 
     elif name == "AWM Sniper Rifle":
@@ -201,7 +223,7 @@ class Weapon(Items):
     self.reload()
 
   def getDetails(self) -> list:
-    return [self.name, self.damage, self.maxBullet, self.bullet, self.image]
+    return [self.name, self.damage, self.maxBullet, self.bullet, self.image, self.durability]
 
   def shoot(self):
     self.bullet = self.bullet - self.bulletPerAttack
@@ -648,10 +670,10 @@ def Search():
   global turn
   print('turn, ', turn)
   playerHealth=player1.hp
-  chanceFindBoss  = max(((turn - 20) * 0.2) + (100 * 0.005),0)
-  chanceFindEnemy = (turn * 0.7) + (100 * 0.05)
-  chanceGetArmor = (turn * 0.3) + (100 * 0.01)
-  chanceGetWeapon = (turn * 0.5) + (100 * 0.01)
+  chanceFindBoss  = max(((turn - 10) * 0.2) + (playerHealth * 0.005),0)
+  chanceFindEnemy = (turn * 0.7) + (playerHealth * 0.05)
+  chanceGetArmor = (turn * 0.3) + (playerHealth * 0.01)
+  chanceGetWeapon = (turn * 0.5) + (playerHealth * 0.01)
   chanceGetHealing = (turn * 0.6) + (playerHealth * 0.01)
 
   pembagi = (chanceFindBoss + chanceFindEnemy + chanceGetWeapon + chanceGetWeapon + chanceGetHealing)
@@ -724,10 +746,12 @@ def lookInventory():
         print("Leg Damage : ", equip.getDetails()[1].legDamage)
         print("Max Bullet : ", equip.getDetails()[2])
         print("Current Bullet : ", equip.getDetails()[3])
+        print("Durability : ", equip.getDetails()[5])
         print("################################")
 
         for i in range (len(weapon)):
           print("Weapon ",i,":", weapon[i].getDetails()[0])
+          # print(weapon[i].getDetails()[4])
           # print("Head Damage : ", weapon[i].getDetails()[1].headDamage)
           # print("Body Damage : ", weapon[i].getDetails()[1].bodyDamage)
           # print("Leg Damage : ", weapon[i].getDetails()[1].legDamage)
@@ -754,6 +778,7 @@ def lookInventory():
           print("Leg Damage : ", view.getDetails()[1].legDamage)
           print("Max Bullet : ", view.getDetails()[2])
           print("Current Bullet : ", view.getDetails()[3])
+          print("Durability : ", view.getDetails()[5])
           print("################################")
           input("Press Enter To Continue")
           os.system('cls||clear')
@@ -887,9 +912,13 @@ def battleLoop(currentEnemy:Enemy):
         player1.reload()
     elif battleInput.lower() in ['heal']:
         consumable = player1.inventory.getAllConsumable()
+        print("################################")
         for i in range (len(consumable)):
           print("Item : ", consumable[i].getDetails()[0])
           print("Heal Amount : ", consumable[i].getDetails()[1])
+        if (len(consumable) == 0):
+          print("Empty")
+        print("################################")
         print("What do you want to do? ")
         intp2 = input("> ")
         if intp2 in ['use consumables', 'heal', 'back']:
