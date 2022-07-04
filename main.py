@@ -1421,7 +1421,6 @@ def menu():
 #     sys.stdout.flush()
 #     time.sleep(0.2)
 #   time.sleep(2)
-
   main_game_loop()
 
 def killedByBossText():
