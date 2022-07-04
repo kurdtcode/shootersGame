@@ -78,11 +78,28 @@ class Consumables(Items):
     self.healamount = 0
     if name == "Bandage":
       self.healamount = 25
+      self.image = '''
+      ⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⠄⠄⠄⠄⠉⠉⠉⠉⠉⠉⠉⠄⣼⣿⣿⣿
+      ⣿⣿⣿⣿⡇⠄⠄⠄⣉⣙⣿⣿⡏⠄⠄⠄⣿⣿⣿⣿
+      ⣿⣿⣿⣿⡇⠄⠄⠄⠛⢳⣢⡀⣿⠄⠄⠄⣿⣿⣿⣿
+      ⣿⣿⣿⣏⠁⠄⢀⣀⣀⣀⣀⣀⣀⡀⠄⠄⢸⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿=
+      '''
     elif name == "Medkit":
+      self.image = '''
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠻⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⠿⠿⠿⠯⠄⠄⠂⠠⠄⠄⡀⠄⠙⣿⣿⣿
+      ⣿⣿⣿⡟⠈⠄⡂⡐⡈⠄⠡⠈⢄⡡⠄⢂⠁⣿⣿⣿
+      ⣿⣿⣿⣇⠠⠑⡀⡂⢐⠈⣈⣿⣿⣴⡎⠠⢐⣿⣿⣿
+      ⣿⣿⣿⣷⠄⠌⠄⢂⠂⢼⡿⣿⣿⠛⠐⡐⢸⣿⣿⣿
+      ⣿⣿⣿⣿⠄⠨⢐⠐⢐⠄⡂⢍⢩⣬⣲⣶⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣌⣄⣌⣤⣾⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      '''
       self.healamount = 50
 
   def getDetails(self) -> list:
-    return [self.name, self.healamount]
+    return [self.name, self.healamount, self.image]
 
 ################
 # Weapon Setup #
@@ -107,9 +124,7 @@ class Weapon(Items):
     self.damage = Damage(0, 0, 0)
     #self.reloadTime = 0
     self.bulletPerAttack = 0
-    self.image = '''
-    punchhhhhhhhhhhhhhhh
-    '''
+
     if name == "Punch":
       self.maxBullet = 1
       self.damage = Damage(10, 8, 5)
@@ -739,7 +754,7 @@ def lookInventory():
       while(True):
         weapon = player1.inventory.getAllWeapon()
         equip = player1.inventory.seeEquippedWeapon()
-        print("################################")
+        print("░"*45)
         print("Equipped Weapon :", equip.getDetails()[0])
         print("Head Damage : ", equip.getDetails()[1].headDamage)
         print("Body Damage : ", equip.getDetails()[1].bodyDamage)
@@ -747,7 +762,7 @@ def lookInventory():
         print("Max Bullet : ", equip.getDetails()[2])
         print("Current Bullet : ", equip.getDetails()[3])
         print("Durability : ", equip.getDetails()[5])
-        print("################################")
+        print("░"*45)
 
         for i in range (len(weapon)):
           print("Weapon ",i+1,":", weapon[i].getDetails()[0])
@@ -757,7 +772,7 @@ def lookInventory():
           # print("Leg Damage : ", weapon[i].getDetails()[1].legDamage)
           # print("Max Bullet : ", weapon[i].getDetails()[2])
           # print("Current Bullet : ", weapon[i].getDetails()[3])
-        print("################################")
+        print("░"*45)
         print("What do you want to do? (equip weapon/reload/view weapon detail/back)")
         intp2 = input("> ").lower()
         while intp2 not in ['equip weapon', 'reload','view weapon detail', 'view weapon','view detail', 'back']:
@@ -779,7 +794,7 @@ def lookInventory():
           print("Max Bullet : ", view.getDetails()[2])
           print("Current Bullet : ", view.getDetails()[3])
           print("Durability : ", view.getDetails()[5])
-          print("################################")
+          print("░"*45)
           input("Press Enter To Continue")
           os.system('cls||clear')
 
@@ -794,17 +809,17 @@ def lookInventory():
       while (True):
         armors = player1.inventory.getAllArmor()
         equip = player1.inventory.seeEquippedArmor()
-        print("################################")
+        print("░"*45)
         print("Equipped Armor : ", equip.getDetails()[0])
         print("Durability : ", equip.getDetails()[1])
         print("Damage Reduction : ", equip.getDetails()[2])
-        print("################################")
+        print("░"*45)
 
         for i in range (len(armors)):
           print("Armor",i+1,":", armors[i].getDetails()[0])
           # print("Durability : ", armors[i].getDetails()[1])
           # print("Damage Reduction : ", armors[i].getDetails()[2])
-        print("################################")
+        print("░"*45)
 
         print("What do you want to do? (equip armor/view armor detail/back)")
         intp2 = input("> ")
@@ -820,11 +835,11 @@ def lookInventory():
           print("Which weapon do you want to view? (numbers)")
           intp2 = int(input("> "))
           view = player1.inventory.seeArmorDetail(intp2-1)
-          print("################################")
+          print("░"*45)
           print("Armor :", view.getDetails()[0])
           print("Durability : ", view.getDetails()[1])
           print("Damage Reduction : ", view.getDetails()[2])
-          print("################################")
+          print("░"*45)
           input("Press Enter To Continue")
           os.system('cls||clear')
         elif intp2 == 'back':
@@ -834,13 +849,14 @@ def lookInventory():
     elif intp == 'view consumables':
       while (True):
         consumable = player1.inventory.getAllConsumable()
-        print("################################")
+        print("░"*45)
         for i in range (len(consumable)):
+          print(consumable[i].getDetails()[2])
           print("Item ",i+1,": ", consumable[i].getDetails()[0])
           print("Heal Amount : ", consumable[i].getDetails()[1])
         if (len(consumable) == 0):
           print("Empty")
-        print("################################")
+        print("░"*45)
 
         print("What do you want to do? (use consumables/back)")
         intp2 = input("> ")
@@ -912,13 +928,14 @@ def battleLoop(currentEnemy:Enemy):
         player1.reload()
     elif battleInput.lower() in ['heal']:
         consumable = player1.inventory.getAllConsumable()
-        print("################################")
+        print("░"*45)
         for i in range (len(consumable)):
+          print(consumable[i].getDetails()[2])
           print("Item ",i+1,": ", consumable[i].getDetails()[0])
           print("Heal Amount : ", consumable[i].getDetails()[1])
         if (len(consumable) == 0):
           print("Empty")
-        print("################################")
+        print("░"*45)
         print("What do you want to do? (use consumables/back)")
         intp2 = input("> ")
         while intp2 not in ['use consumables', 'back']:
@@ -947,7 +964,6 @@ def battleLoop(currentEnemy:Enemy):
 
 # Check if either or both Players is below zero health
 def check_win(enemy:Enemy):
-  print(enemy.name)
   if enemy.name == "Special Force Soldier":
     if player1.hp < 1 and enemy.hp >= 1 :
       player1.game_over = True
@@ -968,7 +984,6 @@ def check_win(enemy:Enemy):
     elif player1.hp < 1 and enemy.hp < 1:
       player1.game_over = True
       gameDrawText()
-
     else:
       print("Something Wrong")
 
@@ -978,16 +993,17 @@ def check_win(enemy:Enemy):
 def main_game_loop():
     global enemy
     os.system('cls||clear')
-    print("################################")
-    print("# Here begins the adventure... #")
-    print("################################\n")
-    print("You find yourself in the center of a strange place.\nSeems like you are trapped in a forest.\n")
-    time.sleep(1)
+    print("░"*45)
+    print("░ Here begins the adventure...              ░")
+    print("░"*45)
+    print("\nYou find yourself in the center of a strange place.\nSeems like you are trapped in a forest.\n")
+    time.sleep(5)
     while player1.game_over is False:
       os.system('cls||clear')
       print(f"{player1.name}'s health = {player1.hp}")
-      print("\n=========================")
-      print("What would you like to do?\n1. Search\n2. View Inventory\n3. Quit game")
+      print()
+      print("░"*45)
+      print("What would you like to do?\nSearch\nView Inventory\nQuit game")
       action = input("> ")
       acceptable_actions = ['search', 'look', 'view', 'inventory', 'view inventory', 'inspect', 'quit']
       #Forces the player to write an acceptable sign, as this is essential to solving a puzzle later.
@@ -1026,10 +1042,13 @@ def main_game_loop():
             print("Congratulation! You found an armor!")
             armor = Armor()
             player1.inventory.addArmor(armor)
+            print("░"*45)
             print("Armor : ", armor.getDetails()[0])
             print("Durability : ", armor.getDetails()[1])
             print("Damage Reduction : ", armor.getDetails()[2])
-            tanya = input("Equip Armor? (yes/no)")
+            print("░"*45)
+            print("Equip Armor?(yes/no)\n")
+            tanya = input("> ")
             if tanya.lower() == 'yes':
               player1.inventory.equipArmor(len(player1.inventory.armor)-1)
             else:
@@ -1038,13 +1057,16 @@ def main_game_loop():
             print("Congratulation! You found a weapon!")
             weapon = Weapon()
             player1.inventory.addWeapon(weapon)
+            print("░"*45)
             print(weapon.getDetails()[4])
             print("Weapon : ", weapon.getDetails()[0])
             print("Head Damage : ", weapon.getDetails()[1].headDamage)
             print("Body Damage : ", weapon.getDetails()[1].bodyDamage)
             print("Leg Damage : ", weapon.getDetails()[1].legDamage)
             print("Bullet : ", weapon.getDetails()[2])
-            tanya = input("Equip Weapon? (yes/no)")
+            print("░"*45)
+            print("Equip Weapon?(yes/no)\n")
+            tanya = input("> ")
             if tanya.lower() == 'yes':
               player1.inventory.equipWeapon(len(player1.inventory.weapon)-1)
             else:
@@ -1053,8 +1075,11 @@ def main_game_loop():
             print("Congratulation! You found a consumable item!")
             consumable = Consumables()
             player1.inventory.addConsumable(consumable)
+            print("░"*45)
+            print(consumable.getDetails()[2])
             print("Item : ", consumable.getDetails()[0])
             print("Heal Amount : ", consumable.getDetails()[1])
+            print("░"*45)
           input("Press enter to continue ....")
       elif action.lower() in ['inventory', 'view inventory']:
           lookInventory()
@@ -1087,7 +1112,8 @@ def opening():
 - Kevin Daniel - C14200140
 - Alan Satria - C14200196
 '''
-  # print(a)
+  print(a)
+  print(b)
   # for character in b:
   #   sys.stdout.write(character)
   #   sys.stdout.flush()
@@ -1180,90 +1206,221 @@ quitgame = 'quit'
 # main task menu #
 ##################
 def menu():
-  os.system('cls||clear')
+#   os.system('cls||clear')
+#   naration1 = "You find yourself alone in an unfamiliar place and you hear a strange sound...."
+#   for character in naration1:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.05)
+#   os.system('cls||clear')
+#   naration2 = "\nWHAT IS THIS SOUND?!!\nWHERE AM I??"
+#   for character in naration2:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.001)
+#   time.sleep(2)
+#   os.system('cls||clear')
+#   naration4 = "\nYOU LOOKED BACK AND SEE A FIGURE APPROACHING YOU....\n"
+#   for character in naration4:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.1)
+#   time.sleep(2)
+#   #Leads the player into the warzone now!
+#   art1 = '''
+# ⣿⣿⣿⣿⣿⣿⠇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢸⣷⣄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⡏⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣷⣄⠄⠄⠄⠄⠘⢦⣄⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⠁⠄⡆⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣷⣤⠄⠄⠄⠄⠙⢿⣷⣤⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⠄⠘⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀⠄⠢⣀⠙⢿⡿⠿⠂⠄⣀⣀⣀⠄⠄⠄⠄⠄⢠⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣀⠄⠄⠄⠄⠄⠄⠄⠄⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡈⠛⠄⠄⠄⠄⠈⠉⠄⠄⠐⠂⡒⠂⠄⠄⢻⣆⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⢀⣴⣿⠿⠿⣷⡀⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣤⡄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠋⠄⠄⠄⠄⠄⠄⠄⣠⣶⣾⠿⣿⣿⣿⡆⣧⠈⣿⣷⡄⠄⠄⠄⡀⠄⠄⠄⢠⣾⣿⢏⣀⠄⢹⣷⡀⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⡇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢹⣿⣿⣿⣿⣿⣿⠙⠍⠄⠄⠄⠄⠄⠄⠄⠄⢠⣾⠏⠁⠒⠄⠄⠙⣿⡇⡱⠁⢸⣿⣿⣄⠄⠄⢳⣄⠄⠄⢸⣿⡿⠸⣿⣿⣾⣿⣧⠄⠄⠄⠄⣧⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⡇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠘⣿⣿⡿⢿⣿⣿⣦⣤⡄⠄⠄⠄⠄⠄⠄⠄⣿⣿⡀⠄⠄⢀⣼⠿⡿⣼⣤⣴⣯⣿⣿⣿⣆⠄⢸⣿⣇⠄⢸⣿⣇⠄⠄⠻⣿⣿⣿⠄⠄⠄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⡇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠋⠉⠄⠈⢿⣿⣿⣿⣿⡂⢁⠄⠄⠄⢰⣼⣿⣿⣷⣦⣈⣉⣡⣮⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⡄⢸⣿⣿⣷⠄⠄⢸⣿⣿⠄⠄⠄⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⢿⣿⣿⣿⣶⣦⣀⠄⠘⢿⣿⣿⡛⣿⣿⣽⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣿⡿⠄⢀⣾⣿⠃⠄⠄⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢠⠔⠄⠐⠄⠈⣿⣿⣿⣿⣿⣿⣷⣷⣍⣹⣟⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠄⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⠄⠄⠄⣶⣇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠄⠄⠄⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠄⠰⣄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣧⣀⣒⣋⠌⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠟⠋⠄⠄⢀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠃⠄⠙⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⠙⠛⠋⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣥⡀⠄⠄⠄⠄⣿⣧⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⠘⢄⠄⠄⠄⠄⠄⠄⠿⠛⠛⠛⠛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⢧⣿⣿⡄⠄⠄⠄⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⢂⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢸⣿⣿⣿⠄⡄⠄⡸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⠄⠂⠄⠄⠄⠄⠄⠄⠄⠄⢰⣿⣿⣿⠿⠟⣛⣿⡿⠟⠛⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⢸⣿⣿⣿⣿⣿⠆⠾⠿⠿⠿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⠄⠡⠄⠄⠄⠄⠄⠄⠄⠘⠛⣉⣤⣴⠿⠛⠁⠄⠄⠄⢀⣠⢄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠛⠄⠄⠉⠄⠄⠐⠒⠒⡿⣶⣿⣶⣶⣶⣶⣦⣤⣤⡘⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠄⠄⠄⠄⠄⠄⠄⠄⠉⠁⠄⠄⠄⣀⠠⣔⣾⣽⣿⣿⣿⣿⣿⡿⠿⠛⠉⠁⠄⠲⠂⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⠿⣿⣿⣿⣿⣿⣿⣿⣿⣄⢹⣿⣿⣿⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣄⠄⠄⠄⠄⠄⠄⠄⠄⠰⢒⣿⣾⣿⣿⣿⣿⣿⠿⠟⠉⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠒⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠇⠐⣾⣿⣿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠄⠄⠄⠄⠄⠄⠄⠘⠛⠋⠉⢸⡿⠟⠉⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⣻⣿⣿⣿⣿⣿⣿⣿⣿⡜⡀⠙⠻⢿⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠤⠿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠄⢀⣾⣿⣿⣿
+# ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢀⣀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠹⠿⠿⠿⠿⠿⢿⣿⣿⣦⡈⢿⣿⣿⣿
+#   '''
+#   art2 = '''
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⡀⢀⠀⡀⢀⠀⠄⡀⡀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠠⢐⢠⠡⣂⢪⢰⢰⢡⢢⢱⢨⢪⢐⢔⡐⡄⢅⢂⠌⠄⢅⢂⢂⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠄⡂⢅⢱⢸⢜⡮⣗⣧⡳⡵⣝⡮⣯⣳⣽⣺⢝⢮⡪⡮⡣⣇⢏⢮⢢⢣⢢⡑⡅⣅⢂⠄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⢐⢀⠢⡌⡦⣳⢝⡷⣝⣟⡾⣽⣽⣳⣿⣽⣾⢷⣯⣯⣯⣯⣿⣽⢾⡽⣕⡯⡺⣜⢮⡺⣼⣲⢱⢠⠨⠠⠐⡀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠡⢑⢌⢪⢪⢪⣫⡺⣕⡯⣷⢯⣿⢿⣾⢿⣾⣿⣾⣿⣿⣾⣿⣿⣾⣿⣿⣽⣗⣯⢯⢮⣳⢯⣗⡯⣯⡺⣸⠨⡪⡐⡐⠡⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠈⠄⢅⢂⠆⡕⡕⣕⢖⣝⢞⡮⣿⣽⣾⣿⣿⣿⣿⣿⣻⣿⣿⣿⣿⣿⣿⣿⣾⣿⣽⢾⣻⡯⣿⢽⣞⢽⡺⣜⡎⣇⢆⢕⠄⡅⡂⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢐⠠⠈⢔⠰⡰⢱⢱⢱⢝⣕⢯⡳⡯⣷⣻⣽⣿⣽⣿⣿⣿⣿⣿⣿⣿⣻⣿⣾⢿⡾⣗⣿⣻⣷⢿⣽⣟⡾⣝⣝⢮⢺⡪⡣⡣⡑⢌⠌⠌⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⡀⡂⠅⡢⡑⡌⡆⢗⢝⢮⡪⣗⢯⢯⢷⣻⣞⣿⡾⣿⣾⣿⣟⣯⣷⣿⣿⣿⣟⣿⣿⣟⣿⣽⡾⣟⡷⡯⣻⣺⣺⡪⡧⣣⡣⡪⡪⢢⢱⠡⢂⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⡀⠢⢑⢐⢑⢌⠪⡊⢎⢎⢎⢮⢫⡳⣝⣗⢿⣺⣟⣿⢾⣿⣻⣿⣟⣿⣯⣿⣟⣿⣽⣻⡽⣞⡿⡽⣯⢟⢗⢗⠵⠹⡘⢆⠣⠣⠡⠡⠡⠑⠁⠄⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠌⠌⡂⡂⡂⠢⢑⠨⠨⠊⠜⢜⢎⢞⢜⢪⢳⢳⢝⡞⡯⣟⣯⣟⡯⣟⣷⣻⢽⡺⣕⢏⠯⡓⡍⢏⠪⠉⠊⠀⠀⠁⠀⠀⠀⠀⠁⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠁⠀⠀⠀⠈⠀⠅⠑⠅⢇⢏⢞⢮⢳⢝⡕⡇⡗⢕⠅⠅⠅⠡⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠠⠡⠣⡣⡣⡣⢃⠅⠁⠀⠀⠀⠀⠀⠀⠀⠀⡄⣔⢔⠴⡰⡠⡠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠄⠐⠰⢤⠠⠐⠀⠀⠀⠀⠀⠀⠀⠡⢑⢕⢕⢜⠄⠂⠀⠀⠀⠀⠀⠀⠀⠀⡢⡫⠂⠀⠀⠈⠸⡽⡐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢌⢖⠈⠀⠀⠀⠈⢝⣦⢀⠀⠀⠀⠀⠀⠀⠀⠅⣳⡹⡜⢔⠀⠀⠀⠀⠀⠀⠀⠀⡬⣺⠀⠀⠘⠀⠀⠀⠕⠔⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⡇⠀⠀⠈⠁⠀⢰⢫⠣⠀⠀⠀⠀⠀⠀⠀⠐⡜⡮⡫⡢⠂⠀⠀⠀⠀⠀⠀⠀⠉⠊⠑⠀⠀⠀⠀⠨⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠄⠠⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠅⡇⡯⡪⡂⡂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⢕⢕⢽⢕⢇⠆⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠨⡪⡽⡽⡽⡵⡱⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⢅⢧⣫⢯⣿⢽⣣⢣⠡⠐⡀⠄⠠⠀⡀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢀⠀⡀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡈⠢⡣⡯⣯⣿⡽⡮⡇⡇⢅⢢⢡⢑⢱⢠⢡⠠⡨⠀⡂⢂⠐⡐⠠⡡⢌⢢⣑⢆⡆⡇⠄⡀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⢀⠤⣱⣱⢔⣕⢥⡣⡱⣐⢄⢄⠄⢄⠠⢀⠠⡀⢂⠈⢀⠠⡐⢄⢕⢕⣽⣳⣽⡽⣯⣫⢪⢪⢳⢕⣕⢜⠜⡜⡜⡜⡴⡌⣆⢜⢔⢕⡜⣮⣳⢵⣳⡽⡼⡬⡠⢀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⡀⣆⢯⡾⣽⣯⣯⡷⣯⢯⡮⣗⢵⢱⠱⡨⡐⠐⠀⠀⢀⠐⡌⡌⢆⢇⢷⢽⣷⣿⣿⣿⢾⡵⡕⣕⢕⣗⢵⢝⢜⢬⢢⢑⠹⡸⢸⣑⢷⢽⣺⣺⢽⣳⡿⣽⣺⢸⠠⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⡐⡔⣵⣻⣽⢿⣞⣷⢿⣽⣻⢯⢗⢧⢓⢕⠐⠠⠡⡑⠄⢂⠌⡂⠊⠐⠈⢪⢯⢿⢝⡯⣟⡯⡏⠅⠑⠑⠕⠝⠕⣕⢷⢕⡆⡕⡘⢜⢜⢪⡳⣳⢽⢯⣷⣻⢷⣝⢮⢪⢈⠀⠀⠀⠀
+# ⠀⠀⠀⠀⢐⢜⢜⣷⣻⢾⣻⣽⢯⣟⣗⢯⢳⢹⢨⢂⠂⡨⡸⣸⢸⡘⣄⣅⠪⡠⣀⢀⠈⢓⢝⡕⡯⡳⡝⡀⡀⣆⢆⢆⣢⣣⢯⣗⢷⢽⣸⢠⠀⡈⠂⢇⢳⠽⣽⣺⡽⡽⡮⡳⡑⠄⠄⠀⠀⠀
+# ⠀⠀⠀⠀⢂⢪⢪⢞⣽⣻⡽⡾⣝⣞⢮⢪⠪⠂⠅⢀⠰⣕⢯⢾⡵⣝⡮⣞⡽⡮⡾⣜⣞⣆⢧⡣⣑⢍⢮⣪⣳⡳⣝⡮⣞⣞⣿⣺⡯⣗⡇⢇⢣⠢⡀⠄⠁⢫⢺⢪⢯⡫⡳⡑⠌⠌⠄⠀⠀⠀
+# ⠀⠀⠀⠀⢂⢎⠪⡣⡳⣕⢯⡫⣺⢸⠸⠨⠈⠀⡀⡢⡣⣳⢯⢯⡯⣯⢯⣷⣻⣟⣿⣳⡿⣾⢿⣾⣯⢿⣻⡷⣷⣻⣗⣿⡽⡷⣯⢷⡯⣗⢝⢜⠜⡈⢢⠱⡐⡀⠈⠜⡜⡜⡕⡈⠨⠨⠀⠀⠀⠀
+# ⠀⠀⠀⠀⢂⠢⡃⢕⢕⢕⢗⢝⢜⠬⠈⠀⡀⢂⠌⢜⢜⢼⣹⡳⣯⣻⢽⢾⢽⢾⡽⣷⣻⡿⣿⢷⡿⣟⣿⣻⡽⣯⢿⣞⣟⡯⣟⣟⢮⢇⠇⠇⠅⠌⡐⢑⠰⠨⠀⢡⢣⢪⠢⠀⠐⡈⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠪⡨⡂⠡⡊⡇⣏⢮⠣⡁⠀⠁⠊⢂⠑⡑⠌⡲⠱⡙⠮⡺⡹⡝⡯⡻⡽⣝⢷⣻⣻⣽⣻⢯⣟⡷⣻⢽⢝⢞⠎⠏⠎⠊⠊⠠⠁⠁⠁⠀⠀⠀⠀⠀⠠⢸⢸⢢⠑⠀⠐⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠈⢌⢆⢎⠀⠂⡕⣕⢇⢇⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠈⠐⠈⠀⠁⠁⠃⠃⠃⠃⠃⠁⡁⣀⠁⡀⠈⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⢄⢐⡵⣝⢎⠌⠀⠐⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠠⠑⢔⢕⠠⠀⠕⠵⣝⢮⡢⡀⠀⠀⠀⠀⠀⠠⠀⡀⠀⢡⣢⡀⢲⢧⡡⠀⣜⣾⣽⣾⣤⢀⠰⣴⣳⣟⣷⣇⢐⣁⡮⠀⣐⠬⠀⠄⠀⠀⠀⠠⠀⣐⣕⣗⢽⡺⡨⠀⠐⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠡⢡⠣⡡⠀⠈⢪⢪⣳⢽⡪⡀⠀⠠⠀⠀⠀⠀⠈⠀⠠⡫⡊⢜⢿⣯⠂⡼⣿⣿⢾⣯⡣⣻⣿⣿⣿⣿⣞⠼⡿⡝⠠⡻⡭⠀⠀⡀⠀⠀⢠⢸⣪⣗⣯⢳⢑⠀⠀⠁⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠂⡑⢜⠄⠈⠀⡣⢯⣳⢯⣺⡐⡀⠀⠐⠜⠀⣤⢀⠠⠈⠀⠀⡙⠯⠅⠺⡯⡿⡿⣻⢌⢞⢿⡽⣞⡿⢎⠂⡁⡡⠀⢘⠀⠠⠐⠀⠠⡨⣮⣺⣗⣟⢞⠌⠀⠠⠨⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠄⠣⡑⠅⠀⢈⢳⡽⡯⣞⣮⡢⡁⡀⠀⠐⠈⠠⢹⠱⠀⡓⡦⡈⣆⣆⡌⢄⣁⢆⡁⡈⣑⢉⠨⡨⣢⢀⢢⡣⡃⠃⠃⡀⠄⡢⣫⣟⣾⣳⣻⢮⢇⠃⠀⠌⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠐⠈⠌⠀⠀⢘⢞⣽⣳⣳⢯⣎⢆⡂⠀⠀⠀⠀⠁⠀⠑⠘⠐⠐⡟⡏⡂⢯⢗⠅⠪⡿⡳⠀⠝⠊⠂⢁⢈⠠⠠⡁⡆⡵⡽⣷⢿⣽⡺⡮⡳⡑⠀⠁⠄⠁⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠁⠈⠄⠀⠀⢑⢗⣟⣞⡷⡽⣕⡧⣇⢆⡢⡐⡠⢐⠠⠠⡐⠠⡀⡂⠔⢠⠡⡢⡑⡔⡔⡕⣕⢭⢫⢪⢣⡱⣱⣱⢵⡯⣟⣿⣻⡺⣝⢝⠕⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠣⡳⡽⡽⡯⣗⡯⣯⣗⡯⣞⣼⣲⢕⡧⣣⡳⣕⢕⣝⢎⣗⡳⣝⢮⡳⣝⢮⣺⡪⣯⡳⣯⣗⣯⡿⣽⣗⣗⢗⢝⠜⠨⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠪⡹⡹⣝⢵⣫⣗⣯⢿⣽⢾⣞⣯⣯⢷⣻⢮⡯⣞⣷⣳⣯⡿⣽⢾⣽⢽⡮⣟⣮⣟⣷⣻⣞⡯⣗⣗⢵⢙⠐⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠈⢌⠜⡎⣞⢞⣞⣯⢿⣻⣽⡷⣟⣯⣿⢯⣿⣯⣿⣿⣷⣿⣿⣿⣯⣿⣻⣽⢾⡽⣞⡷⣯⣻⡪⡊⡂⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡁⢊⠪⡺⡪⣟⡽⣯⢷⡿⣟⣿⡾⣿⣷⣿⣿⣿⣿⣿⣿⣷⣿⣿⣯⣟⣯⢿⡽⣯⡳⡱⠡⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢈⠪⢪⢪⢯⡻⡽⡯⡷⣟⣿⢾⣟⣿⣿⣿⣻⣿⡿⣷⢿⡾⣽⡺⡯⡺⠸⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠠⠑⠱⠹⡹⡹⡝⣞⢯⢿⢽⡾⣿⣟⡯⣟⢯⢟⢮⢳⠹⢘⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠐⠈⠨⠘⠨⢓⢍⠳⡙⠮⡚⡎⢎⠳⡑⡑⠁⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+# ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠁⠀⠐⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+#   '''
+#   os.system('cls||clear')
+#   print(art1)
+#   naration5 = "SLOWLY BUT GETTING CLOSER....... AND CLOSER...."
+#   for character in naration5:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.1)
+#   time.sleep(2)
+#   os.system('cls||clear')
+#   print(art2)
+#   time.sleep(3)
+#   speaker1 = "Mysterious Man: "
+#   print(speaker1)
+#   question1 = "HAHAHA no need to be afraid buddy. What is your name?\n"
+#   for character in question1:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.05)
+#   player_name = input("> ")
+#   print()
+#   player1.name = player_name
 
-  # question1 = "Hello there, what is your name?\n"
-  # for character in question1:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.05)
-  # player_name = input("> ")
-  # player1.name = player_name
+#   print(speaker1)
+#   question2 = "My dear friend " + player1.name + ", how are you feeling? You look messed up\n"
+#   for character in question2:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.05)
+#   feeling = input("> ")
+#   print()
+#   player1.feeling = feeling.lower()
 
-  # question2 = "My dear friend " + player1.name + ", how are you feeling?\n"
-  # for character in question2:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.05)
-  # feeling = input("> ")
-  # player1.feeling = feeling.lower()
+#   good_adj = ['good', 'great', 'happy', 'aight', 'understanding', 'great', 'alright', 'calm', 'confident', 'not bad', 'courageous', 'peaceful', 'reliable', 'joyous', 'energetic', 'at', 'ease', 'easy', 'lucky', 'k', 'comfortable', 'amazed', 'fortunate', 'optimistic', 'pleased', 'free', 'delighted', 'swag', 'encouraged', 'ok', 'overjoyed', 'impulsive', 'clever', 'interested', 'gleeful', 'free', 'surprised', 'satisfied', 'thankful', 'frisky', 'content', 'receptive', 'important', 'animated', 'quiet', 'okay', 'festive', 'spirited', 'certain', 'kind', 'ecstatic', 'thrilled', 'relaxed', 'satisfied', 'wonderful', 'serene', 'glad', 'free', 'and', 'easy', 'cheerful', 'bright', 'sunny', 'blessed', 'merry', 'reassured', 'elated', '1738', 'love', 'interested', 'positive', 'strong', 'loving']
+#   hmm_adj = ['idk', 'concerned', 'lakshya', 'eager', 'impulsive', 'considerate', 'affected', 'keen', 'free', 'affectionate', 'fascinated', 'earnest', 'sure', 'sensitive', 'intrigued', 'intent', 'certain', 'tender', 'absorbed', 'anxious', 'rebellious', 'devoted', 'inquisitive', 'inspired', 'unique', 'attracted', 'nosy', 'determined', 'dynamic', 'passionate', 'snoopy', 'excited', 'tenacious', 'admiration', 'engrossed', 'enthusiastic', 'hardy', 'warm', 'curious', 'bold', 'secure', 'touched', 'brave', 'sympathy', 'daring', 'close', 'challenged', 'loved', 'optimistic', 'comforted', 're', 'enforced', 'drawn', 'toward', 'confident', 'hopeful', 'difficult']
+#   bad_adj = ['bad', 'meh', 'sad', 'hungry', 'unpleasant', 'qus', 'angry', 'depressed', 'confused', 'helpless', 'irritated', 'lousy', 'upset', 'incapable', 'enraged', 'disappointed', 'doubtful', 'alone', 'hostile', 'discouraged', 'uncertain', 'paralyzed', 'insulting', 'ashamed', 'indecisive', 'fatigued', 'sore', 'powerless', 'perplexed', 'useless', 'annoyed', 'diminished', 'embarrassed', 'inferior', 'upset', 'guilty', 'hesitant', 'vulnerable', 'hateful', 'dissatisfied', 'shy', 'empty', 'unpleasant', 'miserable', 'stupefied', 'forced', 'offensive', 'detestable', 'disillusioned', 'hesitant', 'bitter', 'repugnant', 'unbelieving', 'despair', 'aggressive', 'despicable', 'skeptical', 'frustrated', 'resentful', 'disgusting', 'distrustful', 'distressed', 'inflamed', 'abominable', 'misgiving', 'woeful', 'provoked', 'terrible', 'lost', 'pathetic', 'incensed', 'in', 'despair', 'unsure', 'tragic', 'infuriated', 'sulky', 'uneasy', 'cross', 'bad', 'pessimistic', 'dominated', 'worked', 'up', 'a', 'sense', 'of', 'loss', 'tense', 'boiling', 'fuming', 'indignant', 'indifferent', 'afraid', 'hurt', 'sad', 'insensitive', 'fearful', 'crushed', 'tearful', 'dull', 'terrified', 'tormented', 'sorrowful', 'nonchalant', 'suspicious', 'deprived', 'pained', 'neutral', 'anxious', 'pained', 'grief', 'reserved', 'alarmed', 'tortured', 'anguish', 'weary', 'panic', 'dejected', 'desolate', 'bored', 'nervous', 'rejected', 'desperate', 'preoccupied', 'scared', 'injured', 'pessimistic', 'cold', 'worried', 'offended', 'unhappy', 'disinterested', 'frightened', 'afflicted', 'lonely', 'lifeless', 'timid', 'aching', 'grieved', 'shaky', 'victimized', 'mournful', 'restless', 'heartbroken', 'dismayed', 'doubtful', 'agonized', 'threatened', 'appalled', 'cowardly', 'humiliated', 'quaking', 'wronged', 'menaced', 'alienated', 'wary']
 
-  # good_adj = ['good', 'great', 'happy', 'aight', 'understanding', 'great', 'alright', 'calm', 'confident', 'not bad', 'courageous', 'peaceful', 'reliable', 'joyous', 'energetic', 'at', 'ease', 'easy', 'lucky', 'k', 'comfortable', 'amazed', 'fortunate', 'optimistic', 'pleased', 'free', 'delighted', 'swag', 'encouraged', 'ok', 'overjoyed', 'impulsive', 'clever', 'interested', 'gleeful', 'free', 'surprised', 'satisfied', 'thankful', 'frisky', 'content', 'receptive', 'important', 'animated', 'quiet', 'okay', 'festive', 'spirited', 'certain', 'kind', 'ecstatic', 'thrilled', 'relaxed', 'satisfied', 'wonderful', 'serene', 'glad', 'free', 'and', 'easy', 'cheerful', 'bright', 'sunny', 'blessed', 'merry', 'reassured', 'elated', '1738', 'love', 'interested', 'positive', 'strong', 'loving']
-  # hmm_adj = ['idk', 'concerned', 'lakshya', 'eager', 'impulsive', 'considerate', 'affected', 'keen', 'free', 'affectionate', 'fascinated', 'earnest', 'sure', 'sensitive', 'intrigued', 'intent', 'certain', 'tender', 'absorbed', 'anxious', 'rebellious', 'devoted', 'inquisitive', 'inspired', 'unique', 'attracted', 'nosy', 'determined', 'dynamic', 'passionate', 'snoopy', 'excited', 'tenacious', 'admiration', 'engrossed', 'enthusiastic', 'hardy', 'warm', 'curious', 'bold', 'secure', 'touched', 'brave', 'sympathy', 'daring', 'close', 'challenged', 'loved', 'optimistic', 'comforted', 're', 'enforced', 'drawn', 'toward', 'confident', 'hopeful', 'difficult']
-  # bad_adj = ['bad', 'meh', 'sad', 'hungry', 'unpleasant', 'qus', 'angry', 'depressed', 'confused', 'helpless', 'irritated', 'lousy', 'upset', 'incapable', 'enraged', 'disappointed', 'doubtful', 'alone', 'hostile', 'discouraged', 'uncertain', 'paralyzed', 'insulting', 'ashamed', 'indecisive', 'fatigued', 'sore', 'powerless', 'perplexed', 'useless', 'annoyed', 'diminished', 'embarrassed', 'inferior', 'upset', 'guilty', 'hesitant', 'vulnerable', 'hateful', 'dissatisfied', 'shy', 'empty', 'unpleasant', 'miserable', 'stupefied', 'forced', 'offensive', 'detestable', 'disillusioned', 'hesitant', 'bitter', 'repugnant', 'unbelieving', 'despair', 'aggressive', 'despicable', 'skeptical', 'frustrated', 'resentful', 'disgusting', 'distrustful', 'distressed', 'inflamed', 'abominable', 'misgiving', 'woeful', 'provoked', 'terrible', 'lost', 'pathetic', 'incensed', 'in', 'despair', 'unsure', 'tragic', 'infuriated', 'sulky', 'uneasy', 'cross', 'bad', 'pessimistic', 'dominated', 'worked', 'up', 'a', 'sense', 'of', 'loss', 'tense', 'boiling', 'fuming', 'indignant', 'indifferent', 'afraid', 'hurt', 'sad', 'insensitive', 'fearful', 'crushed', 'tearful', 'dull', 'terrified', 'tormented', 'sorrowful', 'nonchalant', 'suspicious', 'deprived', 'pained', 'neutral', 'anxious', 'pained', 'grief', 'reserved', 'alarmed', 'tortured', 'anguish', 'weary', 'panic', 'dejected', 'desolate', 'bored', 'nervous', 'rejected', 'desperate', 'preoccupied', 'scared', 'injured', 'pessimistic', 'cold', 'worried', 'offended', 'unhappy', 'disinterested', 'frightened', 'afflicted', 'lonely', 'lifeless', 'timid', 'aching', 'grieved', 'shaky', 'victimized', 'mournful', 'restless', 'heartbroken', 'dismayed', 'doubtful', 'agonized', 'threatened', 'appalled', 'cowardly', 'humiliated', 'quaking', 'wronged', 'menaced', 'alienated', 'wary']
+#   if player1.feeling in good_adj:
+#     feeling_string = "I am glad you feel"
+#   elif player1.feeling in hmm_adj:
+#     feeling_string = "that is interesting you feel"
+#   elif player1.feeling in bad_adj:
+#     feeling_string = "I am sorry to hear you feel"
+#   else:
+#     feeling_string = "I do not know what it is like to feel"
 
-  # if player1.feeling in good_adj:
-  #   feeling_string = "I am glad you feel"
-  # elif player1.feeling in hmm_adj:
-  #   feeling_string = "that is interesting you feel"
-  # elif player1.feeling in bad_adj:
-  #   feeling_string = "I am sorry to hear you feel"
-  # else:
-  #   feeling_string = "I do not know what it is like to feel"
+#   print(speaker1)
+#   question3 = "Well then, " + player1.name + ", " + feeling_string + " " + player1.feeling + ".\n"
+#   for character in question3:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.05)
 
-  # question3 = "Well then, " + player1.name + ", " + feeling_string + " " + player1.feeling + ".\n"
-  # for character in question3:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.05)
-  question4 = ""
-  #Leads the player into the warzone now!
-  speech2 = "Too bad, i have bad news for you. It seems this is where we must part, " + player1.name + ".\n"
-  speech3 = "I bet you don't know where you are now.\n"  
-  speech4 = "Well... look around you!\n"
-  art = '''
-⣿⣿⣿⣿⣿⣿⣿⣿⣿⣛⣻⣿⣿⡟⠛⢿⡿⠟⢛⣿⣿⣿⡛⢻⣿⣿⣿⣿⠟⣿
-⣿⡿⠟⠉⠁⠀⣀⣀⣈⣉⣻⣿⣿⣿⣶⣤⣤⣶⣿⣿⣿⣿⣷⣄⠙⠿⠛⢁⣴⣿
-⣿⠀⠀⠀⠴⣿⣿⣯⣀⣹⣿⣿⣿⠟⠋⠉⠁⠈⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-⣿⠀⠀⢀⡀⠀⠀⠈⠉⠻⣿⣿⣿⣿⣿⣷⣶⣤⡀⠀⠀⠙⢿⠟⠉⠀⢀⣠⣤⣿
-⣿⠀⠀⠀⢹⣿⡿⠷⢶⣤⣈⣿⣿⣿⡿⠛⠛⠉⠉⠀⠀⠀⠀⠀⠀⠰⠿⢿⣿⣿
-⣿⣧⡀⠀⠀⣿⡇⠀⣸⣿⣿⣿⣿⡏⣀⣤⣤⣤⣤⡄⠀⠀⠀⢀⠀⠀⠀⠀⠈⣿
-⣿⣿⣷⣄⡀⣿⠇⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀⠀⢀⣾⠛⠶⣦⣤⣄⣿
-⣿⠿⠿⠿⣿⣿⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⢀⣤⣾⣿⣆⠀⠘⣿⣿⣿
-⣿⣶⣶⣦⣤⣿⠀⠀⣿⠻⠿⠛⠋⣠⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣆⠀⠘⣿⣿
-⣿⣿⣿⣿⣿⣿⠀⢀⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡛⠛⠛⠉⠉⢻⡄⠀⠸⣿
-⣿⣿⠿⠿⠟⠻⠿⠾⣿⣿⣿⠿⠛⠉⠛⠛⠿⣿⣿⣿⣿⣿⣿⣿⣶⣾⣧⠀⠀⣿
-⣿⣶⣶⣶⣤⣄⠀⠀⠀⠉⠁⠀⢀⣠⣤⣴⣶⣶⣿⣿⣿⣿⣿⡟⠉⠀⣿⡀⠀⣿
-⣿⣿⣿⡿⠛⠉⠉⠀⠀⠀⠀⠀⠙⠛⠛⠻⠿⣿⣿⣿⣿⣿⣟⣀⣴⣾⣿⡇⠀⣿
-⣿⣿⠋⠀⣀⣤⣶⣶⡄⠀⠀⠀⢰⣦⣤⣤⣀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⣿
-⣿⣿⣴⣿⣿⣿⣿⣿⣷⣤⣤⣤⣤⣿⣿⣿⣿⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣧⣤⣿
-  '''
-  speech5 = "Yes! You are now in the middle of the forest and it seems you are lost.\n"
-  speech6 = "Heh. Heh.. Heh...\n"
-  # for character in speech2:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.05)
-  # for character in speech3:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.1)
-  # for character in speech4:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.05)
-  # os.system('cls||clear')
-  # print(art)
-  # time.sleep(0.05)
-  # for character in speech5:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.05)
-  # for character in speech6:
-  #   sys.stdout.write(character)
-  #   sys.stdout.flush()
-  #   time.sleep(0.1)
-  # time.sleep(1)
+#   speech3 = "I bet you don't know where you are now.\n"  
+#   speech4 = "Well... look around you!\n"
+#   art = '''
+#   ⠄⠂⢀⠄⠄⡠⠄⠄⠠⠄⠄⡀⠂⡀⢀⠄⡀⢐⠄⡂⡐⠔⡀⡀⡢⠂⡂⠄⠄⠄⠄⢀⠄⢔⠄⡈⡂⠄⠄⡐⠠⢈⠢⢊⢄⢃⠢⡈⠔⠠⠐⠄⡀⡀⢂⠄⠄⠄⠄⢀⢀⠄⠄⠄⢀⠄⠠⠄⠄⡀⠄⠄⠄⠄⠄⠠⢀⠄⢀⠄⠠⠄⡀⠄⠄⠄⢀⠄⡀⠄
+#   ⠠⠁⠄⠂⡁⠐⠄⠐⠄⠌⠠⠄⠠⠄⠄⠄⠂⢀⢂⠐⡈⡂⡂⡂⢌⠐⠄⢀⠈⠄⡁⠄⠄⡑⡀⡐⠨⡘⢄⠕⡁⢢⠣⢡⠢⡑⡨⡀⠅⡂⠨⢀⠄⢂⢂⠂⡀⠁⠄⠂⢀⠄⢁⠠⠄⠂⠠⠐⠁⠄⢀⠐⠈⠄⢈⠄⠠⠐⡀⠄⠈⠄⢀⠄⠁⠄⢀⠐⠄⠄
+#   ⢈⢐⠈⠄⡂⢈⠄⢈⠠⢁⠨⠄⠡⢐⠄⠌⢈⢀⢂⢂⠂⡐⠐⠄⢁⢀⠂⢀⠄⢁⠄⠌⠄⡎⢄⢨⢐⠐⡅⢣⠢⢑⠕⠥⡑⡑⢔⠠⢅⢂⠅⢌⠈⠄⡁⠄⠐⠈⠠⠐⠄⡐⠄⠄⠂⢁⠠⢀⠂⡈⠄⠄⡀⠂⠄⠄⠐⠄⠂⢂⠈⠄⠄⠄⠐⠈⠄⠄⢀⠄
+#   ⢐⠐⡈⠄⢂⠄⠠⠠⠨⠄⡂⠡⠈⠠⡀⠅⠄⠠⠠⠠⠨⡂⠡⠨⡐⠔⠈⠄⠐⠄⠄⠂⠡⡌⡐⢠⢣⢊⢜⠬⣊⢲⡱⡑⡜⡌⡢⢑⠔⡠⠡⠂⢌⢐⠄⠆⡁⠡⠨⡈⠌⡐⢐⠠⢈⠠⠠⠄⠄⠠⠄⢁⠄⠠⠈⢀⠐⠄⠠⠄⢀⠄⠁⡀⠂⠄⢀⠠⠄⠄
+#   ⠠⡁⡂⠈⠄⠂⠠⠐⠨⠄⠔⠠⠁⠅⢂⢂⠊⡨⡊⠌⢂⠄⡃⡣⠢⠣⢁⠈⠠⠁⡐⢈⠰⢬⢂⠢⠭⢌⠆⡎⡆⣗⡣⡫⡢⡕⡜⣔⠥⡪⠨⡨⡰⢄⢧⡢⠠⢁⠅⠄⠡⠢⠄⠆⠠⠐⢀⠒⡐⠄⢈⠄⠠⠐⠄⠄⠄⢈⠠⠄⠠⠄⠂⠄⠄⠄⠄⢀⠄⡀
+#   ⠨⡀⡂⠡⢈⠄⠄⠨⠨⠈⠄⡡⠨⠈⠄⡂⡐⢐⢅⢅⠢⢑⢐⢕⡙⢌⠄⠌⠐⢐⠄⡂⢒⠦⢌⢘⡱⠱⣡⢳⡱⡪⡎⣗⢭⢮⡪⡲⡱⡡⡝⡮⣋⡷⢏⢆⠡⠨⡂⠅⡡⠡⡁⡊⠄⠌⠄⢌⢢⠈⢀⠐⠄⠂⡁⠐⠈⢀⠠⠈⡀⠄⠂⠈⢀⠄⠄⠄⡀⠄
+#   ⢐⢐⠠⠁⡂⠄⠄⢂⠡⢈⢂⠐⡈⠄⡁⡂⡐⠰⡈⡢⢑⢌⢊⢖⢰⠱⠄⠌⠠⢁⠢⡈⢄⢝⢜⢜⣝⣵⣲⢵⣹⣪⢯⢾⢽⢵⢭⣳⢽⣝⢽⣺⣻⡪⣟⡥⠡⡱⡠⡑⡔⡭⡂⡂⢨⠐⡅⡑⡐⡐⠄⠄⠁⠄⠠⠁⠅⠠⠄⢂⠠⠠⠐⠈⠄⠄⢀⠠⠄⠄
+#   ⢐⢐⠠⠁⡂⠄⠂⡐⢈⠄⡐⡀⢂⠡⢐⢐⠨⡈⠆⡊⡢⠂⡂⡅⡆⡧⠁⠌⡐⡐⢢⠂⢍⡚⣌⢧⣻⣺⡾⣽⣺⣺⡿⣟⣿⢯⡿⣾⣟⣾⣟⣾⢷⣟⣧⠪⢌⢆⢞⣆⢳⢐⠬⠢⡂⡕⡕⡱⡰⡁⠂⠄⢁⠐⠈⡌⢌⢂⠡⠐⡀⢂⠌⢀⠁⡈⠄⡀⢂⠐
+#   ⢐⠐⠄⡑⡀⢀⠁⡐⢀⠂⡐⡀⡂⢌⢂⠂⠅⡌⡊⡂⠢⠢⣑⢭⢸⡘⡈⡐⡐⠨⡂⢅⢵⢝⢺⢲⡕⣯⣟⣿⣳⣿⣿⣿⣿⡿⣿⣻⣯⢷⣿⣾⡿⣯⣯⢣⠣⣯⣟⢮⡪⡳⡱⡑⡕⡕⡵⡱⡱⡑⡈⠄⠂⡈⠄⡂⠕⡐⡑⢌⢂⠢⢈⠄⡂⠠⠄⠐⠠⡁
+#   ⠔⠅⡁⡂⠄⠄⠄⠌⡐⠨⢐⢀⢂⢂⠢⠨⠈⢌⢢⢢⢱⢩⢪⡺⠜⡨⡰⠐⠌⢔⠨⠢⣕⠝⡧⣗⣿⣽⣾⣿⢿⣿⣻⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⡾⡪⡪⣷⡯⡧⣣⢳⣣⡣⣳⡹⣜⠮⠝⠆⢐⠄⠡⠐⡀⢇⢣⢱⢘⢔⢑⢌⠢⡂⡢⠐⠄⡁⢂⠢
+#   ⢕⠅⠢⡂⠅⠐⢈⢐⠄⢅⠢⠐⠄⠅⡊⠌⢌⠢⣑⢕⢜⠼⠜⡨⡪⡱⠠⠡⢑⡐⡝⢌⣎⣿⢮⣳⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣿⣿⣿⡞⡜⣜⣝⣿⡿⣜⣿⣵⣻⣜⢮⣳⠭⡫⡌⠄⠨⢀⠡⠐⡕⡕⡕⡕⢜⢌⢆⢕⢌⢢⠁⠄⠐⢐⡑
+#   ⢕⠅⢕⢌⠐⠈⠄⡢⠊⠔⠡⡁⡅⠌⠢⡁⠆⢕⢜⠜⡎⡡⡮⠣⡉⠄⡑⠡⢢⠡⢍⢲⣹⣿⡷⣭⣳⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣾⡯⡪⣎⣿⣿⡿⡵⣿⣷⣷⣯⣻⣺⣽⢯⡇⢌⢐⠐⡠⢁⢇⢇⢯⢪⢪⡪⡢⡱⡱⡱⠌⢐⠈⡐⡑
+#   ⢕⠅⡅⡢⠈⠄⠅⡢⠡⡑⢅⢊⡪⢘⢌⠢⡑⡱⡑⠅⡂⡔⣖⢯⡺⡇⠠⠡⠥⡡⢱⢑⣝⣿⡯⣟⣿⣿⣷⣟⡿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⡿⣯⡪⣞⣾⣿⡿⡽⣿⣿⣿⣗⣗⣿⢾⣿⡇⠅⡂⡂⡂⡂⣕⠹⢱⢕⢧⡳⡱⡱⡸⣜⢕⢀⠂⠌⢮
+#   ⢕⠕⡕⣐⠡⠈⠔⡜⢌⢮⢑⢕⠮⠰⣅⠅⡎⢪⡲⣪⣎⣞⡾⡵⣝⡆⠡⠨⢑⠌⡢⢱⢹⢳⡯⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⡿⣿⣿⣣⡳⣵⢿⣿⡿⡽⣿⣿⣿⣗⣗⣿⣟⣶⡇⠕⡐⡐⡐⡐⢕⣙⡲⡱⣕⢳⢱⢱⢱⢱⡢⠂⠌⠨⡪
+#   ⢕⠅⡇⡢⢂⠡⢁⢝⢔⢕⢕⢵⡏⣕⢵⠡⡢⣫⡯⡮⣞⡾⣯⢯⣬⡄⠅⠌⡐⠔⡈⡆⡲⣥⡫⢷⣿⣿⣿⣯⣿⣿⣿⣿⣿⣽⣿⣿⣿⣿⣿⣿⣿⣿⡪⣞⢞⣿⣿⣿⢽⣿⣿⣿⣧⢯⣿⢮⣿⡇⢕⢐⢐⢐⠨⣘⠼⣺⣪⡲⡽⣸⢸⢜⢮⢌⠌⠨⠐⢬
+#   ⡱⡡⢕⠌⡀⡢⠡⡳⡱⡹⡸⣕⢗⢜⢾⢸⢸⣪⡯⣯⣳⡟⣟⣽⢾⠡⢈⠨⠢⡑⢐⢰⢘⣻⢽⢦⡛⣽⣿⣯⣷⣿⣿⣿⣿⢷⣿⣿⣿⣿⣿⣿⣿⢿⣺⡪⡯⣿⣿⣿⡽⣽⣿⣿⣯⡷⣿⣟⣟⣏⢢⢑⢐⠌⡢⠸⢝⢾⣜⢾⣝⢮⡪⡮⣪⢧⠨⠨⡈⡢
+#   ⡪⠌⡢⡑⡐⢌⠜⡔⣎⠮⡣⣳⡣⣫⢧⢣⡳⣽⢚⣵⣳⣿⡿⣹⣸⠈⠄⡨⢐⢐⢐⠐⡕⣿⢷⣭⣯⣳⡝⣿⣟⣿⣿⣿⣿⣟⣿⣿⣿⣿⣯⣿⣿⣿⣺⡪⡯⣿⣿⣯⣟⣿⣿⣿⣿⢽⣻⣽⣿⡧⡣⡱⡐⡑⢌⢊⢷⣺⣼⡳⣯⢷⢝⡮⡺⣱⠨⡊⠔⠸
+#   ⡪⢸⠰⡁⡪⡂⡇⣇⢧⣫⢳⠵⣹⢜⢵⢱⢩⣪⢯⣗⡞⢔⣭⢶⠾⡀⠅⡊⠄⢢⢂⢑⢸⣿⣟⣾⡿⣿⣿⣗⣯⣟⣿⣿⣿⣽⣾⣿⣿⣿⢿⣿⣿⣿⣪⡺⣝⣿⣿⣿⣽⣾⣿⣿⣿⣻⢿⣻⣽⡷⡱⡱⡘⡌⢎⢪⢹⣻⡾⡽⣽⢽⢵⢯⢯⠾⡐⢌⢊⢊
+#   ⠪⠢⡃⡊⡢⡃⣅⢗⢗⢕⡧⡟⡮⡫⡵⣪⣳⡻⣋⡵⢞⣻⣽⢗⡍⠨⠐⡀⡊⠔⡁⡢⠱⡹⣗⣽⣿⣿⣿⣿⣻⣿⣷⣿⣿⡿⣾⣿⣿⣿⣿⣿⣿⡿⡮⡺⣜⡿⣿⣿⣾⣻⣿⣿⣿⣻⡿⣿⣿⣟⢜⢔⢕⢜⢌⢆⢏⣿⣽⢽⡽⡽⣝⡽⣪⢯⠐⢅⠢⡑
+#   ⠨⠨⡂⢕⢘⢜⢔⢗⢝⣓⢝⢕⠵⢫⢕⡱⡡⡮⣗⣟⣟⢿⣱⣿⠃⠅⢂⠂⡂⠅⣢⢑⠥⣫⣛⢽⣟⣯⣿⣻⢿⣻⣿⣟⣿⡿⣟⣿⣟⣿⣻⣟⣿⡯⣏⢯⢮⢿⣻⡿⣾⣻⣿⣽⣯⢿⣻⣟⣯⣗⢕⢕⢜⢜⢔⢢⢚⢾⢽⢽⢽⢽⢮⢯⡳⣝⠨⡂⡑⠄
+#   ⠈⠔⠨⠠⡃⠢⡑⢜⢘⢜⢐⠕⢍⠪⡊⢎⠎⡎⡎⡆⡗⢝⢵⠹⠠⢁⢂⢂⠂⡅⢅⠊⢎⠸⣲⢱⡪⡳⡫⢽⢽⡺⡽⢽⢳⢻⢫⢯⢫⡻⡝⡝⡗⡻⡪⢯⢫⠯⠯⡯⡫⢗⢯⢺⢺⡫⡯⣫⢻⡪⡪⡪⡪⡊⡎⡎⡎⣎⢕⠭⡫⡣⢫⠪⡪⡢⡑⣑⠨⡑
+#   ⠄⡁⠈⠄⢂⢁⠂⡂⡂⡂⡂⢌⠢⠑⠌⠢⢑⢑⢘⠨⠪⡘⢜⠨⠨⠐⡐⡐⡐⠄⣃⠱⢱⢘⠜⢌⢊⢎⠪⠢⡃⢎⠪⡱⢱⢱⢱⢱⢱⢡⢣⢑⠕⡌⡪⡘⠔⢅⢃⠪⡨⢊⢌⠪⡊⢎⢎⠎⡎⢎⠎⠇⢇⠇⢇⠇⢇⠣⡑⢕⢘⠌⠪⠨⢂⠢⠑⠄⡃⠌
+#   ⠄⠠⠈⡀⢂⠄⡂⢐⠄⡂⢐⠐⢈⠈⡈⠈⠄⠂⡐⠈⠄⢂⠂⠌⠄⠅⡂⠢⡈⠆⠢⡡⢃⠢⡑⡑⢔⠐⠅⢕⠨⢐⠡⠂⢅⠢⢂⠕⡐⡐⠅⠅⢕⠡⢊⠌⡊⠔⡡⠑⢌⢂⠢⠑⢌⠐⢄⢑⠨⢐⠨⢈⠂⠌⡐⠨⠐⡈⢐⠄⢂⠨⠈⠐⠠⠈⠄⠁⠄⠂
+#   ⠄⠄⠂⠄⠄⠠⠄⠄⠠⠐⠄⠐⡀⠐⢀⠁⠄⠡⠄⡁⠂⠡⠈⠄⠡⠁⠌⡐⠠⠁⠅⢂⠡⢈⠐⡈⠄⠡⠁⡂⠌⢐⠈⡈⠄⡈⠄⢂⠐⠠⢁⠁⡂⠌⢐⠈⡠⠁⠄⡁⠂⠄⠨⠈⠠⠈⠄⢂⠐⢐⠄⢂⠈⠄⠐⢀⠁⠠⢀⠈⡀⠠⠈⡀⠂⠐⠄⡁⠄⠂
+#   ⠄⠈⠄⠐⠄⠄⠄⠐⠄⠐⠈⠄⠄⡈⠄⡀⠄⠂⠄⠄⠈⡀⠂⡈⢀⠂⢁⠄⢂⠁⠐⡀⠐⡀⠔⠠⠈⠄⢁⠐⡈⠄⢐⠄⢂⠐⢈⠠⠈⡐⢀⠂⡀⠂⡂⢐⠄⠅⠠⠐⠈⡀⠂⡁⠌⠐⢈⠄⡐⢀⠈⡀⠐⢀⠁⠄⠐⠄⠄⠂⢀⠐⠄⠠⠄⠁⠄⠠⠈⠄
+
+#   '''
+#   speech5 = "Yes! You are now in the middle of the forest and it seems your friend left you here.\n"
+#   speech6 = "I can't stay too long. You seems like a good person. Here, take my backpack and go before they catch you.\n\n"
+#   speak1 = "THEY? WHO?\n\n"
+#   speech7 = "It seems this is where we must part, " + player1.name + ".\n" + "\nGoodluck "+ player1.name + "!\n\n"
+#   speak2 = "WAIT DON'T GO!\n\n"
+  
+#   for character in speech3:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.1)
+#   for character in speech4:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.05)
+#   time.sleep(1)
+#   os.system('cls||clear')
+#   print(art)
+#   time.sleep(1)
+#   print(speaker1)
+#   for character in speech5:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.05)
+#   for character in speech6:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.05)
+#   for character in speak1:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.2)
+#   time.sleep(1)
+#   print(speaker1)
+#   for character in speech7:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.05)
+#   for character in speak2:
+#     sys.stdout.write(character)
+#     sys.stdout.flush()
+#     time.sleep(0.2)
+#   time.sleep(2)
 
   main_game_loop()
 
@@ -1292,6 +1449,28 @@ def gameDrawText():
   print("⣿⣿⣤⣤⣄⣀⣸⣿⣿⣿⣿⣷⣶⣿⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣾⣿⣿⣿⣿⣷⣶⣶⣿⣦⣴⣾⣿⣿⣿⣿⣶⣿⣿⣿⣾⣿⣿⣧⣾⣿⣿")
 
 def defeatText():
+  a = '''
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠛⠉⣉⣩⣭⣭⣭⣭⣍⣉⠉⠛⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⣡⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣌⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⠏⢠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠹⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⠏⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠹⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⠄⣿⡏⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠹⣿⠄⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⠄⣿⡇⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢠⣿⠄⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⡄⢻⣧⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⣸⡿⢀⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⡈⢻⠄⣿⠛⠉⠉⠄⠄⠈⣿⣿⣿⣿⠃⠄⠄⠉⠉⠛⢿⡇⡟⢁⣾⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⢸⣿⠄⠄⠄⠄⠄⢀⣿⣿⣿⣿⡄⠄⠄⠄⠄⠄⣼⡇⢰⣾⣿⣿⣿⣿⢿⣿⣿⣿
+  ⣿⣿⠁⣰⣄⠹⣿⣿⣿⡇⢸⣿⣦⡀⠄⠄⣰⣾⣿⢿⡿⣿⣿⣆⠄⠄⢀⣴⣿⣷⢸⣿⣿⣿⠏⣠⣆⠈⣿⣿
+  ⣿⠟⢀⣿⣿⣆⡘⠛⢿⣇⠸⣿⣿⣿⣿⣿⣿⣿⠁⢸⡇⠈⢿⣿⣿⣿⣿⣿⣿⠇⣸⠿⠛⢃⣰⣿⣿⣄⠻⣿
+  ⡇⠴⠿⠿⠿⠿⣿⣶⣦⣌⣀⠈⠉⠛⠻⣿⣿⣏⠄⢸⡇⠄⣸⣿⣿⠿⠛⠉⠁⢀⣡⣴⣶⣿⠿⠿⠿⠿⠦⢸
+  ⣿⣶⣶⣶⣶⣦⣬⡉⠛⠻⣿⣷⠄⠊⢢⠉⣿⣿⣶⣿⣿⣶⣿⣿⠋⡔⠰⠄⣾⣿⠟⠛⢉⣥⣴⣶⣶⣶⣶⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣄⣉⠃⢸⡼⠄⣿⡍⣭⡍⢩⢩⢹⣿⠄⢧⡇⠘⣉⣠⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠟⡃⢸⣇⡀⢦⡅⡍⡇⢸⢨⢨⣴⠄⣸⡇⢀⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⠟⠛⠛⠛⠛⢋⣡⣴⣶⣷⠘⢿⣿⣶⣧⣥⣥⣬⣬⣼⣶⣿⡿⠃⣾⣷⣦⣌⡉⠛⠛⠛⠛⠻⣿⣿⣿
+  ⣿⣿⣧⡐⢿⣿⣶⣿⣿⡿⠛⢉⣤⣶⣄⠙⠻⢿⣿⣿⣿⣿⡿⠟⠋⣠⣶⣤⡉⠛⢿⣿⣿⣶⣿⡿⠂⣸⣿⣿
+  ⣿⣿⣿⣿⡆⢹⣿⡿⢁⣴⣾⣿⣿⣿⣿⣿⣶⣶⣤⣤⣤⣤⣶⣶⣿⣿⣿⣿⣿⣿⣦⡌⠻⣿⡏⢰⣾⣿⣿⣿
+  ⣿⣿⣿⣿⣿⡘⢋⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⡙⢃⣼⣿⣿⣿⣿
+  '''
+  print(a,"\n")
   print("⣯⠉⠉⠉⠛⠿⣿⣿⣿⠿⠿⠛⠛⠿⠛⠉⣿⣏⠙⠋⠉⠉⠉⠉⠉⢹⡿⠿⠿⠛⠻⠟⠋⢹⣿⣿⡉⠙⠿⠿⠿⢿⣿⣿⣿⡿⠿⠿⠟⠛⠻⠿⠿⠟⠋⣽")
   print("⣿⠄⠄⢀⠄⠄⠈⣿⣿⡆⠄⠄⣤⣤⣀⠄⢻⣿⠄⠄⠄⣤⡄⢠⠄⢸⣿⠄⠄⠠⣤⣤⡀⠸⣿⣯⠁⠄⠄⠄⠄⠸⣿⣿⣿⡇⠄⠄⠄⠄⠄⠄⠄⠄⠄⢹")
   print("⡏⠄⠄⢸⣠⡄⠄⠸⣿⡇⡀⠄⣿⣿⣿⣧⣾⣿⠄⠄⠄⣿⣿⣿⣄⣼⣿⠄⡀⠄⣿⣿⣿⣧⣿⣿⡇⠄⠄⢸⡀⠄⠘⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⡀⢠⢸")
@@ -1312,9 +1491,142 @@ def defeatText():
 
 ## nanti aku bikinin text nya masih binggung mau ditulisin apa
 def findBossText() :
-  print("Go Find The Boss")
-## nanti aku bikinin text nya masih binggung mau ditulisin apa
-def winText():
-  print("You Win")
+  print(" ⣿⠛⣿⣿⡟⠛⠋⠛⡟⠛⠛⠛⣿⠉⣿⣿⠟⠉⠻⣿⣿⣿⣿⡿⠟⠛⢻⡟⠛⣿⠻⣿⣏⠄⣿⡛⠛⠻⣿⣿⣿⣿⡿⠛⠛⠛⢻⣿⡟⢻⣿⠛⠛⠙⣿⣿⣿⣿⠛⠛⠻⣿⣿⣿⠟⠛⢻⣿⣿⠟⠉⢿⣿⣿⠟⠉⠻⣿")
+  print(" ⣿⠄⣿⣿⡇⠄⣿⣿⣷⡆⠄⣿⣿⣤⣿⠁⠰⣦⣠⣿⣿⣿⣿⡇⢰⣶⣾⡇⢠⣿⠄⠸⣿⠄⣿⠇⢰⣦⡈⢻⣿⣿⣷⡆⠄⣿⠉⣽⡇⢸⣿⠄⣿⣿⣿⣿⣿⣿⠄⣶⡄⠘⣿⠃⢠⣦⠄⣿⠃⠰⣦⣠⣿⡏⠠⣶⣠⣽")
+  print(" ⡏⠄⣿⣿⡇⠄⠿⢿⣿⡇⠄⣿⣿⣿⣿⣦⣤⡀⠙⢻⣿⣿⣿⡇⢸⣿⣿⡇⢸⣿⠄⠄⢻⠄⣿⠄⣸⣿⡇⢸⣿⣿⣿⡇⠄⡟⠄⣿⡇⢸⣿⠄⠿⠿⣿⣿⣿⣿⠄⠿⠁⣸⣿⠄⣿⣿⠄⢻⣧⣤⡈⠙⢻⣷⣤⣀⠉⢻")
+  print(" ⡇⠄⣿⣿⡇⠄⣶⣾⣿⡇⠈⣿⣿⣿⣿⠋⢩⣿⠂⢸⣿⣿⣿⡇⢠⣤⣼⡇⢸⣿⠄⢰⡀⠄⣿⡄⠹⠋⣠⣿⣿⣿⣿⡇⠈⣧⠄⣤⡄⠸⡿⠄⣶⣶⣿⣿⣿⡟⠄⣤⣄⠉⣷⠄⢻⡿⠄⣿⡏⢹⣿⠄⢸⡏⠉⣿⡇⢸")
+  print(" ⣇⣀⣠⣼⣇⣀⣁⣸⣿⣇⣀⣿⣿⣿⣿⣧⣈⣉⣠⣾⣿⣿⣿⣇⣸⣿⣿⣇⣸⣿⣠⣼⣿⡄⣿⣀⣤⣾⣿⣿⣿⣿⣿⣇⣀⣗⣀⣿⡇⢸⣇⣀⣈⣀⣿⣿⣿⣏⠄⢉⣁⣴⣿⣦⣀⣁⣴⣿⣧⣈⣉⣠⣿⣿⣀⣉⣠⣼")
 
+def winText():
+  print('''
+  ⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣶⣾⣯⣽⣟⣻⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣏⣿⣷⣾⣫⣽⡟⣻⡿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⡽⣿⣿⣿⣿⣿⣿⣿⣷⣾⣥⣮⣝⣛⣻⠿⠿⠻⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⡏⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣦⡔⢀⣭⣸⡹⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⡳⠟⠟⢻⢿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⡿⣗⣧⡀⠸⣿⣿⣿⣿⣿⣿⣷⣯⣽⣿⣿⣿⢿⣿⣿⣿
+  ⣿⣟⣟⣛⠸⠖⠥⢐⡻⢷⣿⣟⡿⣟⣿⠁⢀⣤⣄⣁⣀⣠⡀⠐⡘⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣇⡟⣾⣿⣦⣓⢒⢔⡉⠓⠄⠄⠄⢼⡿⠿⠿⠟⠋⠆⠄⠗⠄⠄⠄⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣙⢟⣷⣤⠄⣨⠶⣶⠉⠙⠁⠠⢐⢔⡀⠄⠄⠄⠄⠄⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣈⠣⣾⣿⡽⠄⠄⠄⠄⠄⠄⠄⢑⠄⠄⠄⠄⢀⢀⠄⠄⠉⢿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⣿⢟⣏⠄⠄⠄⡀⠄⠄⠄⠨⠄⠄⠄⠐⢀⢐⠄⠄⠄⢸⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠯⠁⠹⠿⢷⣦⣠⡂⠄⠄⠄⡆⠄⠄⠄⠄⠄⠄⠄⠄⠑⡂⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠛⣵⣿⣿⣶⡀⠄⠉⠻⣿⣷⠄⠄⣸⠇⠄⠄⠄⢀⡀⠄⠄⠄⠄⠁⢰⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣾⣿⣿⣿⣿⣿⣦⡀⠄⠄⠄⠄⠄⢿⡟⠙⠳⡀⠄⠄⠄⠄⠄⠄⠄⠄⠫⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣶⡿⢿⣿⣿⣿⣿⢋⣵⣶⣦⣄⠈⠐⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢸⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⠻⣿⣡⣿⠛⢿⣿⣿⣇⠐⣤⣄⠄⠄⠄⠄⠄⠄⠄⠈⠄⠄⠄⠄⠄⢸⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣼⣟⣿⢰⠞⢿⣿⣿⣿⣿⣿⣷⣮⡑⢰⣶⣶⡄⣀⣤⣤⣤⣴⣶⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣮⣤⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣷⣮⣛⣃⣂⣉⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ''')
+  print("                 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⠿⠿⢿⣿⣿⣿⣿⣿⣿⡏⠉⠉⢹                     ")
+  print("                 ⣿⠿⠛⣿⣿⠇⠄⠈⣹⣿⠟⠁⠄⠄⠄⠄⠹⣿⣿⡏⠉⠉⣿⣿⣿⠉⠉⢹⣿⣿⣿⣿⣿⣿⡇⠄⠐⣿⣿⣿⣿⣿⣿⣿⡇⠄⠄⣼⡇⠄⠄⣼⣿⡇⠄⠹⣿⣿⣧⠄⠄⢸                     ")
+  print("                 ⣇⠄⠄⢿⣿⠄⠄⢸⣿⡏⠄⠄⢠⣶⡀⠄⠄⢻⣿⡇⠄⠄⣿⣿⣿⠄⠄⢸⣿⣿⣿⣿⣿⣿⡇⠄⠄⣿⣿⡿⠄⢹⣿⣿⠃⠄⢀⣿⡇⠄⠄⣿⣿⡇⠄⠄⢹⣿⣷⠄⠄⢸                     ")
+  print("                 ⣿⠄⠄⢸⡇⠄⠄⣼⣿⠄⠄⢀⣿⣿⣷⠄⠄⢸⣿⡇⠄⠄⣿⣿⣿⠄⠄⢸⣿⣿⣿⣿⣿⣿⣧⠄⠄⣿⣿⡇⠄⢸⣿⡿⠄⠄⣸⣿⣧⠄⠄⣿⣿⡇⠄⠄⠘⣿⣿⠄⠄⢸                     ")
+  print("                 ⣿⡄⠄⠸⠃⠄⢠⣿⡏⠄⠄⣸⣿⣿⣿⠄⠄⠘⣿⡇⠄⢀⣿⣿⣿⠄⠄⢸⣿⣿⣿⣿⣿⣿⣿⡀⠄⢸⡿⠄⠄⠘⣿⡇⠄⠄⣿⣿⡏⠄⠄⣿⣿⡇⠄⠄⠄⢹⣿⠄⠄⢸                     ")
+  print("                 ⣿⣧⠄⠄⠄⠄⣾⣿⡇⠄⠄⣻⣿⣿⣿⠄⠄⠄⣿⡇⠄⠄⣿⣿⣿⠄⠄⢸⣿⣿⣿⣿⣿⣿⣿⡇⠄⢸⠇⠄⠄⠄⢻⠃⠄⢸⣿⣿⡇⠄⠄⣿⣿⡇⠄⠄⠄⠄⢿⠄⠄⢸                     ")
+  print("                 ⣿⣿⡀⠄⠄⢰⣿⣿⣇⠄⠄⣿⣿⣿⣯⠄⠄⢰⣿⡇⠄⢸⣿⣿⣿⠄⠄⢸⣿⣿⣿⣿⣿⣿⣿⡇⠄⠄⠄⠄⡀⠄⠈⠄⠄⣾⣿⣿⡇⠄⠄⣿⣿⡇⠄⠄⣆⠄⠈⠄⠄⢸                     ")
+  print("                 ⣿⣿⡇⠄⠄⢸⣿⣿⣿⠄⠄⢸⣿⣿⡇⠄⠄⢸⣿⡀⠄⢸⣿⣿⣿⠄⠄⢸⣿⣿⣿⣿⣿⣿⣿⣿⠄⠄⠄⢠⣿⠄⠄⠄⢠⣿⣿⣿⡟⠄⠄⣿⣿⡇⠄⠄⣿⣄⠄⠄⠄⢸                     ")
+  print("                 ⣿⣿⡇⠄⠄⣿⣿⣿⣿⡆⠄⠄⠛⠟⠄⠄⠄⣼⣿⡄⠄⠈⠿⠛⠋⠄⠄⣼⣿⣿⣿⣿⣿⣿⣿⣿⡆⠄⢀⣼⣿⣦⠄⠄⣾⣿⣿⣿⡇⠄⠄⣿⣿⠃⠄⠄⣿⣿⣧⠄⠄⢸                     ")
+  print("                 ⣿⣿⠄⠄⢸⣿⣿⣿⣿⣿⣄⡀⠄⠄⢀⣠⣼⣿⣿⣷⣀⠄⠄⠄⢀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠄⣼⣿⣿⣿⡀⠄⣿⣿⣿⣿⡇⠄⠄⣿⣿⣃⣀⣀⣻⣿⣿⣧⠄⢘                     ")
+  print("                 ⣿⣏⣀⣀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣼                     ")
+  print("                                                                                                                           ")
+  print("                                                                                                                           ")
+  print("⣿⣿⡿⠛⠛⢿⣿⣿⣿⣿⠟⠛⠻⣿⣿⡿⢿⣿⣿⡏⠉⢻⣿⣿⣿⣿⠿⠿⣿⣿⣿⠿⠿⠿⢿⣿⣿⣿⣿⠿⠛⠋⣿⣿⠿⠿⠿⠿⠛⢛⣿⣿⣿⣿⣿⣿⡟⠛⣿⣿⣿⣿⣿⠿⠟⠛⣿⡿⠿⠿⠿⠿⠟⠛⣿⣿⣿⣿⠟⠛⠻⣿⣿⡿⢿⣿⣿⡏⠉⢹")
+  print("⣿⠁⠄⣠⠄⠄⢿⣿⡏⠄⢀⡀⠄⠘⣿⡇⠄⢹⣿⡇⠄⢸⣿⡿⠃⠄⢀⠄⠸⣿⣿⠄⠄⣀⣀⠄⠹⣿⡿⠄⠄⠄⢹⣇⣀⠄⠄⣠⡤⠼⢿⣿⡇⠄⢸⣿⠇⠄⣿⣿⣿⣿⣿⠄⠄⠄⢹⣇⣀⠄⢀⣤⣤⣴⣿⣿⡟⠄⢀⣀⠄⠘⣿⡇⠄⠹⣿⡇⠄⢸")
+  print("⡏⠄⢸⣿⣄⣀⣸⣿⠄⠄⣿⣷⠄⠄⣿⡇⠄⠄⣿⡇⠄⢸⡿⠁⠄⣸⣿⠄⠄⣿⣿⠄⠄⣿⣿⠄⠄⣿⡇⠄⣸⠄⢸⣿⣿⠄⠄⣿⡇⠄⢸⣿⡇⠄⢸⣿⠄⠄⣿⣿⣿⣿⡿⠄⢸⠄⠸⣿⣿⠄⢸⣿⠄⠄⣿⣿⠄⠄⣼⣿⠄⠄⣻⡇⠄⠄⣿⡇⠄⢸")
+  print("⠃⠄⣾⣿⣿⣿⣿⡏⠄⢰⣿⣿⠆⠄⢹⡇⠄⠄⢹⡇⠄⢸⡇⠄⢰⣿⣿⣶⣾⣿⣿⠄⠄⣿⣿⠄⢰⣿⠃⠄⣿⠄⢸⣿⣿⠄⠄⣿⡇⠄⢸⣿⡇⠄⢸⣿⠄⠄⣿⣿⣿⣿⡗⠄⣸⠄⠄⣿⣿⠄⢸⣿⠄⠄⣿⡏⠄⢰⣿⣿⠆⠄⢹⡇⠄⠄⢹⡇⠄⢸")
+  print("⠄⠄⢾⣿⣿⣿⣿⡃⠄⢸⣿⣿⠃⠄⣸⡇⠄⢀⠄⠃⠄⢸⡇⠄⢸⡿⠿⠛⠛⢻⣿⠄⠄⠋⠄⣀⣼⣿⠄⢸⣿⠄⠈⣿⣿⠄⠄⣿⡇⠄⣸⣿⡇⠄⢸⣿⠄⠄⣿⣿⣿⣿⠁⠄⣿⡀⠄⢻⣿⠄⢸⣿⠁⠄⢿⡇⠄⢸⣿⣿⠃⠄⣸⡇⠄⢀⠄⠃⠄⢸")
+  print("⡆⠄⢸⣿⣿⣿⣿⣇⠄⠘⣿⣿⠄⠄⣿⡇⠄⢸⡄⠄⠄⢸⣧⠄⠘⣧⣠⡄⠄⢸⣿⠄⠄⡄⠄⣿⣿⡏⠄⠈⠉⠄⠄⣿⣿⠄⠄⣿⡇⠄⢹⣿⡇⠄⣼⣿⠄⠄⣿⣿⣿⡏⠄⠄⠉⠁⠄⢸⣿⠄⢸⣿⠃⠄⢺⣇⠄⠘⣿⣿⠄⠄⣿⡇⠄⢸⡄⠄⠄⢸")
+  print("⣷⡀⠈⠉⠁⢈⣿⣿⡄⠄⠙⠃⠄⣰⣿⡇⠄⢸⣿⡆⠄⢸⣿⣆⠄⠘⠉⠄⠄⢸⣿⠄⠄⣧⠄⠈⢿⠁⠄⣰⣶⡆⠄⢸⣿⠄⠄⣿⡇⠄⠘⠋⠄⢀⣿⣿⠄⠄⠉⠁⢙⡇⠄⣰⣶⣶⠄⢸⣿⠄⢸⣿⡇⠄⣿⣿⡄⠄⠙⠋⠄⢰⣿⡇⠄⢸⣿⡆⠄⢸")
+  print("⣿⣿⣶⣶⣶⣿⣿⣿⣿⣶⣤⣤⣾⣿⣿⣷⣶⣾⣿⣿⣇⣸⣿⣿⣶⣤⣤⣆⣀⣸⣧⣤⣤⣿⣧⣀⣰⣶⣶⣿⣿⣧⣴⣾⣿⣶⣶⣿⣿⣤⣤⣤⣶⣿⣿⣷⣶⣶⣶⣿⣿⣷⣶⣿⣿⣿⣤⣾⣿⣶⣾⣿⣇⣀⣿⣿⣿⣶⣤⣤⣾⣿⣿⣷⣶⣾⣿⣿⣇⣸")
+
+def militiaImage():
+  a='''
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠛⢻⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠋⢀⠔⠁⠄⠄⠄⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⡿⠋⠄⠄⠄⢀⠄⣀⡀⣀⡀⠊⠾⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣤⣤⡇⠄⡦⣸⢷⣦⢷⡼⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣳⣅⠝⠻⣦⣷⡍⢷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⢿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⡥⡂⠄⢼⣇⠉⣇⡎⠋⡛⠛⠻⠉⠿⣿⣿⡿⠋⢠⣶⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⠁⡁⠘⠛⣠⠨⢠⣾⣟⠐⠉⠁⠶⠙⢉⣸⣴⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⡟⠋⠄⠂⢣⠄⠄⢀⠹⣰⣿⠋⠄⠄⠁⠄⡠⢤⣟⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⠟⠁⠄⠄⠄⠄⠄⢷⡀⠠⣰⠟⠄⠁⠄⢀⠄⠄⠄⠈⢿⣟⣿⣿⣿⣿
+  ⣿⣿⣿⠃⠄⠄⠄⠠⣐⠄⠄⠈⢗⠴⡿⠄⠄⡤⠁⠁⠄⠄⠄⠄⠐⣻⣞⣿⣿⣿
+  ⣿⡟⠄⠄⠄⠄⡀⡴⡆⠄⠄⠄⠄⢠⠠⡒⢵⣧⠄⠄⠄⠄⠄⡀⠄⠄⢻⢿⣿⣿
+  ⣿⡅⠄⠄⠘⢔⣽⣾⣿⡀⢀⠄⠄⠓⠑⠄⠄⠹⠿⣸⣷⣷⠄⠄⠄⠄⠄⡿⣿⣿
+  ⣿⣿⡀⠴⢾⣿⣿⣯⢀⠁⠄⠄⠄⠄⠄⠄⠄⠁⠺⠯⣿⡏⡠⡀⠄⠄⡀⣳⣿⣿
+  ⣿⣿⣧⡀⠐⠉⠉⢋⠈⡴⣇⠂⠄⠄⠄⠄⠡⠄⠄⠄⠑⣸⢶⣶⣶⣶⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣆⠄⠠⣀⢅⣿⣿⡀⠄⠄⠄⠄⠂⠄⠄⠄⠄⣈⣿⣾⣿⣿⣿⣿⣿⣿
+  ⣿⣿⡿⠉⠁⢀⣮⣴⣾⣿⣿⣷⣶⣶⣤⣤⣶⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⡇⠄⣀⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣶⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  '''
+  print(a)
+
+def NormalSoldierImage():
+  a = '''
+  ⠄⠄⠄⠄⠄⠄⠄⠄⣀⣤⣤⣄⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⠄⠄⠄⠄⠄⠄⢨⣿⣿⣿⣿⣷⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⠄⠄⢀⣤⣴⣶⣿⣿⣿⣿⣿⡛⣠⣄⣀⡀⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⠄⢀⣾⣿⣿⣿⣿⣿⣿⡟⢛⣻⣿⣿⣿⡷⠿⠶⠶⠾⠤⠤⠤⠄
+  ⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠿⢋⣽⣿⠃⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⢼⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣴⣿⡏⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⠄⣿⣿⣿⣿⣿⣿⡏⠄⠘⠿⠿⠟⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⣼⣿⣿⣿⣿⣿⡟⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⣿⣿⣿⣿⣿⣿⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⠸⣿⣿⣿⣿⣿⣷⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⠄⢻⣿⣿⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⠄⠄⣿⣿⣿⣿⣿⣿⣧⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⠄⣼⣿⣿⡟⢈⣿⣿⣿⡇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⠄⣿⣿⠇⠄⣼⣿⣿⠟⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⢀⣿⡇⠄⠐⣿⣿⡟⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⣾⣿⣷⣦⣶⣿⣿⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⠛⠛⠉⠉⢹⣿⣿⣿⣤⣤⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  ⠄⠄⠄⠄⠄⠈⠉⠉⠛⠛⠛⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+  '''
+  print(a)
+
+def veteranImage():
+  a = '''
+  ⡯⡯⣫⢯⣫⢯⣫⢯⣫⢯⣫⢯⣫⢯⣺⢽⢕⡯⡯⣺⢝⡮⡯⣺⢝⡮⡯⣺⢝⡮⡯⣺⢝⡮⡯⣺⢝⡮⡯⣺⢝⡮⣯⡺⡽⣕⢯⣫⢞⡽⣕⢯⣫⢞⡽⣕⡯⣫
+  ⣯⡯⣗⣟⡮⣗⡯⡷⣝⢷⣝⢷⣝⢷⢽⠕⠙⡎⣟⡺⢝⠞⢝⢾⣕⢯⣞⢵⣫⢞⡽⣺⢵⣫⢯⣺⡳⡽⣝⢾⢝⣞⡮⡯⡯⣺⢽⡺⣝⢾⢝⡽⣺⣝⢾⣕⡯⣗
+  ⣿⣽⣳⣳⢯⣗⡯⣯⢯⣗⡯⡷⡽⣝⡇⠁⠄⠘⡐⡘⠆⠁⢫⢗⡷⣝⣮⡻⡮⣻⢮⢗⡯⣞⣗⢷⢽⢽⣺⢽⣝⣞⣞⡽⣝⡾⣝⡾⡽⡽⡽⣺⢵⣫⢗⡷⡽⣺
+  ⣿⣷⣷⣯⣟⣾⣽⣳⣻⢮⡯⣯⢿⣕⠇⠄⣠⠓⠄⠄⠄⢃⠄⣫⡺⡳⣳⢽⣝⣗⢯⡻⡮⣗⣗⡯⣯⡳⣏⣗⣷⣳⡳⣝⢷⣝⢷⢽⢽⢽⢽⢽⣝⢾⢽⣺⣝⣗
+  ⣿⣿⣾⣿⡽⣿⣞⣗⣯⣟⡾⣽⣳⣅⠥⠊⠃⠠⠈⡀⠄⠄⠄⠃⠢⠩⡘⡑⠗⠽⡽⣽⣝⣗⣗⣟⡮⠣⠓⠓⠛⠙⠙⠪⢳⢽⢽⢽⢽⢽⣝⢷⢽⢽⢽⣺⣺⣺
+  ⣿⢿⡺⡷⡟⡕⠵⡱⡓⡗⣟⣷⣳⢯⣟⣮⢤⡶⣤⣀⠐⠄⠄⢶⢖⣔⠄⠌⠄⠌⢠⠣⢁⠏⣗⣯⠁⠄⠠⣠⡠⠐⡀⠄⠄⢹⢽⣫⣟⣽⣺⢽⢯⢯⣟⣞⡾⣺
+  ⣟⢵⢑⢕⢑⢱⢑⢕⢡⢫⢱⣗⣯⣟⣾⣺⡽⣞⡷⣽⡻⣶⢈⠵⢽⠼⣕⢦⣀⠁⡀⠕⡠⠠⡫⢚⠄⠄⠅⢄⡂⠫⢊⠠⢀⣀⣯⢷⣳⣗⡯⣯⢿⢽⣺⢾⢽⣳
+  ⢍⢣⠑⠄⢂⠰⡡⠤⢃⠆⡇⣟⢾⡺⣞⣾⢽⣳⣟⣗⣯⢷⣄⠪⠠⠘⠜⢜⢾⢽⢲⢤⢀⣈⠠⠑⠩⢂⠄⠂⠚⠐⠄⢠⣟⡾⣵⣻⣞⡾⣽⢽⣽⣻⣺⣽⣻⣺
+  ⢅⢅⠇⠝⠄⠎⢄⠅⡣⠹⡨⡸⡑⣼⢽⣞⣯⣷⣻⢾⣽⣻⣞⡿⣄⠆⠊⡀⠐⡜⠣⡊⡇⡇⡏⢦⢢⢄⡀⡐⢀⢆⢪⠋⠘⢙⢤⢖⢮⡹⣽⡽⣞⣾⣳⣗⣿⣺
+  ⢡⠕⢨⠘⢌⠮⡪⠌⡂⠑⢤⠱⡹⡸⡏⣷⣻⢾⣽⣻⣞⡷⣯⢿⡽⢃⠂⠐⢈⠂⠡⠘⠨⠨⡊⡪⡘⢢⢃⢇⢍⠫⡕⢝⠪⢽⡝⢽⡆⣏⢷⣻⣽⣞⣷⣻⣞⡷
+  ⢢⢩⠪⡒⡕⠅⡘⢌⢠⢱⢒⢝⢎⢪⢜⡷⣽⣻⣾⣳⣯⡿⣽⡯⣿⠆⠂⡈⢀⢰⣦⣤⡑⠈⡂⠆⠪⠠⠑⢸⠨⠣⡙⡎⢗⣅⢹⢦⠑⠎⢜⣿⣺⣗⣿⣺⢷⣻
+  ⢨⠠⡑⢍⠢⢁⠆⡒⢌⢎⠨⢠⠠⢣⠣⣫⣺⣷⢯⣷⣿⣽⡷⣟⣿⣿⡆⠄⠄⢸⣿⣻⡟⠄⡤⠂⢀⠁⠐⠄⠁⠁⠄⠪⠈⠨⠄⡁⠄⠂⡱⣻⢞⡽⣪⢯⡻⣻
+  ⠔⡡⡸⡐⡨⠐⡨⢐⠡⢐⢔⢇⠹⢰⠟⣟⢞⡯⣟⣞⣞⡾⣽⣫⣗⢿⢁⠠⠈⠈⠛⠅⡂⠁⡂⢭⠄⡢⡅⡠⠄⠁⠄⠂⠄⠂⠁⠄⠄⠂⢐⡎⡯⣺⢵⢳⢝⣜
+  ⠜⢐⢈⠢⡈⡢⠄⢅⢩⢸⠠⡂⠌⣀⢓⠸⣺⡺⣵⣳⡳⡯⣳⡳⡵⣻⡀⢂⠄⠁⠄⠂⠄⠰⠈⢀⠉⠆⠃⢉⠊⠈⠄⠠⠐⠄⡀⡣⡣⠄⣘⢼⢜⢵⢕⢏⡪⡪
+  ⠌⡐⠤⠡⡂⢣⠣⡑⢅⢅⢑⢌⡊⡆⠆⡝⡪⣝⢮⣞⣞⢽⢵⡻⡽⡵⡅⠂⢀⠁⠄⠄⠄⠑⣕⠡⠢⡄⠄⡀⠄⠄⠁⠠⢔⣔⡪⢪⠹⢀⢬⠺⣸⢸⡸⣔⢕⠱
+  ⢨⢐⠐⡐⠨⡐⡑⠄⡑⠈⠜⢐⢑⡅⣕⢝⠱⢑⡳⣕⣗⢯⢏⡯⣳⡫⣗⡐⠄⠄⢈⢠⡐⣝⠐⢨⢪⠐⠠⠄⡀⠄⠠⢡⢐⠕⡎⡜⡑⠈⢮⢣⠪⢪⢸⢢⢂⠅
+  '''
+  print(a)
+
+def SpecialImage():
+  a = '''
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⡂⠵⠆⡂⢼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⠿⣿⣿⠿⠿⠿⣿⣿⡿⠿⠷⡀⠄⠄⠄⠾⠿⣿⣿⣿⠿⠿⠿⣿⣿⠿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢛⠁⡂⠌⠄⢅⠨⠐⠠⢁⠂⡢⠡⡂⠡⢨⢮⡫⣫⡣⡅⠂⡄⢌⢄⠂⡂⠂⠌⠄⡂⡂⠌⠄⠌⡛⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠑⡀⡂⠢⠡⢑⢐⠠⠁⠅⡂⢌⠢⡑⢌⠪⡠⢳⣯⣾⡟⠠⡑⢌⡢⠢⡑⠠⠡⠨⠐⡐⠄⠅⢅⢂⢐⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⡿⢛⢛⢐⢐⠨⠨⠨⢐⢐⠨⢈⢐⠠⡡⡑⢌⠢⡑⢔⢈⠛⢛⠠⡨⡨⠪⡻⢑⠌⠌⠄⡡⢂⠂⢅⢑⠐⡐⡀⡂⡛⡛⢿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⡿⠫⣰⠶⣝⢖⡶⡠⠡⠨⢐⢐⠨⢐⢀⢂⠪⠠⢑⠨⢈⠢⡡⡑⢔⢑⠔⠌⢂⢂⠂⠅⠅⠌⡐⠄⡑⡐⢐⢐⣰⡲⣝⢮⢖⢦⠙⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⠡⣝⢮⡫⣞⢵⡫⣫⢮⠐⡐⠠⡑⢀⢂⠐⢅⢑⢐⠨⡐⡑⠔⢌⠢⠢⡑⢅⢂⢂⠅⡡⢁⠂⡂⠅⡂⢂⢂⣖⢧⢯⢮⡳⣝⢽⡱⡘⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⢀⡗⣗⣝⢮⡳⣝⢮⡳⣳⣢⡡⣇⠂⡐⡈⠢⡑⢌⢌⠢⠪⡘⢌⢘⠌⡌⡢⠪⡐⡑⢌⠐⡐⢀⢷⡨⡴⣺⣪⡳⣓⢧⢯⢮⡳⡝⠄⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣆⡜⢕⣗⢵⡫⡮⡳⣝⢮⡺⡺⣜⢄⠂⠄⠅⠌⡂⠢⡑⠡⢊⠐⢄⢑⠨⢐⢑⠨⠨⢐⢀⢂⡲⣕⢯⣫⡺⡲⣝⢮⡳⣳⡣⡯⢊⣼⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣞⢮⡳⣝⢮⡫⡮⡳⣝⢞⢮⣫⡳⣣⣌⢐⠌⠢⠨⠨⢐⠨⢐⢐⠨⢐⢐⠨⠨⢠⡴⣫⢞⢮⡳⡵⣹⢝⢮⡳⣝⢮⢮⣷⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣷⡝⡮⡳⣝⢮⠯⡮⡫⡧⡳⡝⡞⣎⠢⠨⠨⠨⡈⡢⡈⡂⡢⢈⢂⠢⠨⠨⢸⢝⢮⣫⡳⣝⢮⡳⣝⢵⢝⢮⣺⣽⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣝⢮⡳⣝⢭⢯⡺⣹⡱⣽⣾⠄⠁⠁⠁⠄⢢⠱⡨⡂⠁⠄⠈⠈⠈⢸⣗⡕⣇⡗⣗⡳⣝⢮⡳⣽⣵⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣯⡮⣳⢳⣹⣼⣿⣿⣿⢐⢄⢂⢂⢂⠪⡘⢔⠡⡂⡢⢂⢂⠢⢸⣿⣿⣾⣸⡺⣚⢮⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣷⣿⣿⣿⣿⣿⠰⡐⡑⢌⠢⡑⢌⠢⡑⠔⢌⠢⡡⡑⣹⣿⣿⣿⣿⣾⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+  '''
+  print(a)
+  
 title_screen()
