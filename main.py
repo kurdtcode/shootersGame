@@ -376,7 +376,7 @@ class Inventory():
 
   def addArmor(self, armor:Armor):
     self.armor.append(armor)
-    print(self.armor)
+    # print(self.armor)
   def addWeapon(self, weapon:Weapon):
     self.weapon.append(weapon)
   def addConsumable(self, consumable:Consumables):
@@ -478,7 +478,8 @@ class Characters:
     if equippedWeapon.durability <= 0:
       self.inventory.getAllWeapon().pop(self.inventory.equippedWeapon)
       self.inventory.equippedWeapon = 0
-      print(self.name, "'s Weapon is broken")
+      print("░░░░░░░░░░░░░░░░░░░ Player's Move ░░░░░░░░░░░░░░░░░░░")
+      print(self.name, "'s Weapon is broken\n")
 
     enemyArmor = enemy.inventory.seeEquippedArmor() #Enemy Armor
     dmgReduc = enemyArmor.getDetails()[2] #Damage Reduction
@@ -488,16 +489,17 @@ class Characters:
     enemy.hp = enemy.hp - finalDmg
     enemyArmor.reduceDurability(dmg)
     if enemyArmor.durability <= 0:
-      print(enemy.inventory.getAllArmor())
-      print(enemy.inventory.equippedArmor)
+      # print(enemy.inventory.getAllArmor())
+      # print(enemy.inventory.equippedArmor)
       enemy.inventory.getAllArmor().pop(enemy.inventory.equippedArmor)
       enemy.inventory.equippedArmor = 0
       print(enemy.name, "'s Armor is broken")
-      print(enemy.inventory.getAllArmor())
+      # print(enemy.inventory.getAllArmor())
     return True
 
   def reload(self):
     self.inventory.seeEquippedWeapon().reload()
+    print("░░░░░░░░░░░░░░░░░░░ Player's Move ░░░░░░░░░░░░░░░░░░░")
     print(self.name, "'s Weapon is reloaded")
     
 ################
@@ -837,20 +839,22 @@ def check_win(enemy:Enemy):
       killedByBossText()
     elif player1.hp >= 1 and enemy.hp < 1:
       player1.game_over = True
+      print("Enemy is dead\n")
       winText()
     else:
       player1.game_over = True
-      gameDrawText()
+      defeatText()
   else:
     if player1.hp < 1 and enemy.hp >= 1 :
       player1.game_over = True
       defeatText()
     elif player1.hp >= 1 and enemy.hp < 1 :
       player1.game_over = False
+      print("Enemy is dead\n")
       findBossText()
     elif player1.hp < 1 and enemy.hp < 1:
       player1.game_over = True
-      gameDrawText()
+      defeatText()
     else:
       print("Something Wrong")
 
@@ -864,17 +868,18 @@ def lookInventory():
   changeSomething = False
   while(True):
     os.system('cls||clear')
-    print("The following is a list from your inventory\n(View Weapon/View Armor/View Consumables/Back)")
-    intp = input("> ").lower()
+    print("The following is a list from your inventory\n⠄View Weapon\n⠄View Armor\n⠄View Consumables\n⠄Back")
+    intp = input("\n> ").lower()
     while intp not in ['view weapon', 'view armor', 'view consumables', 'back']:
-      print("Unknown action command, please try again.\n")
-      intp = input("> ").lower()
+      print("Unknown action command, please try again.")
+      intp = input("\n> ").lower()
 
     if intp == 'view weapon':
       while(True):
         weapon = player1.inventory.getAllWeapon()
         equip = player1.inventory.seeEquippedWeapon()
-        print("░"*45)
+        print()
+        print("\n░░░░░░░░░░░░░░ Weapon in Use ░░░░░░░░░░░░░░░\n") 
         print("Equipped Weapon :", equip.getDetails()[0])
         print("Head Damage : ", equip.getDetails()[1].headDamage)
         print("Body Damage : ", equip.getDetails()[1].bodyDamage)
@@ -882,7 +887,7 @@ def lookInventory():
         print("Max Bullet : ", equip.getDetails()[2])
         print("Current Bullet : ", equip.getDetails()[3])
         print("Durability : ", equip.getDetails()[5])
-        print("░"*45)
+        print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
 
         for i in range (len(weapon)):
           print("Weapon ",i+1,":", weapon[i].getDetails()[0])
@@ -892,21 +897,22 @@ def lookInventory():
           # print("Leg Damage : ", weapon[i].getDetails()[1].legDamage)
           # print("Max Bullet : ", weapon[i].getDetails()[2])
           # print("Current Bullet : ", weapon[i].getDetails()[3])
-        print("░"*45)
-        print("What do you want to do? (equip weapon/reload/view weapon detail/back)")
-        intp2 = input("> ").lower()
+        print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
+        print("What do you want to do?\n⠄Equip Weapon\n⠄Reload\n⠄View Weapon Detail\n⠄Back")
+        intp2 = input("\n> ").lower()
         while intp2 not in ['equip weapon', 'reload','view weapon detail', 'view weapon','view detail', 'back']:
-          print("Unknown action command, please try again.\n")
-          intp2 = input("> ").lower()
+          print("Unknown action command, please try again.")
+          intp2 = input("\n> ").lower()
         if intp2 == 'equip weapon':
           print("Which weapon do you want to equip? (numbers)")
-          intp2 = int(input("> "))
+          intp2 = int(input("\n> "))
           player1.inventory.equipWeapon(intp2-1)
           changeSomething = True
         elif intp2 in ['view weapon detail', 'view weapon', 'view detail']:
           print("Which weapon do you want to view? (numbers)")
-          intp2 = int(input("> "))
+          intp2 = int(input("\n> "))
           view = player1.inventory.seeWeaponDetail(intp2-1)
+          print("\n░░░░░░░░░░░░░ Weapon's Detail ░░░░░░░░░░░░░░\n") 
           print("Weapon :", view.getDetails()[0])
           print("Head Damage : ", view.getDetails()[1].headDamage)
           print("Body Damage : ", view.getDetails()[1].bodyDamage)
@@ -914,7 +920,7 @@ def lookInventory():
           print("Max Bullet : ", view.getDetails()[2])
           print("Current Bullet : ", view.getDetails()[3])
           print("Durability : ", view.getDetails()[5])
-          print("░"*45)
+          print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
           input("Press Enter To Continue")
           os.system('cls||clear')
 
@@ -929,39 +935,40 @@ def lookInventory():
       while (True):
         armors = player1.inventory.getAllArmor()
         equip = player1.inventory.seeEquippedArmor()
-        print("░"*45)
+        print("░░░░░░░░░░░░░░░ Armor in Use ░░░░░░░░░░░░░░░\n") 
         print(equip.getDetails()[3])
         print("Equipped Armor : ", equip.getDetails()[0])
         print("Durability : ", equip.getDetails()[1])
         print("Damage Reduction : ", equip.getDetails()[2])
-        print("░"*45)
+        print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
+
 
         for i in range (len(armors)):
           print("Armor",i+1,":", armors[i].getDetails()[0])
           # print("Durability : ", armors[i].getDetails()[1])
           # print("Damage Reduction : ", armors[i].getDetails()[2])
-        print("░"*45)
+        print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
 
-        print("What do you want to do? (equip armor/view armor detail/back)")
-        intp2 = input("> ")
+        print("What do you want to do?\n⠄Equip Armor\n⠄View Armor Detail\n⠄Bac")
+        intp2 = input("\n> ")
         while intp2 not in ['equip armor', 'view armor detail', 'view armor','view detail', 'back']:
           print("Unknown action command, please try again.\n")
-          intp2 = input("> ").lower()
+          intp2 = input("\n> ").lower()
         if intp2 == 'equip armor':
           print("Which armor do you want to equip? (numbers)")
-          intp2 = int(input("> "))
+          intp2 = int(input("\n> "))
           player1.inventory.equipArmor(intp2-1)
           changeSomething = True
         elif intp2 in ['view armor detail', 'view armor', 'view detail']:
           print("Which weapon do you want to view? (numbers)")
-          intp2 = int(input("> "))
+          intp2 = int(input("\n> "))
           view = player1.inventory.seeArmorDetail(intp2-1)
-          print("░"*45)
+          print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
           print(view.getDetails()[3])
           print("Armor :", view.getDetails()[0])
           print("Durability : ", view.getDetails()[1])
           print("Damage Reduction : ", view.getDetails()[2])
-          print("░"*45)
+          print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
           input("Press Enter To Continue")
           os.system('cls||clear')
         elif intp2 == 'back':
@@ -971,24 +978,24 @@ def lookInventory():
     elif intp == 'view consumables':
       while (True):
         consumable = player1.inventory.getAllConsumable()
-        print("░"*45)
+        print("░░░░░░░░░░░░░░░ Consumable ░░░░░░░░░░░░░░░\n") 
         for i in range (len(consumable)):
           print(consumable[i].getDetails()[2])
           print("Item ",i+1,": ", consumable[i].getDetails()[0])
           print("Heal Amount : ", consumable[i].getDetails()[1])
         if (len(consumable) == 0):
           print("Empty")
-        print("░"*45)
+        print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
 
-        print("What do you want to do? (use consumables/back)")
-        intp2 = input("> ")
+        print("What do you want to do?\n⠄Use Consumables\n⠄Back")
+        intp2 = input("\n> ").lower()
         while intp2 not in ['use consumables', 'back']:
-          print("Unknown action command, please try again.\n")
-          intp2 = input("> ").lower()
+          print("Unknown action command, please try again.")
+          intp2 = input("\n> ").lower()
         if intp2 in ['use consumables', 'back']:
           if intp2 == 'use consumables':
             print("Which consumables do you want to use? (numbers)")
-            intp2 = int(input("> "))
+            intp2 = int(input("\n> "))
             player1.heal(intp2-1)
             changeSomething = True
           elif intp2 == 'back':
@@ -1008,21 +1015,7 @@ def lookInventory():
 def battleLoop(currentEnemy:Enemy):
   print("Oh no! There is ", currentEnemy.name ,"(",currentEnemy.hp," HP ) in front of you!\n")
   while currentEnemy.hp > 0 and player1.hp > 0:
-    print("                  PLAYER")
-    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
-    print("      ",player1.name, "'s Health: " , player1.hp)
-    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
-    equippedweapon = player1.inventory.seeEquippedWeapon()
-    print("      Weapon :", equippedweapon.getDetails()[0])
-    print("      Current Bullet : ", equippedweapon.getDetails()[3],"/",equippedweapon.getDetails()[2])
-    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
-    equippedarmor = player1.inventory.seeEquippedArmor()
-    print("      Armor : ", equippedarmor.getDetails()[0])
-    print("      Durability : ", equippedarmor.getDetails()[1])
-    print("      Damage Reduction : ", equippedarmor.getDetails()[2])
-    print("\n\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n\n") 
     print("                  ENEMY")
-
     print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
     print("      Enemy ",currentEnemy.name, "'s Health: " , currentEnemy.hp)
     print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
@@ -1035,16 +1028,30 @@ def battleLoop(currentEnemy:Enemy):
     print("      Armor : ", equippedarmor2.getDetails()[0])
     print("      Durability : ", equippedarmor2.getDetails()[1])
     print("      Damage Reduction : ", equippedarmor2.getDetails()[2])
-    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
+ 
+    print("\n\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n\n") 
+    print("                  PLAYER")
+    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
+    print("      ",player1.name, "'s Health: " , player1.hp)
+    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
+    equippedweapon = player1.inventory.seeEquippedWeapon()
+    print("      Weapon :", equippedweapon.getDetails()[0])
+    print("      Current Bullet : ", equippedweapon.getDetails()[3],"/",equippedweapon.getDetails()[2])
+    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
+    equippedarmor = player1.inventory.seeEquippedArmor()
+    print("      Armor : ", equippedarmor.getDetails()[0])
+    print("      Durability : ", equippedarmor.getDetails()[1])
+    print("      Damage Reduction : ", equippedarmor.getDetails()[2])
 
-    print("What do you want to do?\n⠄Attack\n⠄Heal\n⠄Reload\n⠄View Inventory\n")
-    battleInput = input("> ")
+
+    print("\n\nWhat do you want to do?\n⠄Attack\n⠄Heal\n⠄Reload\n⠄View Inventory")
+    battleInput = input("\n> ")
     acceptable_actions = ['attack', 'shoot', 'heal', 'reload', 'inventory', 'view inventory']
     #Forces the player to write an acceptable sign, as this is essential to solving a puzzle later.
     while battleInput.lower() not in acceptable_actions:
-      print("Unknown action command, please try again.\n")
-      battleInput = input("> ")
-    print("What do you want to do?\n⠄Attack\n⠄Heal\n⠄Reload\n⠄View Inventory\n")
+      print("Unknown action command, please try again.")
+      battleInput = input("\n> ")
+    # print("What do you want to do?\n⠄Attack\n⠄Heal\n⠄Reload\n⠄View Inventory\n")
     
     os.system('cls||clear')
 
@@ -1073,23 +1080,23 @@ def battleLoop(currentEnemy:Enemy):
         player1.reload()
     elif battleInput.lower() in ['heal']:
         consumable = player1.inventory.getAllConsumable()
-        print("░"*45)
+        print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
         for i in range (len(consumable)):
           print(consumable[i].getDetails()[2])
           print("Item ",i+1,": ", consumable[i].getDetails()[0])
           print("Heal Amount : ", consumable[i].getDetails()[1])
         if (len(consumable) == 0):
           print("Empty")
-        print("░"*45)
-        print("What do you want to do? \n⠄Use consumables\n.Back)")
-        intp2 = input("> ")
+        print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
+        print("What do you want to do? \n⠄Use consumables\n.Back")
+        intp2 = input("\n> ")
         while intp2 not in ['use consumables', 'heal', 'back']:
-          print("Unknown action command, please try again.\n")
-          intp2 = input("> ").lower()
+          print("Unknown action command, please try again.")
+          intp2 = input("\n> ").lower()
         if intp2 in ['use consumables', 'heal', 'back']:
           if intp2 in ['use consumables', 'heal']:
             print("Which consumables do you want to use? (numbers)")
-            intp2 = int(input("> "))
+            intp2 = int(input("\n> "))
             player1.heal(intp2-1)
             changeSomething = True
           elif intp2 == 'back':
@@ -1102,11 +1109,13 @@ def battleLoop(currentEnemy:Enemy):
       print("░░░░░░░░░░░░░░░░░░░ Enemy's Move ░░░░░░░░░░░░░░░░░░░") 
       if move == "attack":
         weap = currentEnemy.inventory.seeEquippedWeapon()
-        print("Enemy is attacking with" , weap, "\n\n")
+        print("Enemy is attacking with" , weap.getDetails()[0], "\n\n")
       elif move == "healMedkit":
         print("Enemy used a medkit\n\n")
       elif move == "healBandage":
         print("Enemy used a bandage\n\n")
+      elif move == "reload":
+        print("Enemy's weapon reloaded\n\n")
       print("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n\n") 
 
 
@@ -1120,21 +1129,19 @@ def main_game_loop():
     print("░ Here begins the adventure...              ░")
     print("░"*45)
     print("\nYou find yourself in the center of a strange place.\nSeems like you are trapped in a forest.\n")
-    time.sleep(0.5) #note
+    time.sleep(3) #note
     while player1.game_over is False:
       os.system('cls||clear')
       print(f"{player1.name}'s health = {player1.hp}")
-      print()
-      print("░"*45)
-      print()
-      print("What would you like to do?\n⠄Search\n⠄View Inventory\n⠄Quit game\n")
-      action = input("> ")
+      print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
+      print("What would you like to do?\n⠄Search\n⠄View Inventory\n⠄Quit game")
+      action = input("\n> ")
       acceptable_actions = ['search', 'look', 'view', 'inventory', 'view inventory', 'inspect', 'quit']
       #Forces the player to write an acceptable sign, as this is essential to solving a puzzle later.
       while action.lower() not in acceptable_actions:
-        print("Unknown action command, please try again.\n")
-        action = input("> ")
-        print()
+        print("Unknown action command, please try again.")
+        action = input("\n> ")
+      os.system('cls||clear')
       if action.lower() == quitgame:
           sys.exit()
       elif action.lower() in ['search', 'look', 'view', 'inspect']:
@@ -1145,37 +1152,39 @@ def main_game_loop():
           if value == "get enemy Militia":
             militia = Enemy(1)
             enemy = militia
+            militiaImage()
             battleLoop(enemy)
             check_win(enemy)
           elif value == "get enemy Normal Soldier":
             nSoldier = Enemy(2)
             enemy = nSoldier
+            NormalSoldierImage()
             battleLoop(enemy)
             check_win(enemy)
           elif value == "get enemy Veteran Soldier":
             vSoldier = Enemy(3)
             enemy = vSoldier
+            veteranImage()
             battleLoop(enemy)
             check_win(enemy)
           elif value == "get enemy Special Force Soldier":
             boss = Enemy(4)
             enemy = boss
+            SpecialImage()
             battleLoop(enemy)
             check_win(enemy)
           elif value == "get armor":
             print("Congratulation! You found an armor!")
             armor = Armor()
             player1.inventory.addArmor(armor)
-            print("░"*45)
+            print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
             print(armor.getDetails()[3])
             print("Armor : ", armor.getDetails()[0])
             print("Durability : ", armor.getDetails()[1])
             print("Damage Reduction : ", armor.getDetails()[2])
-            print()
-            print("░"*45)
-            print("\nEquip Armor?\n⠄Yes\n⠄No\n")
-            tanya = input("> ")
-            print()
+            print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
+            print("Equip Armor?\n⠄Yes\n⠄No")
+            tanya = input("\n> ")
             if tanya.lower() == 'yes':
               player1.inventory.equipArmor(len(player1.inventory.armor)-1)
             else:
@@ -1184,17 +1193,16 @@ def main_game_loop():
             print("Congratulation! You found a weapon!")
             weapon = Weapon()
             player1.inventory.addWeapon(weapon)
-            print("░"*45)
+            print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
             print(weapon.getDetails()[4])
             print("Weapon : ", weapon.getDetails()[0])
             print("Head Damage : ", weapon.getDetails()[1].headDamage)
             print("Body Damage : ", weapon.getDetails()[1].bodyDamage)
             print("Leg Damage : ", weapon.getDetails()[1].legDamage)
             print("Bullet : ", weapon.getDetails()[2])
-            print()
-            print("░"*45)
-            print("\nEquip Weapon?\n⠄Yes\n⠄No\n")
-            tanya = input("> ")
+            print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
+            print("Equip Weapon?\n⠄Yes\n⠄No")
+            tanya = input("\n> ")
             if tanya.lower() == 'yes':
               player1.inventory.equipWeapon(len(player1.inventory.weapon)-1)
             else:
@@ -1203,13 +1211,11 @@ def main_game_loop():
             print("Congratulation! You found a consumable item!")
             consumable = Consumables()
             player1.inventory.addConsumable(consumable)
-            print()
-            print("░"*45)
+            print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
             print(consumable.getDetails()[2])
             print("Item : ", consumable.getDetails()[0])
             print("Heal Amount : ", consumable.getDetails()[1])
-            print()
-            print("░"*45)
+            print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
           input("\nPress enter to continue ....")
       elif action.lower() in ['inventory', 'view inventory']:
           lookInventory()
@@ -1243,7 +1249,7 @@ def opening():
 - Alan Satria - C14200196
 '''
   print(a)
-  print(b)
+  # print(b)
   # for character in b:
   #   sys.stdout.write(character)
   #   sys.stdout.flush()
@@ -1251,7 +1257,7 @@ def opening():
   # time.sleep(5)
   
 def title_screen_options():
-  option = input("> ")
+  option = input("\n> ")
   if option.lower() == ("play"):
     menu()
   elif option.lower() == ("quit"):
@@ -1260,7 +1266,7 @@ def title_screen_options():
     help_menu()
   while option.lower() not in ['play', 'help', 'quit']:
     print("Invalid command, please try again.")
-    option = input("> ")
+    option = input("\n> ")
     if option.lower() == ("play"):
       menu()
     elif option.lower() == ("quit"):
@@ -1448,7 +1454,7 @@ def menu():
 #     sys.stdout.write(character)
 #     sys.stdout.flush()
 #     time.sleep(0.05)
-#   player_name = input("> ")
+#   player_name = input("\n> ")
 #   print()
 #   player1.name = player_name
 
@@ -1458,7 +1464,7 @@ def menu():
 #     sys.stdout.write(character)
 #     sys.stdout.flush()
 #     time.sleep(0.05)
-#   feeling = input("> ")
+#   feeling = input("\n> ")
 #   print()
 #   player1.feeling = feeling.lower()
 
@@ -1582,75 +1588,123 @@ def gameDrawText():
 
 def defeatText():
   a = '''
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠛⠉⣉⣩⣭⣭⣭⣭⣍⣉⠉⠛⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⣡⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣌⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⠏⢠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠹⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⠏⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠹⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⠄⣿⡏⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠹⣿⠄⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⠄⣿⡇⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢠⣿⠄⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⡄⢻⣧⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⣸⡿⢀⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⡈⢻⠄⣿⠛⠉⠉⠄⠄⠈⣿⣿⣿⣿⠃⠄⠄⠉⠉⠛⢿⡇⡟⢁⣾⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⢸⣿⠄⠄⠄⠄⠄⢀⣿⣿⣿⣿⡄⠄⠄⠄⠄⠄⣼⡇⢰⣾⣿⣿⣿⣿⢿⣿⣿⣿
-  ⣿⣿⠁⣰⣄⠹⣿⣿⣿⡇⢸⣿⣦⡀⠄⠄⣰⣾⣿⢿⡿⣿⣿⣆⠄⠄⢀⣴⣿⣷⢸⣿⣿⣿⠏⣠⣆⠈⣿⣿
-  ⣿⠟⢀⣿⣿⣆⡘⠛⢿⣇⠸⣿⣿⣿⣿⣿⣿⣿⠁⢸⡇⠈⢿⣿⣿⣿⣿⣿⣿⠇⣸⠿⠛⢃⣰⣿⣿⣄⠻⣿
-  ⡇⠴⠿⠿⠿⠿⣿⣶⣦⣌⣀⠈⠉⠛⠻⣿⣿⣏⠄⢸⡇⠄⣸⣿⣿⠿⠛⠉⠁⢀⣡⣴⣶⣿⠿⠿⠿⠿⠦⢸
-  ⣿⣶⣶⣶⣶⣦⣬⡉⠛⠻⣿⣷⠄⠊⢢⠉⣿⣿⣶⣿⣿⣶⣿⣿⠋⡔⠰⠄⣾⣿⠟⠛⢉⣥⣴⣶⣶⣶⣶⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣄⣉⠃⢸⡼⠄⣿⡍⣭⡍⢩⢩⢹⣿⠄⢧⡇⠘⣉⣠⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠟⡃⢸⣇⡀⢦⡅⡍⡇⢸⢨⢨⣴⠄⣸⡇⢀⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⠟⠛⠛⠛⠛⢋⣡⣴⣶⣷⠘⢿⣿⣶⣧⣥⣥⣬⣬⣼⣶⣿⡿⠃⣾⣷⣦⣌⡉⠛⠛⠛⠛⠻⣿⣿⣿
-  ⣿⣿⣧⡐⢿⣿⣶⣿⣿⡿⠛⢉⣤⣶⣄⠙⠻⢿⣿⣿⣿⣿⡿⠟⠋⣠⣶⣤⡉⠛⢿⣿⣿⣶⣿⡿⠂⣸⣿⣿
-  ⣿⣿⣿⣿⡆⢹⣿⡿⢁⣴⣾⣿⣿⣿⣿⣿⣶⣶⣤⣤⣤⣤⣶⣶⣿⣿⣿⣿⣿⣿⣦⡌⠻⣿⡏⢰⣾⣿⣿⣿
-  ⣿⣿⣿⣿⣿⡘⢋⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣄⡙⢃⣼⣿⣿⣿⣿
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⡀⡀⡀⡀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⢄⠄⢄⠤⡰⡠⡔⡄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⣰⢵⠻⠹⡑⢑⠵⣳⣵⣢⡠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢴⣿⢞⠃⠁⠀⠁⠀⠈⡈⠳⣕⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣔⣽⡿⡉⠂⠈⠀⠀⠀⠀⠑⢝⣿⡺⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢮⣟⡟⠔⠀⠀⠀⢀⠀⠀⠀⠀⢳⢷⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢬⡲⡽⣟⠎⠀⠀⠀⠠⠀⠀⠀⠀⠐⢸⢝⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢎⢞⢌⠀⠀⠀⠀⠀⠀⠀⠀⠀⢨⣻⣳⠅⠀⠀⠀⠀⠀⠀⠀⢀⢐⢜⢼⢝⣿⣯⠅⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⢸⠅⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢈⠪⡪⠀⠀⠀⠀⠀⠀⠀⢀⠐⣜⢾⢝⠍⠄⠀⠀⠀⠀⠀⠀⠀⠈⠌⢪⢫⢷⣟⡧⡁⠀⠀⠀⠀⠀⠀⠀⢄⢇⢕⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡈⠪⡀⠀⠀⠀⠀⡀⠄⡪⠘⠈⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠘⠪⠻⡘⠄⠐⠀⠀⠀⢀⢌⢎⠎⠂⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠁⠀⠁⠠⠐⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠀⠀⠂⠁⠈⠀⠁⠀⠂⠑⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠐⠀⠀⠂⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠔⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢀⢄⠀⠠⡀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢢⢢⡲⡱⡰⣽⢿⢵⢨⢾⣽⣎⢂⢔⣕⢄⠄⡢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠀⢀⠪⡳⡽⣝⢾⡽⣯⡳⡱⣻⣗⡷⡡⣳⢳⢕⢌⢎⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠙⠈⠃⠉⡃⠃⢉⠚⠪⠩⠀⠑⠙⠐⠀⠂⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⡀⠑⠌⢄⢢⠀⢄⠄⢀⢀⠄⡀⢄⠀⡀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡈⠀⠑⠡⠑⠍⠐⠜⠌⠜⠜⠐⠐⡈⠀⢀⠀⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠠⠂⠀⠐⠈⠀⠀⠀⠂⠄⠐⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
   '''
-  print(a,"\n")
-  print("⣯⠉⠉⠉⠛⠿⣿⣿⣿⠿⠿⠛⠛⠿⠛⠉⣿⣏⠙⠋⠉⠉⠉⠉⠉⢹⡿⠿⠿⠛⠻⠟⠋⢹⣿⣿⡉⠙⠿⠿⠿⢿⣿⣿⣿⡿⠿⠿⠟⠛⠻⠿⠿⠟⠋⣽")
-  print("⣿⠄⠄⢀⠄⠄⠈⣿⣿⡆⠄⠄⣤⣤⣀⠄⢻⣿⠄⠄⠄⣤⡄⢠⠄⢸⣿⠄⠄⠠⣤⣤⡀⠸⣿⣯⠁⠄⠄⠄⠄⠸⣿⣿⣿⡇⠄⠄⠄⠄⠄⠄⠄⠄⠄⢹")
-  print("⡏⠄⠄⢸⣠⡄⠄⠸⣿⡇⡀⠄⣿⣿⣿⣧⣾⣿⠄⠄⠄⣿⣿⣿⣄⣼⣿⠄⡀⠄⣿⣿⣿⣧⣿⣿⡇⠄⠄⢸⡀⠄⠘⣿⣿⣿⠄⠄⠄⠄⠄⠄⠄⡀⢠⢸")
-  print("⣿⠄⠄⢸⣿⡇⠄⢠⣿⠇⠄⠄⠄⠈⠛⠛⣿⡟⠄⠄⠄⢀⡀⢠⣿⣿⣿⠄⠄⠄⠄⠈⠛⢻⣿⣿⡁⠄⠄⣾⣿⠄⠄⣿⣿⣿⢀⣧⣼⡀⠄⠄⠄⣿⣿⣸")
-  print("⣿⠄⠄⠄⣿⡇⠄⢸⣿⡄⠄⠄⢰⣶⣆⣸⣿⣇⠄⠄⠄⢸⣷⣼⣿⣿⣿⠄⠄⠄⢰⣶⣀⣸⣿⣿⡇⠄⠄⠙⠉⠄⠄⠈⢿⣿⣿⣿⣿⡇⠄⠄⠄⢸⣿⣿")
-  print("⡏⠄⠄⠄⠋⠁⠄⣸⣿⡇⠄⠄⠈⠉⠉⠛⢹⣿⠄⠄⠄⢸⣿⣿⣿⣿⣿⠄⠄⠄⠈⠉⠙⠋⣽⣿⡇⠄⠄⠄⣶⣴⠄⠄⢸⣿⣿⣿⣿⣇⠄⠄⠄⢸⣿⣿")
-  print("⡟⠄⠄⠄⡄⣠⣤⣿⣿⠇⠄⠄⠄⠄⠄⠄⣸⣿⡇⠄⠄⣼⣿⣿⣿⣿⣿⠄⠄⠄⠄⠄⠄⢠⣿⣿⡇⠄⠄⢸⣿⣿⣀⠄⣿⣿⣿⣿⣿⣿⠄⠄⠄⢸⣿⣿")
-  print("⣿⣠⣧⣦⣿⣿⣿⣿⣿⡅⣷⣀⣶⣶⣾⢀⣹⣿⡇⢸⣤⣿⣿⣿⣿⣿⣿⢠⣷⣤⣶⣶⣧⣸⣿⣿⣧⢰⡀⢻⣿⣿⣿⣦⣿⣿⣿⣿⣿⣿⣇⡆⢰⣼⣿⣿")
-  print("⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⣿⣿⣿⣿")
-  print("                                                                             ")
-  print("                                                                             ")
-  print("⣿⡟⠁⠄⠉⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠉⠄⠉⠉⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿")
-  print("⡿⠁⢠⣼⡄⠄⢹⣿⡿⠿⢿⣿⣿⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⡟⠄⢠⣤⠄⠄⢸⣿⣿⠿⣿⠿⠿⣻⣿⣿⢿⣿⣿⣿⣿⣿⢿⡿⣿")
-  print("⡅⠄⡼⡿⠧⠾⢿⠏⠄⣠⡄⠸⣿⡆⠄⠉⠙⠋⠄⠄⠍⣿⠋⠄⣤⠄⠹⣿⣿⣿⣿⣧⠄⢸⣿⡞⠄⢸⣦⠄⠄⣿⠄⢰⡿⠉⠠⣤⠄⢹⣯⠄⠄⠈⠄⢸")
-  print("⡇⠄⠻⣄⡄⠄⢸⢀⣤⠿⠛⠄⢹⡇⠄⣸⠄⠄⢿⡇⠄⡟⠄⢈⣡⠤⠤⢿⣿⣿⣿⣇⠄⠈⠛⠁⠄⣾⣿⣧⠄⠁⢀⣾⡇⠄⣈⣩⠤⠤⣿⣆⠄⢰⣿⣿")
-  print("⣧⡀⠄⠄⠄⠄⣾⡋⠤⡾⠗⠄⢸⡇⡄⣿⡇⣠⣸⡇⡆⣷⣄⠈⠋⢀⡀⣼⣿⣿⣿⣿⣄⢀⢀⣠⣶⣿⣿⣿⡆⠄⢸⣿⣧⣀⠈⠋⠄⠄⣿⣏⠄⢀⣿⣿")
-  print("⣿⣷⣷⣷⣾⣇⣿⣿⣦⣤⣾⣆⣼⣷⣷⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣼⣧⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣦⣿⣿⣿⣿⣿⣿⣴⣶⣿⣷⡇⣾⣿⣿")
+  print(a)
+  naration5 = "HA.. HA... HA.... YOU ARE NOT GOOD ENOUGH TO DEFEAT US.\n You will be trapped and continue to suffer until death"
+  for character in naration5:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.1)
+  time.sleep(3)
+  print('''
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀
+  ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠀⠀⠀⣶⡆⠀⣰⣿⠇⣾⡿⠛⠉⠁
+  ⠀⣠⣴⠾⠿⠿⠀⢀⣾⣿⣆⣀⣸⣿⣷⣾⣿⡿⢸⣿⠟⢓⠀⠀
+  ⣴⡟⠁⣀⣠⣤⠀⣼⣿⠾⣿⣻⣿⠃⠙⢫⣿⠃⣿⡿⠟⠛⠁⠀
+  ⢿⣝⣻⣿⡿⠋⠾⠟⠁⠀⠹⠟⠛⠀⠀⠈⠉⠀⠉⠀⠀⠀⠀⠀
+  ⠀⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⣀⢀⣠⣤⣴⣤⣄⠀
+  ⠀⠀⠀⠀⣀⣤⣤⢶⣤⠀⠀⢀⣴⢃⣿⠟⠋⢹⣿⣣⣴⡿⠋⠀
+  ⠀⠀⣰⣾⠟⠉⣿⡜⣿⡆⣴⡿⠁⣼⡿⠛⢃⣾⡿⠋⢻⣇⠀⠀
+  ⠀⠐⣿⡁⢀⣠⣿⡇⢹⣿⡿⠁⢠⣿⠷⠟⠻⠟⠀⠀⠈⠛⠀⠀
+  ⠀⠀⠙⠻⠿⠟⠋⠀⠀⠙⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+  ''')
 
 ## nanti aku bikinin text nya masih binggung mau ditulisin apa
 def findBossText() :
-  print(" ⣿⠛⣿⣿⡟⠛⠋⠛⡟⠛⠛⠛⣿⠉⣿⣿⠟⠉⠻⣿⣿⣿⣿⡿⠟⠛⢻⡟⠛⣿⠻⣿⣏⠄⣿⡛⠛⠻⣿⣿⣿⣿⡿⠛⠛⠛⢻⣿⡟⢻⣿⠛⠛⠙⣿⣿⣿⣿⠛⠛⠻⣿⣿⣿⠟⠛⢻⣿⣿⠟⠉⢿⣿⣿⠟⠉⠻⣿")
-  print(" ⣿⠄⣿⣿⡇⠄⣿⣿⣷⡆⠄⣿⣿⣤⣿⠁⠰⣦⣠⣿⣿⣿⣿⡇⢰⣶⣾⡇⢠⣿⠄⠸⣿⠄⣿⠇⢰⣦⡈⢻⣿⣿⣷⡆⠄⣿⠉⣽⡇⢸⣿⠄⣿⣿⣿⣿⣿⣿⠄⣶⡄⠘⣿⠃⢠⣦⠄⣿⠃⠰⣦⣠⣿⡏⠠⣶⣠⣽")
-  print(" ⡏⠄⣿⣿⡇⠄⠿⢿⣿⡇⠄⣿⣿⣿⣿⣦⣤⡀⠙⢻⣿⣿⣿⡇⢸⣿⣿⡇⢸⣿⠄⠄⢻⠄⣿⠄⣸⣿⡇⢸⣿⣿⣿⡇⠄⡟⠄⣿⡇⢸⣿⠄⠿⠿⣿⣿⣿⣿⠄⠿⠁⣸⣿⠄⣿⣿⠄⢻⣧⣤⡈⠙⢻⣷⣤⣀⠉⢻")
-  print(" ⡇⠄⣿⣿⡇⠄⣶⣾⣿⡇⠈⣿⣿⣿⣿⠋⢩⣿⠂⢸⣿⣿⣿⡇⢠⣤⣼⡇⢸⣿⠄⢰⡀⠄⣿⡄⠹⠋⣠⣿⣿⣿⣿⡇⠈⣧⠄⣤⡄⠸⡿⠄⣶⣶⣿⣿⣿⡟⠄⣤⣄⠉⣷⠄⢻⡿⠄⣿⡏⢹⣿⠄⢸⡏⠉⣿⡇⢸")
-  print(" ⣇⣀⣠⣼⣇⣀⣁⣸⣿⣇⣀⣿⣿⣿⣿⣧⣈⣉⣠⣾⣿⣿⣿⣇⣸⣿⣿⣇⣸⣿⣠⣼⣿⡄⣿⣀⣤⣾⣿⣿⣿⣿⣿⣇⣀⣗⣀⣿⡇⢸⣇⣀⣈⣀⣿⣿⣿⣏⠄⢉⣁⣴⣿⣦⣀⣁⣴⣿⣧⣈⣉⣠⣿⣿⣀⣉⣠⣼")
+  a = ("Something seems to have changed. Looks like I'm closer to something bigger...\nhmmm....")
+  for character in a:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+  time.sleep(2)
+  # print(" ⣿⠛⣿⣿⡟⠛⠋⠛⡟⠛⠛⠛⣿⠉⣿⣿⠟⠉⠻⣿⣿⣿⣿⡿⠟⠛⢻⡟⠛⣿⠻⣿⣏⠄⣿⡛⠛⠻⣿⣿⣿⣿⡿⠛⠛⠛⢻⣿⡟⢻⣿⠛⠛⠙⣿⣿⣿⣿⠛⠛⠻⣿⣿⣿⠟⠛⢻⣿⣿⠟⠉⢿⣿⣿⠟⠉⠻⣿")
+  # print(" ⣿⠄⣿⣿⡇⠄⣿⣿⣷⡆⠄⣿⣿⣤⣿⠁⠰⣦⣠⣿⣿⣿⣿⡇⢰⣶⣾⡇⢠⣿⠄⠸⣿⠄⣿⠇⢰⣦⡈⢻⣿⣿⣷⡆⠄⣿⠉⣽⡇⢸⣿⠄⣿⣿⣿⣿⣿⣿⠄⣶⡄⠘⣿⠃⢠⣦⠄⣿⠃⠰⣦⣠⣿⡏⠠⣶⣠⣽")
+  # print(" ⡏⠄⣿⣿⡇⠄⠿⢿⣿⡇⠄⣿⣿⣿⣿⣦⣤⡀⠙⢻⣿⣿⣿⡇⢸⣿⣿⡇⢸⣿⠄⠄⢻⠄⣿⠄⣸⣿⡇⢸⣿⣿⣿⡇⠄⡟⠄⣿⡇⢸⣿⠄⠿⠿⣿⣿⣿⣿⠄⠿⠁⣸⣿⠄⣿⣿⠄⢻⣧⣤⡈⠙⢻⣷⣤⣀⠉⢻")
+  # print(" ⡇⠄⣿⣿⡇⠄⣶⣾⣿⡇⠈⣿⣿⣿⣿⠋⢩⣿⠂⢸⣿⣿⣿⡇⢠⣤⣼⡇⢸⣿⠄⢰⡀⠄⣿⡄⠹⠋⣠⣿⣿⣿⣿⡇⠈⣧⠄⣤⡄⠸⡿⠄⣶⣶⣿⣿⣿⡟⠄⣤⣄⠉⣷⠄⢻⡿⠄⣿⡏⢹⣿⠄⢸⡏⠉⣿⡇⢸")
+  # print(" ⣇⣀⣠⣼⣇⣀⣁⣸⣿⣇⣀⣿⣿⣿⣿⣧⣈⣉⣠⣾⣿⣿⣿⣇⣸⣿⣿⣇⣸⣿⣠⣼⣿⡄⣿⣀⣤⣾⣿⣿⣿⣿⣿⣇⣀⣗⣀⣿⡇⢸⣇⣀⣈⣀⣿⣿⣿⣏⠄⢉⣁⣴⣿⣦⣀⣁⣴⣿⣧⣈⣉⣠⣿⣿⣀⣉⣠⣼")
 
 def winText():
+  # speak = "Well then, " + player1.name + ", " + feeling_string + " " + player1.feeling + ".\n"
+  speak1 = "You see a paper and a key in the boss' pocket. Turns out it's a map that leads somewhere...\nIs this my way out?\n"
+  speak2 = "You find yourself on top of the building and the key fits well with the helicopter."
+  speak3 = "Do you want to follow the map??"
+  treasureInput = ("\n> ")
+  if treasureInput == ' yes':
+    print('''
+    ⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠰⠿⠿⠿⢿⣿⣷⣶⣶⣶⣦⣤⣤⣤⣤⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢰⣶⣦⠀⣶⣤⣤⣤⣤⣍⣉⣉⣉⡙⠛⠛⠛⠛⠏⣰⣿⡆⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢿⡿⢠⣿⣿⣿⣿⣿⣿⣿⣿⠻⣿⣿⣿⣿⣿⣆⠸⣿⡇⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠘⡇⢸⣿⣿⣿⣿⣿⣿⣿⡏⠀⠹⠟⠙⣿⣿⣿⠄⢻⡇⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠊⣉⡉⢋⣩⡉⠻⠛⠁⣾⣀⣴⡀⢛⡉⢠⣷⠈⠇⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣠⣼⣿⣿⣿⣿⣿⣷⣿⠀⢿⣿⣿⣿⡿⢁⠚⠛⠃⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠤⠾⠿⣿⡿⠛⣿⣿⣿⣿⣿⣷⣦⣌⣉⣉⣠⣾⡷⠂⣠⠀⠀⠀⠀
+⠀⠀⠀⣿⢰⣶⣶⣶⣦⠀⠀⣤⣌⣉⠉⣉⡙⠛⠛⠛⠻⠟⢁⣴⣾⣿⠀⠀⠀⠀
+⠀⠀⠀⣿⣆⠻⣿⣿⢇⣸⠀⣯⢉⣿⠀⣿⣿⣿⣿⣿⣷⠀⣿⣿⣿⣿⠀⠀⠀⠀
+⠀⠀⠀⣿⣿⣷⡔⠐⣾⣿⠀⠛⠚⠿⠀⣿⣿⣿⣿⣿⣿⠀⣿⣿⣿⣿⠀⠀⠀⠀
+⠀⠀⠀⣿⣿⣿⣿⣶⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⣿⠀⣿⣿⣿⣿⠀⠀⠀⠀
+⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⣿⣿⠿⠋⠀⠀⠀⠀
+⠀⠀⠰⣦⡄⠀⠀⠈⠉⠉⠉⠉⠛⠛⠛⠛⠻⠿⠿⠿⠿⠀⠛⢁⣀⡀⠲⠖⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀
+    ''')
+    treasure = "CONGRATULATION!\nYou find a treasure...\nThis is the end of your journey"
+    for character in treasure:
+      sys.stdout.write(character)
+      sys.stdout.flush()
+      time.sleep(0.05)
+  else:
+    print("CONGRATULATION!\nYou survive!\nThis is the end of your journey")
+  for character in speak1:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+  for character in speak2:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+  for character in speak3:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
   print('''
-  ⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣶⣾⣯⣽⣟⣻⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣏⣿⣷⣾⣫⣽⡟⣻⡿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⡽⣿⣿⣿⣿⣿⣿⣿⣷⣾⣥⣮⣝⣛⣻⠿⠿⠻⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⡏⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣦⡔⢀⣭⣸⡹⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⡳⠟⠟⢻⢿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⡿⣗⣧⡀⠸⣿⣿⣿⣿⣿⣿⣷⣯⣽⣿⣿⣿⢿⣿⣿⣿
-  ⣿⣟⣟⣛⠸⠖⠥⢐⡻⢷⣿⣟⡿⣟⣿⠁⢀⣤⣄⣁⣀⣠⡀⠐⡘⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣇⡟⣾⣿⣦⣓⢒⢔⡉⠓⠄⠄⠄⢼⡿⠿⠿⠟⠋⠆⠄⠗⠄⠄⠄⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣙⢟⣷⣤⠄⣨⠶⣶⠉⠙⠁⠠⢐⢔⡀⠄⠄⠄⠄⠄⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣈⠣⣾⣿⡽⠄⠄⠄⠄⠄⠄⠄⢑⠄⠄⠄⠄⢀⢀⠄⠄⠉⢿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⣿⢟⣏⠄⠄⠄⡀⠄⠄⠄⠨⠄⠄⠄⠐⢀⢐⠄⠄⠄⢸⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠯⠁⠹⠿⢷⣦⣠⡂⠄⠄⠄⡆⠄⠄⠄⠄⠄⠄⠄⠄⠑⡂⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠛⣵⣿⣿⣶⡀⠄⠉⠻⣿⣷⠄⠄⣸⠇⠄⠄⠄⢀⡀⠄⠄⠄⠄⠁⢰⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣾⣿⣿⣿⣿⣿⣦⡀⠄⠄⠄⠄⠄⢿⡟⠙⠳⡀⠄⠄⠄⠄⠄⠄⠄⠄⠫⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣶⡿⢿⣿⣿⣿⣿⢋⣵⣶⣦⣄⠈⠐⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢸⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⠻⣿⣡⣿⠛⢿⣿⣿⣇⠐⣤⣄⠄⠄⠄⠄⠄⠄⠄⠈⠄⠄⠄⠄⠄⢸⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣼⣟⣿⢰⠞⢿⣿⣿⣿⣿⣿⣷⣮⡑⢰⣶⣶⡄⣀⣤⣤⣤⣴⣶⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣮⣤⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣷⣮⣛⣃⣂⣉⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-  ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠲⣶⣾⣿⣿⣷⣄⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀⠀⠀⠀⠀
+⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣷⣼⣿⣿⣿⡿⠁⢻⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀
+⠀⠀⠀⠘⣿⣿⠛⣿⣿⣿⣿⣿⣿⡿⠁⠛⢀⣶⡈⡿⠋⢻⣿⣿⡿⠋⠀⠀⠀⠀
+⠀⠀⠀⠀⣿⣿⣶⣿⣅⣽⣿⣿⣿⠃⣰⡀⢺⣿⡇⢀⣴⡀⠻⣿⣶⣶⡆⠀⠀⠀
+⠀⠀⠀⠀⣿⣿⣿⣿⣿⣦⣼⣿⣇⣰⣿⣷⣾⣏⣠⣾⣿⣿⣄⣽⣿⣿⣷⠀⠀⠀
+⠀⠀⠀⠀⣿⣿⣿⣿⣧⣬⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀
+⠀⠀⠀⢠⣿⣿⣿⣯⣤⣿⣿⣿⣿⣿⣿⣿⣿⣿⠛⣿⠛⣿⣿⣿⣿⣷⣤⠀⠀⠀
+⠀⠀⠀⢸⣿⣿⣿⣿⣁⣿⠿⣿⠿⣿⠛⣿⣁⣽⣿⣿⣿⡏⣹⣿⣿⣿⣿⠀⠀⠀
+⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣶⣷⣴⣿⣾⣿⣿⣿⣿⣿⣿⣿⣋⣿⣿⣿⣿⠀⠀⠀
+⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠉⠙⠻⢿⡿⠋⠛⣿⡀⠀⠀
+⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣤⠀⠀⠀⣼⣿⡇⠀⠀
+⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⠛⣿⡿⠟⣿⣿⣿⣿⣿⣋⣡⣴⣾⣶⣌⣿⣿⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠈⠻⠟⠋⠀⠀⠀⠀⠛⠛⠛⠛⠛⠛⠛⠛⠿⠿⠿⠿⠿⠇⠀
   ''')
   print("                 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⠿⠿⢿⣿⣿⣿⣿⣿⣿⡏⠉⠉⢹                     ")
   print("                 ⣿⠿⠛⣿⣿⠇⠄⠈⣹⣿⠟⠁⠄⠄⠄⠄⠹⣿⣿⡏⠉⠉⣿⣿⣿⠉⠉⢹⣿⣿⣿⣿⣿⣿⡇⠄⠐⣿⣿⣿⣿⣿⣿⣿⡇⠄⠄⣼⡇⠄⠄⣼⣿⡇⠄⠹⣿⣿⣧⠄⠄⢸                     ")
