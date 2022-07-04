@@ -153,7 +153,7 @@ class Armor(Items):
       ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣘⣛⣚⣒⣾⣿⣿⣿⣔⣒⣙⣓⣣⣿⣿⣿⣿⣿⣿⣿⣿
       ⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿
       '''
-    super().__init__(name, durability, image)
+    super().__init__(name, durability)
     self.damageReduction = damageReduction
     self.image = image
 
@@ -779,7 +779,6 @@ enemy = Enemy(1)
 turn = 1
 def Search():
   global turn
-  print('turn, ', turn)
   playerHealth=player1.hp
   chanceFindBoss  = max(((turn - 10) * 0.2) + (playerHealth * 0.005),0)
   chanceFindEnemy = (turn * 0.7) + (playerHealth * 0.05)
@@ -1007,34 +1006,45 @@ def lookInventory():
 # Battle Phase #
 ################
 def battleLoop(currentEnemy:Enemy):
-  print("Oh no! There is ", currentEnemy.name ,"(",currentEnemy.hp," HP) in front of you!")
+  print("Oh no! There is ", currentEnemy.name ,"(",currentEnemy.hp," HP ) in front of you!\n")
   while currentEnemy.hp > 0 and player1.hp > 0:
-    print(player1.name, "'s Health: " , player1.hp)
+    print("                  PLAYER")
+    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
+    print("      ",player1.name, "'s Health: " , player1.hp)
+    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
     equippedweapon = player1.inventory.seeEquippedWeapon()
-    print("Weapon :", equippedweapon.getDetails()[0])
-    print("Current Bullet : ", equippedweapon.getDetails()[3])
+    print("      Weapon :", equippedweapon.getDetails()[0])
+    print("      Current Bullet : ", equippedweapon.getDetails()[3],"/",equippedweapon.getDetails()[2])
+    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
     equippedarmor = player1.inventory.seeEquippedArmor()
-    print("Armor : ", equippedarmor.getDetails()[0])
-    print("Durability : ", equippedarmor.getDetails()[1])
-    print("Damage Reduction : ", equippedarmor.getDetails()[2])
-    print()
-    print(currentEnemy.name, "'s Health: " , currentEnemy.hp)
-    equippedweapon2 = currentEnemy.inventory.seeEquippedWeapon()
-    print("Weapon :", equippedweapon2.getDetails()[0])
-    print("Current Bullet : ", equippedweapon2.getDetails()[3])
-    equippedarmor2 = currentEnemy.inventory.seeEquippedArmor()
-    print("Armor : ", equippedarmor2.getDetails()[0])
-    print("Durability : ", equippedarmor2.getDetails()[1])
-    print("Damage Reduction : ", equippedarmor2.getDetails()[2])
+    print("      Armor : ", equippedarmor.getDetails()[0])
+    print("      Durability : ", equippedarmor.getDetails()[1])
+    print("      Damage Reduction : ", equippedarmor.getDetails()[2])
+    print("\n\n⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n\n") 
+    print("                  ENEMY")
 
-    print("What do you want to do?\n(attack/heal/reload/view inventory)")
+    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
+    print("      Enemy ",currentEnemy.name, "'s Health: " , currentEnemy.hp)
+    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
+    equippedweapon2 = currentEnemy.inventory.seeEquippedWeapon()
+    
+    print("      Weapon :", equippedweapon2.getDetails()[0])
+    print("      Current Bullet : ", equippedweapon2.getDetails()[3],"/",equippedweapon2.getDetails()[2])
+    equippedarmor2 = currentEnemy.inventory.seeEquippedArmor()
+    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░") 
+    print("      Armor : ", equippedarmor2.getDetails()[0])
+    print("      Durability : ", equippedarmor2.getDetails()[1])
+    print("      Damage Reduction : ", equippedarmor2.getDetails()[2])
+    print("      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
+
+    print("What do you want to do?\n⠄Attack\n⠄Heal\n⠄Reload\n⠄View Inventory\n")
     battleInput = input("> ")
     acceptable_actions = ['attack', 'shoot', 'heal', 'reload', 'inventory', 'view inventory']
     #Forces the player to write an acceptable sign, as this is essential to solving a puzzle later.
     while battleInput.lower() not in acceptable_actions:
       print("Unknown action command, please try again.\n")
       battleInput = input("> ")
-      print("What do you want to do?\n(attack/heal/reload/view inventory)")
+    print("What do you want to do?\n⠄Attack\n⠄Heal\n⠄Reload\n⠄View Inventory\n")
     
     os.system('cls||clear')
 
@@ -1044,7 +1054,19 @@ def battleLoop(currentEnemy:Enemy):
     elif battleInput.lower() in ['attack', 'shoot']:
         shooting = player1.attack(currentEnemy)
         if shooting == False:
-          print("Not Enough Bullet To Shoot!!")
+          print('''
+          ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⡋⠉⠉⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⣶⡄⠄⠄⠄⠈⠍⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⣿⣿⣷⣦⠄⠐⠠⣤⣤⡄⠆⠨⣛⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣿⠿⠛⠉⠄⠄⠄⢀⡤⠛⠛⠓⠂⠵⣮⣵⣄⠙⠛⠿⣿⣿⣿⣿⣿⣿
+          ⣿⣿⡿⠋⠁⠄⠄⠄⠄⡠⠂⠁⠄⣄⡀⡘⣀⠄⠄⠈⠛⠓⠂⠠⠘⣟⣿⣿⣿⣿
+          ⣿⡋⠄⠄⠄⠄⠄⠔⠁⢀⣤⣴⣶⣮⣟⣻⡿⠿⢣⣤⣤⣄⣀⣀⣤⣬⣌⣱⣩⣿
+          ⣿⣿⣦⡀⠄⠄⠄⣠⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+          ⣿⣿⣿⣿⣷⣶⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+          ''')
+          print("Not Enough Bullet To Shoot!! RELOAD")
+          print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
           continue
 
     elif battleInput.lower() in ['reload']:
@@ -1059,12 +1081,12 @@ def battleLoop(currentEnemy:Enemy):
         if (len(consumable) == 0):
           print("Empty")
         print("░"*45)
-        print("What do you want to do? (use consumables/back)")
+        print("What do you want to do? \n⠄Use consumables\n.Back)")
         intp2 = input("> ")
-        while intp2 not in ['use consumables', 'back']:
+        while intp2 not in ['use consumables', 'heal', 'back']:
           print("Unknown action command, please try again.\n")
           intp2 = input("> ").lower()
-        if intp2 in ['use consumables', 'back']:
+        if intp2 in ['use consumables', 'heal', 'back']:
           if intp2 in ['use consumables', 'heal']:
             print("Which consumables do you want to use? (numbers)")
             intp2 = int(input("> "))
@@ -1077,13 +1099,16 @@ def battleLoop(currentEnemy:Enemy):
 
     if change:
       move = currentEnemy.currentEnemyAuto(player1)
+      print("░░░░░░░░░░░░░░░░░░░ Enemy's Move ░░░░░░░░░░░░░░░░░░░") 
       if move == "attack":
         weap = currentEnemy.inventory.seeEquippedWeapon()
-        print("Enemy is attacking with" , weap)
+        print("Enemy is attacking with" , weap, "\n\n")
       elif move == "healMedkit":
-        print("Enemy used a medkit")
+        print("Enemy used a medkit\n\n")
       elif move == "healBandage":
-        print("Enemy used a bandage")
+        print("Enemy used a bandage\n\n")
+      print("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n\n") 
+
 
 ################
 # main looping #
@@ -1100,20 +1125,20 @@ def main_game_loop():
       os.system('cls||clear')
       print(f"{player1.name}'s health = {player1.hp}")
       print()
-      print(" "*10,"░"*45)
+      print("░"*45)
       print()
-      print(" "*10,"What would you like to do?\n⠄Search\n⠄View Inventory\n⠄Quit game")
+      print("What would you like to do?\n⠄Search\n⠄View Inventory\n⠄Quit game\n")
       action = input("> ")
       acceptable_actions = ['search', 'look', 'view', 'inventory', 'view inventory', 'inspect', 'quit']
       #Forces the player to write an acceptable sign, as this is essential to solving a puzzle later.
       while action.lower() not in acceptable_actions:
         print("Unknown action command, please try again.\n")
         action = input("> ")
+        print()
       if action.lower() == quitgame:
           sys.exit()
       elif action.lower() in ['search', 'look', 'view', 'inspect']:
           value = Search()
-          print('value = ', value)
           #Make new enemy object based on return on function Search()
           # currentEnemy = Enemy(1)
 
@@ -1146,9 +1171,11 @@ def main_game_loop():
             print("Armor : ", armor.getDetails()[0])
             print("Durability : ", armor.getDetails()[1])
             print("Damage Reduction : ", armor.getDetails()[2])
+            print()
             print("░"*45)
-            print("Equip Armor?\n⠄Yes\n⠄No)\n")
+            print("\nEquip Armor?\n⠄Yes\n⠄No\n")
             tanya = input("> ")
+            print()
             if tanya.lower() == 'yes':
               player1.inventory.equipArmor(len(player1.inventory.armor)-1)
             else:
@@ -1164,8 +1191,9 @@ def main_game_loop():
             print("Body Damage : ", weapon.getDetails()[1].bodyDamage)
             print("Leg Damage : ", weapon.getDetails()[1].legDamage)
             print("Bullet : ", weapon.getDetails()[2])
+            print()
             print("░"*45)
-            print("Equip Weapon?\n⠄Yes\n⠄No\n")
+            print("\nEquip Weapon?\n⠄Yes\n⠄No\n")
             tanya = input("> ")
             if tanya.lower() == 'yes':
               player1.inventory.equipWeapon(len(player1.inventory.weapon)-1)
@@ -1175,12 +1203,14 @@ def main_game_loop():
             print("Congratulation! You found a consumable item!")
             consumable = Consumables()
             player1.inventory.addConsumable(consumable)
+            print()
             print("░"*45)
             print(consumable.getDetails()[2])
             print("Item : ", consumable.getDetails()[0])
             print("Heal Amount : ", consumable.getDetails()[1])
+            print()
             print("░"*45)
-          input("Press enter to continue ....")
+          input("\nPress enter to continue ....")
       elif action.lower() in ['inventory', 'view inventory']:
           lookInventory()
       
