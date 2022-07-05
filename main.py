@@ -381,6 +381,7 @@ class Weapon(Items):
   def reload(self):
     self.bullet = self.maxBullet
 
+
 ################
 # Damage Setup #
 ################
