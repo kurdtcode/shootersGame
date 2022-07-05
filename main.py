@@ -1189,7 +1189,8 @@ def main_game_loop():
       if action.lower() == quitgame:
           sys.exit()
       elif action.lower() in ['search', 'look', 'view', 'inspect']:
-          value = Search()
+          # value = Search()
+          value = "get enemy Special Force Soldier"
           #Make new enemy object based on return on function Search()
           # currentEnemy = Enemy(1)
 
@@ -1724,12 +1725,26 @@ def winText():
 ⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⠛⣿⡿⠟⣿⣿⣿⣿⣿⣋⣡⣴⣾⣶⣌⣿⣿⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠈⠻⠟⠋⠀⠀⠀⠀⠛⠛⠛⠛⠛⠛⠛⠛⠿⠿⠿⠿⠿⠇⠀
   ''')
-  speak1 = "\nYou see a paper and a key in the boss' pocket. Turns out it's a map that leads somewhere...\nIs this my way out?\n"
+  speak1 = "\nYou see a paper and a key in the boss's pocket.\nTurns out it's a map that leads somewhere...\nIs this my way out?\n"
   speak2 = "You find yourself on top of the building and the key fits well with the helicopter."
-  speak3 = "Do you want to follow the map??"
-  treasureInput = ("\n> ")
-  if treasureInput == ' yes':
-    print('''
+  speak3 = "\nDo you want to follow the map??\n"
+  
+  for character in speak1:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+  for character in speak2:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+  for character in speak3:
+    sys.stdout.write(character)
+    sys.stdout.flush()
+    time.sleep(0.05)
+
+  treasureInput = input("\n> ")
+  if treasureInput.lower() == 'yes':
+    a=('''
     ⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠰⠿⠿⠿⢿⣿⣷⣶⣶⣶⣦⣤⣤⣤⣤⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⢰⣶⣦⠀⣶⣤⣤⣤⣤⣍⣉⣉⣉⡙⠛⠛⠛⠛⠏⣰⣿⡆⠀⠀⠀
@@ -1746,25 +1761,18 @@ def winText():
 ⠀⠀⠰⣦⡄⠀⠀⠈⠉⠉⠉⠉⠛⠛⠛⠛⠻⠿⠿⠿⠿⠀⠛⢁⣀⡀⠲⠖⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀
     ''')
-    treasure = "CONGRATULATION!\nYou find a treasure...\nYour journey is not over yet.\nThis is a new beginning\nTO BE CONTINUED ...."
+    os.system('cls||clear')
+    print(a)
+    print()
+    treasure = "CONGRATULATION!\n\nYou find a treasure...\nYour journey is not over yet.\nThis is a new beginning\nTO BE CONTINUED ....\n\n"
     for character in treasure:
       sys.stdout.write(character)
       sys.stdout.flush()
       time.sleep(0.05)
+    sys.exit()  
   else:
-    print("CONGRATULATION!\nYou survive!\nYour journey is not over yet.\nThis is a new beginning\nTO BE CONTINUED ....")
-  for character in speak1:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
-  for character in speak2:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
-  for character in speak3:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(0.05)
+    print("CONGRATULATION!\n\nYou survive!\nYour journey is not over yet.\nThis is a new beginning\nTO BE CONTINUED ....\n\n")
+    sys.exit()
 
 
   # print("                 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⢿⣿⠿⠿⢿⣿⣿⣿⣿⣿⣿⡏⠉⠉⢹                     ")
