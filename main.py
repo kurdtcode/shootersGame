@@ -824,7 +824,7 @@ def Search():
   chanceGetWeapon = (turn * 0.5) + (playerHealth * 0.01)
   chanceGetHealing = (turn * 0.6) + (playerHealth * 0.01)
 
-  pembagi = (chanceFindBoss + chanceFindEnemy + chanceGetWeapon + chanceGetWeapon + chanceGetHealing)
+  pembagi = (chanceFindBoss + chanceFindEnemy + chanceGetWeapon + chanceGetArmor + chanceGetHealing)
 
   realChanceBoss = round(chanceFindBoss / pembagi,2)
   realChanceEnemy = round(chanceFindEnemy / pembagi,3)
@@ -1189,8 +1189,8 @@ def main_game_loop():
       if action.lower() == quitgame:
           sys.exit()
       elif action.lower() in ['search', 'look', 'view', 'inspect']:
-          # value = Search()
-          value = "get enemy Special Force Soldier"
+          value = Search()
+          #value = "get enemy Special Force Soldier"
           #Make new enemy object based on return on function Search()
           # currentEnemy = Enemy(1)
 
