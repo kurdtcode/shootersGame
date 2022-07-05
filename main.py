@@ -1,6 +1,7 @@
 from copyreg import constructor
 from email import header
 from mimetypes import init
+from operator import eq
 import random
 import re
 from selectors import SelectorKey
@@ -59,8 +60,8 @@ class Armor(Items):
       ⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿⠿
       '''
     elif type == "Light":
-      durability = 50
-      damageReduction = 15
+      durability = 200
+      damageReduction = 25
       image = '''
       ⣿⣿⣿⣿⣿⣿⢿⣛⣯⣽⣽⠿⡿⢿⢿⠿⡿⢯⣿⣯⣽⣟⣻⢿⣿⣿⣿⣿⣿⣿
       ⣿⣿⣿⣿⣟⣾⣿⡿⣟⢏⣲⣿⡿⣫⡳⡣⣱⢹⣿⣿⣽⣿⣻⣷⣧⣻⣿⣿⣿⣿
@@ -77,8 +78,8 @@ class Armor(Items):
       ⣿⣿⣿⣿⣿⣿⣿⣿⣷⣮⣽⣙⣻⣙⣛⣫⣳⣽⣼⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
       '''
     elif type == "Basic":
-      durability = 75
-      damageReduction = 25
+      durability = 300
+      damageReduction = 30
       image = '''
       ⣿⣿⣿⣿⣿⣿⠿⠿⠿⠿⠿⠟⡛⣛⣛⣛⡛⡻⠿⠿⠿⠿⠿⠿⢿⣿⣿⣿⣿⣿
       ⣿⣿⣿⣿⠋⣠⡴⣶⣖⣶⡲⣌⣞⣾⣬⠨⢊⠑⠅⡤⢔⢶⡶⣔⠤⡈⢻⣿⣿⣿
@@ -95,8 +96,8 @@ class Armor(Items):
       ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣤⣤⣤⣤⣤⣤⣤⣤⣶⣶⣿⣿⣿⣿⣿⣿⣿
       '''
     elif type == "Medium":
-      durability = 100
-      damageReduction = 35
+      durability = 400
+      damageReduction = 40
       image = '''
       ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⢿⢿⢿⢿⢿⢿⢿⢿⣿⡿⠛⠛⡿⣿⣿⣿⣿⣿
       ⣿⣿⣿⡿⡿⣛⣛⠛⡉⡍⣉⡐⢔⡔⡄⢄⠄⡄⢄⠊⡉⠁⡐⠠⡀⢀⠉⠻⣿⣿
@@ -117,7 +118,7 @@ class Armor(Items):
       ⣿⣿⣯⣿⣿⢿⣿⣿⣷⣿⣿⣿⣿⣶⣶⣶⣶⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
       '''
     elif type == "Heavy":
-      durability = 150
+      durability = 500
       damageReduction = 50
       image = '''
       ⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣻⠉⠉⠉⠋⡋⠍⠉⠉⠉⠛⢻⣿⣿⣿⣿⣿⣿⣿⣿
@@ -306,7 +307,7 @@ class Weapon(Items):
       ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣌⣊⠰⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
       ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
       '''
-      self.damage = Damage(75, 50, 40)
+      self.damage = Damage(60, 50, 30)
       #self.reloadTime = 3
       self.durability = 100
       self.bulletPerAttack = 5
@@ -326,11 +327,43 @@ class Weapon(Items):
       ⣯⣰⣤⣦⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
       ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
       '''
-      self.damage = Damage(150, 100, 80)
+      self.damage = Damage(100, 80, 60)
       #self.reloadTime = 5
       self.durability = 100
       self.bulletPerAttack = 1
 
+    elif name == "Cheat Weapon":
+      self.maxBullet = 9999
+      self.image = '''
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⠛⠛⠛⠋⠉⠛⠛⠻⠛⠉⠉⠙⠻⠿⣿⠿⠿⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠋⠋⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⠉⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠉⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠄⠄⠄⠄⠄⠄⠄⠄⢀⣀⣤⣶⣶⣦⣴⣴⣶⣶⣦⣄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠄⠄⠄⠄⠄⠄⣠⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣄⡀⠄⠄⠄⠄⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠄⠄⠄⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠄⠄⠄⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢀⣀⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣤⣤⣈⣹⣿⣿⣿⣿⣿⣿⣏⣀⣤⣴⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠟⠿⠿⠻⠿⣿⣿⣿⣿⣿⣿⣿⠟⠿⠟⠻⢿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠋⠄⣿⣿⣿⣿⣧⣤⣤⣆⣄⣓⣬⣾⣿⣿⣿⣿⣷⣤⣐⣤⣶⣤⣤⣿⣿⣿⣿⣿⣿⡍⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣗⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⢇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡾⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠸⡿⠿⣿⣿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣤⣤⣤⣴⣆⣤⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠙⠋⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠉⠉⢻⣿⣿⣿⣿⣿⣋⣁⠄⢤⣤⣤⡤⣤⣉⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠄⠄⠉⠻⢿⣿⣿⣿⡟⠁⠄⠄⠄⢊⣻⣿⣿⣿⣿⣿⣿⣿⡟⢛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠛⠛⠛⠉⠁⠄⠄⠄⠄⠄⠄⠄⠄⣷⣾⣿⣿⣾⣿⣾⣿⣿⣿⣿⣿⠛⠉⠄⠄⠙⠛⠛⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+      ⣿⣿⡿⠿⠿⠿⠛⠋⠉⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⠻⠿⠿⠿⠿⠿⠿⠿⠟⠁⠄⢀⠄⠁⠄⠄⠄⠄⠄⠄⠄⠈⠉⠙⠛⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿
+      ⠉⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠰⣄⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢂⠄⣠⣴⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠉⠙⠛⠿⣿
+      ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢻⣿⣷⣤⣀⠄⠄⠄⠄⠄⠄⢰⣤⣶⣿⣿⡇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+
+      '''
+      self.damage = Damage(100000, 100000, 10000)
+      #self.reloadTime = 5
+      self.durability = 1000000
+      self.bulletPerAttack = 1
     self.reload()
 
   def getDetails(self) -> list:
@@ -475,10 +508,12 @@ class Characters:
     shooting = equippedWeapon.shoot()
     if not shooting:
       return False 
+    # print("░░░░░░░░░░░░░░░░░░░ Info Phase ░░░░░░░░░░░░░░░░░░░")
+    
     if equippedWeapon.durability <= 0:
       self.inventory.getAllWeapon().pop(self.inventory.equippedWeapon)
       self.inventory.equippedWeapon = 0
-      print("░░░░░░░░░░░░░░░░░░░ Player's Move ░░░░░░░░░░░░░░░░░░░")
+      # print("░░░░░░░░░░░░░░░░░░░ Player's Move ░░░░░░░░░░░░░░░░░░░")
       print(self.name, "'s Weapon is broken\n")
 
     enemyArmor = enemy.inventory.seeEquippedArmor() #Enemy Armor
@@ -499,7 +534,7 @@ class Characters:
 
   def reload(self):
     self.inventory.seeEquippedWeapon().reload()
-    print("░░░░░░░░░░░░░░░░░░░ Player's Move ░░░░░░░░░░░░░░░░░░░")
+    # print("░░░░░░░░░░░░░░░░░░░ Player's Move ░░░░░░░░░░░░░░░░░░░")
     print(self.name, "'s Weapon is reloaded")
     
 ################
@@ -511,7 +546,7 @@ class Player(Characters):
     self.feeling = ""
     weapon = Weapon("P250 Pistol")
     self.inventory.addWeapon(weapon)
-    self.inventory.equipWeapon(0)
+    self.inventory.equipWeapon(1)
 
 #declare object player
 player1 = Player()
@@ -809,7 +844,7 @@ def Search():
   turn+=1
   if angkaRandom < realChanceBoss :
       return "get enemy Special Force Soldier"
-  elif angkaRandom <= realChanceBoss +  realChanceEnemy :
+  elif angkaRandom <= realChanceBoss + realChanceEnemy :
       if turn >= 0 and turn <= 2:
           randomGear = random.randint(1,2)
           if randomGear == 1 :
@@ -880,6 +915,7 @@ def lookInventory():
         equip = player1.inventory.seeEquippedWeapon()
         print()
         print("\n░░░░░░░░░░░░░░ Weapon in Use ░░░░░░░░░░░░░░░\n") 
+        print(equip.getDetails()[4])
         print("Equipped Weapon :", equip.getDetails()[0])
         print("Head Damage : ", equip.getDetails()[1].headDamage)
         print("Body Damage : ", equip.getDetails()[1].bodyDamage)
@@ -913,6 +949,7 @@ def lookInventory():
           intp2 = int(input("\n> "))
           view = player1.inventory.seeWeaponDetail(intp2-1)
           print("\n░░░░░░░░░░░░░ Weapon's Detail ░░░░░░░░░░░░░░\n") 
+          print(equip.getDetails()[4])
           print("Weapon :", view.getDetails()[0])
           print("Head Damage : ", view.getDetails()[1].headDamage)
           print("Body Damage : ", view.getDetails()[1].bodyDamage)
@@ -1054,7 +1091,7 @@ def battleLoop(currentEnemy:Enemy):
     # print("What do you want to do?\n⠄Attack\n⠄Heal\n⠄Reload\n⠄View Inventory\n")
     
     os.system('cls||clear')
-
+    print("░░░░░░░░░░░░░░░░░░░░░░ Info Phase ░░░░░░░░░░░░░░░░░░░░░░")
     change = True
     if battleInput.lower() == quitgame:
         sys.exit()
@@ -1106,7 +1143,7 @@ def battleLoop(currentEnemy:Enemy):
 
     if change:
       move = currentEnemy.currentEnemyAuto(player1)
-      print("░░░░░░░░░░░░░░░░░░░ Enemy's Move ░░░░░░░░░░░░░░░░░░░") 
+      print("░░░░░░░░░░░░░░░░░░░░░ Enemy's Move ░░░░░░░░░░░░░░░░░░░░░") 
       if move == "attack":
         weap = currentEnemy.inventory.seeEquippedWeapon()
         print("Enemy is attacking with" , weap.getDetails()[0], "\n\n")
@@ -1128,15 +1165,21 @@ def main_game_loop():
     print("░"*45)
     print("░ Here begins the adventure...              ░")
     print("░"*45)
-    print("\nYou find yourself in the center of a strange place.\nSeems like you are trapped in a forest.\n")
-    time.sleep(3) #note
+    # print("\nYou find yourself in the center of a strange place.\nSeems like you are trapped in a forest.\n")
+    speechx = "You find yourself in the center of a clearing. \nSeems like you are trapped in this forest\n"
+    for character in speechx:
+      sys.stdout.write(character)
+      sys.stdout.flush()
+      time.sleep(0.001)
+
+    time.sleep(5) #note
     while player1.game_over is False:
       os.system('cls||clear')
       print(f"{player1.name}'s health = {player1.hp}")
       print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
       print("What would you like to do?\n⠄Search\n⠄View Inventory\n⠄Quit game")
       action = input("\n> ")
-      acceptable_actions = ['search', 'look', 'view', 'inventory', 'view inventory', 'inspect', 'quit']
+      acceptable_actions = ['search', 'look', 'view', 'inventory', 'view inventory', 'inspect', 'cheat weapon', 'quit']
       #Forces the player to write an acceptable sign, as this is essential to solving a puzzle later.
       while action.lower() not in acceptable_actions:
         print("Unknown action command, please try again.")
@@ -1217,6 +1260,20 @@ def main_game_loop():
             print("Heal Amount : ", consumable.getDetails()[1])
             print("\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n") 
           input("\nPress enter to continue ....")
+      elif action.lower() in ['cheat weapon']:
+        weapon = Weapon("Cheat Weapon")
+        player1.inventory.addWeapon(weapon)
+        speaker1 = "Mysterious Man: "
+        cheatspeech = "Well... well... i guess you cant win without my help after all!! Fine, i will give you this, use it well."
+        print(speaker1)
+        for character in cheatspeech:
+          sys.stdout.write(character)
+          sys.stdout.flush()
+          time.sleep(0.05)
+        time.sleep(2)
+        
+        
+        # player1.inventory.equipWeapon(0)
       elif action.lower() in ['inventory', 'view inventory']:
           lookInventory()
       
@@ -1519,9 +1576,9 @@ def menu():
 
   '''
   speech5 = "Yes! You are now in the middle of the forest and it seems your friend left you here.\n"
-  speech6 = "I can't stay too long. You seems like a good person. Here, take my backpack and go before they catch you.\n\n"
+  speech6 = "I can't stay for too long. You looks like a good person. Here, take my backpack and go before they catch you.\n\n"
   speak1 = "THEY? WHO?\n\n"
-  speech7 = "It seems this is where we must part, " + player1.name + ".\n" + "\nGoodluck "+ player1.name + "!\n\n"
+  speech7 = "It seems this is where we must part, " + player1.name + ".\n" + "Goodluck "+ player1.name + "!\n\n"
   speak2 = "WAIT DON'T GO!\n\n"
   
   for character in speech3:
@@ -1532,7 +1589,7 @@ def menu():
     sys.stdout.write(character)
     sys.stdout.flush()
     time.sleep(0.05)
-  time.sleep(1)
+  time.sleep(2)
   os.system('cls||clear')
   print(art)
   time.sleep(1)
@@ -1619,7 +1676,8 @@ def defeatText():
     sys.stdout.write(character)
     sys.stdout.flush()
     time.sleep(0.1)
-  time.sleep(3)
+  time.sleep(4)
+  os.system('cls||clear')
   print('''
     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀
   ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⠀⠀⠀⣶⡆⠀⣰⣿⠇⣾⡿⠛⠉⠁
