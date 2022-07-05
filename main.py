@@ -1383,7 +1383,8 @@ def help_menu():
   print("WarZone is a shooting game with a text-based program.")
   print("You can type a command such as 'search' or 'view inventory'")
   print("to move on to the next stage.\n")
-  print("After you do a search, you can inputs such as 'attack' or 'reload' or 'fallback' or 'heal'")
+  print("After you do a search, you can either find an enemy, find an armor, find a weapon")
+  print("if you find an enemy you can inputs such as 'attack' or 'reload' or 'heal' or 'view inventory'")
   print("the game will let you interact with the next move.\n")
   print("Please ensure to type in lowercase for ease.\n")
   print("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░")
@@ -1394,7 +1395,6 @@ def help_menu():
   print("░░░░░░░░░░░░░░░░░░░░░░░░░ Quit ░░░░░░░░░░░░░░░░░░░░░░░░░")
   print("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░")
   title_screen_options()
-
 #################
 # Game Handling #
 #################
